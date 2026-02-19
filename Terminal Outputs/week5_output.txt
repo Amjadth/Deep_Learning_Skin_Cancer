@@ -1,0 +1,242 @@
+======================================================================
+WEEK 5: BASELINE CNN - RUNPOD CONTAINER FIX
+======================================================================
+📁 Output: /workspace/outputs
+💾 Network Volume: /workspace
+
+🔧 Step 0: Checking/Creating split_info.json...
+   ✓ split_info.json exists
+
+📋 Dataset Metadata:
+   Classes: 8
+   Class names: AK, BCC, BKL, DF, MEL, NV, SCC, VASC
+   Image shape: (600, 600, 3)
+   Train samples: 64,000
+   Val samples: 8,000
+   Test samples: 8,000
+
+🎮 Step 1: Configuring GPU...
+✓ GPU detected: 1 device(s)
+  ✓ Memory growth enabled
+  ✓ Mixed precision (FP16) enabled
+  ✓ XLA compilation enabled
+
+📂 Step 2: Loading data with memmap...
+   💾 RAM: Process=35.6GB | Used=124.8GB/46.6GB (268.1%) - before loading
+  📂 Loading training data...
+  ⚠️  X_train requires pickle support...
+  ⚠️  np.load failed, trying direct memmap with shape (64000, 600, 600, 3)...
+  ✓ Loaded X_train: (64000, 600, 600, 3) (raw memmap)
+  📂 Loading validation data...
+  ⚠️  X_val requires pickle support...
+  ⚠️  np.load failed, trying direct memmap with shape (8000, 600, 600, 3)...
+  ✓ Loaded X_val: (8000, 600, 600, 3) (raw memmap)
+  📂 Loading labels...
+  ✓ Loaded y_train: (64000,) (no pickle)
+  ✓ Loaded y_val: (8000,) (no pickle)
+
+✓ Data loaded successfully!
+  Train: (64000, 600, 600, 3) images + (64000,) labels
+  Val: (8000, 600, 600, 3) images + (8000,) labels
+   💾 RAM: Process=7.4GB | Used=124.9GB/46.6GB (268.1%) - after loading
+
+🔧 Step 3: Container-safe downscaling to 224×224...
+  ✓ X_train_baseline.npy already exists, skipping downscaling...
+  ✓ Loaded existing X_train_baseline.npy: (64000, 224, 224, 3) (raw memmap)
+  🔄 Downscaling 8,000 images: (600, 600) → (224, 224)
+   📊 Container Memory:
+      Limit: 46.6GB
+      Used: 124.9GB
+      Available: 5.0GB
+      Safe chunk: 1,024 images (~5.0GB)
+      Processing in 8 chunks
+   💾 RAM: Process=7.4GB | Used=124.9GB/46.6GB (268.1%) - before downscaling
+Val: 100%|██████████| 8/8 [06:04<00:00, 45.54s/chunk]
+   💾 RAM: Process=39.6GB | Used=125.4GB/46.6GB (269.2%) - after downscaling
+  ✓ Saved: X_val_baseline.npy
+
+📂 Downscaling test set for Week 6...
+  📂 Loading test data...
+  ⚠️  X_test requires pickle support...
+  ⚠️  np.load failed, trying direct memmap with shape (8000, 600, 600, 3)...
+  ✓ Loaded X_test: (8000, 600, 600, 3) (raw memmap)
+  ✓ Loaded y_test: (8000,) (no pickle)
+  🔄 Downscaling 8,000 images: (600, 600) → (224, 224)
+   📊 Container Memory:
+      Limit: 46.6GB
+      Used: 125.4GB
+      Available: 5.0GB
+      Safe chunk: 1,024 images (~5.0GB)
+      Processing in 8 chunks
+   💾 RAM: Process=39.6GB | Used=125.4GB/46.6GB (269.2%) - before downscaling
+Test: 100%|██████████| 8/8 [05:27<00:00, 40.99s/chunk]
+   💾 RAM: Process=39.5GB | Used=125.5GB/46.6GB (269.5%) - after downscaling
+  ✓ Saved: X_test_baseline.npy
+
+✓ Downscaling complete!
+  Train: (64000, 224, 224, 3)
+  Val: (8000, 224, 224, 3)
+  Test: (8000, 224, 224, 3)
+
+💾 Referencing high-res versions...
+✓ Symlinked: X_train_high_res.npy → X_train.npy
+✓ Symlinked: X_val_high_res.npy → X_val.npy
+   💾 RAM: Process=12.3GB | Used=125.4GB/46.6GB (269.2%) - after cleanup
+
+🏗️  Step 4: Building baseline CNN...
+✓ CNN created: 5,753,416 parameters
+
+📋 Step 5: Model summary...
+
+======================================================================
+Model: "Baseline_CNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv1_1 (Conv2D)            (None, 224, 224, 64)      1792      
+                                                                 
+ bn1_1 (BatchNormalization)  (None, 224, 224, 64)      256       
+                                                                 
+ activation (Activation)     (None, 224, 224, 64)      0         
+                                                                 
+ conv1_2 (Conv2D)            (None, 224, 224, 64)      36928     
+                                                                 
+ bn1_2 (BatchNormalization)  (None, 224, 224, 64)      256       
+                                                                 
+ activation_1 (Activation)   (None, 224, 224, 64)      0         
+                                                                 
+ max_pooling2d (MaxPooling2  (None, 112, 112, 64)      0         
+ D)                                                              
+                                                                 
+ dropout (Dropout)           (None, 112, 112, 64)      0         
+                                                                 
+ conv2_1 (Conv2D)            (None, 112, 112, 128)     73856     
+                                                                 
+ bn2_1 (BatchNormalization)  (None, 112, 112, 128)     512       
+                                                                 
+ activation_2 (Activation)   (None, 112, 112, 128)     0         
+                                                                 
+ conv2_2 (Conv2D)            (None, 112, 112, 128)     147584    
+                                                                 
+ bn2_2 (BatchNormalization)  (None, 112, 112, 128)     512       
+                                                                 
+ activation_3 (Activation)   (None, 112, 112, 128)     0         
+                                                                 
+ max_pooling2d_1 (MaxPoolin  (None, 56, 56, 128)       0         
+ g2D)                                                            
+                                                                 
+ dropout_1 (Dropout)         (None, 56, 56, 128)       0         
+                                                                 
+ conv3_1 (Conv2D)            (None, 56, 56, 256)       295168    
+                                                                 
+ bn3_1 (BatchNormalization)  (None, 56, 56, 256)       1024      
+                                                                 
+ activation_4 (Activation)   (None, 56, 56, 256)       0         
+                                                                 
+ conv3_2 (Conv2D)            (None, 56, 56, 256)       590080    
+                                                                 
+ bn3_2 (BatchNormalization)  (None, 56, 56, 256)       1024      
+                                                                 
+ activation_5 (Activation)   (None, 56, 56, 256)       0         
+                                                                 
+ max_pooling2d_2 (MaxPoolin  (None, 28, 28, 256)       0         
+ g2D)                                                            
+                                                                 
+ dropout_2 (Dropout)         (None, 28, 28, 256)       0         
+                                                                 
+ conv4_1 (Conv2D)            (None, 28, 28, 512)       1180160   
+                                                                 
+ bn4_1 (BatchNormalization)  (None, 28, 28, 512)       2048      
+                                                                 
+ activation_6 (Activation)   (None, 28, 28, 512)       0         
+                                                                 
+ conv4_2 (Conv2D)            (None, 28, 28, 512)       2359808   
+                                                                 
+ bn4_2 (BatchNormalization)  (None, 28, 28, 512)       2048      
+                                                                 
+ activation_7 (Activation)   (None, 28, 28, 512)       0         
+                                                                 
+ max_pooling2d_3 (MaxPoolin  (None, 14, 14, 512)       0         
+ g2D)                                                            
+                                                                 
+ dropout_3 (Dropout)         (None, 14, 14, 512)       0         
+                                                                 
+ global_average_pooling2d (  (None, 512)               0         
+ GlobalAveragePooling2D)                                         
+                                                                 
+ dense (Dense)               (None, 1024)              525312    
+                                                                 
+ batch_normalization (Batch  (None, 1024)              4096      
+ Normalization)                                                  
+                                                                 
+ activation_8 (Activation)   (None, 1024)              0         
+                                                                 
+ dropout_4 (Dropout)         (None, 1024)              0         
+                                                                 
+ dense_1 (Dense)             (None, 512)               524800    
+                                                                 
+ batch_normalization_1 (Bat  (None, 512)               2048      
+ chNormalization)                                                
+                                                                 
+ activation_9 (Activation)   (None, 512)               0         
+                                                                 
+ dropout_5 (Dropout)         (None, 512)               0         
+                                                                 
+ dense_2 (Dense)             (None, 8)                 4104      
+                                                                 
+=================================================================
+Total params: 5753416 (21.95 MB)
+Trainable params: 5746504 (21.92 MB)
+Non-trainable params: 6912 (27.00 KB)
+_________________________________________________________________
+======================================================================
+
+📊 Model Parameters:
+  Total: 5,753,416
+  Trainable: 5,746,504
+  Non-trainable: 6,912
+
+⚙️  Step 6: Compiling model...
+✓ Model compiled
+  Optimizer: Adam (lr=0.001)
+  Loss: Sparse Categorical Crossentropy
+
+💾 Step 7: Saving model and configuration...
+✓ Saved: baseline_cnn.keras
+✓ Saved: baseline_cnn_architecture.json
+✓ Saved: baseline_config.json
+
+🎨 Step 8: Creating visualizations...
+✓ Saved: model_architecture_summary.png
+⚠ Could not generate diagram: module 'pydot' has no attribute 'InvocationException'
+
+🧹 Final cleanup...
+   💾 RAM: Process=12.3GB | Used=125.5GB/46.6GB (269.5%) - final state
+
+======================================================================
+✅ WEEK 5 COMPLETE: RUNPOD BASELINE CNN
+======================================================================
+
+📦 Output Files:
+  Models:
+  1. /workspace/outputs/models/baseline_cnn.keras
+  2. /workspace/outputs/models/baseline_cnn_architecture.json
+  3. /workspace/outputs/models/baseline_config.json
+  4. /workspace/outputs/models/model_architecture_summary.png
+
+  Data:
+  5. /workspace/outputs/split_info.json
+  6. X_train_baseline.npy ((64000, 224, 224, 3))
+  7. X_val_baseline.npy ((8000, 224, 224, 3))
+  8. X_test_baseline.npy ((8000, 224, 224, 3))
+  9. X_train_high_res.npy (symlink to X_train.npy)
+ 10. X_val_high_res.npy (symlink to X_val.npy)
+
+🏗️  Enhanced Baseline Features:
+  ✓ 17M parameters
+  ✓ VGG-inspired architecture
+  ✓ Container-safe processing
+  ✓ Ready for Week 6 training!
+
+🎯 Next: Week 6 - Initial Training Experiments
+======================================================================

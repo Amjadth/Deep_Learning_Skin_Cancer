@@ -1,0 +1,80 @@
+======================================================================
+QUICK WEEK 4 SPLIT VALIDATION
+======================================================================
+📁 Output Directory: /workspace/outputs
+======================================================================
+
+📂 Test 1: File Existence
+----------------------------------------------------------------------
+✅ X_train: X_train.npy (257.49 GB)
+✅ y_train: y_train.npy (0.00 GB)
+✅ X_val: X_val.npy (32.19 GB)
+✅ y_val: y_val.npy (0.00 GB)
+✅ X_test: X_test.npy (32.19 GB)
+✅ y_test: y_test.npy (0.00 GB)
+
+🔍 Test 2: File Integrity
+----------------------------------------------------------------------
+✅ Labels loaded (y_train, y_val, y_test)
+✅ X_train loaded (memmap_known_shape): (64000, 600, 600, 3)
+✅ X_val loaded (memmap_known_shape): (8000, 600, 600, 3)
+✅ X_test loaded (memmap_known_shape): (8000, 600, 600, 3)
+✅ All files can be opened
+
+📐 Test 3: Shape Consistency
+----------------------------------------------------------------------
+✅ Train: 64,000 images, 64,000 labels
+✅ Val: 8,000 images, 8,000 labels
+✅ Test: 8,000 images, 8,000 labels
+✅ Train image shape: (600, 600, 3)
+✅ Val image shape: (600, 600, 3)
+✅ Test image shape: (600, 600, 3)
+
+🔢 Test 4: Data Types
+----------------------------------------------------------------------
+✅ X_train dtype: float32
+✅ y_train dtype: int32
+
+🏷️  Test 5: Label Ranges
+----------------------------------------------------------------------
+✅ Train labels: [0, 7]
+✅ Val labels: [0, 7]
+✅ Test labels: [0, 7]
+
+📊 Test 6: Sample Counts
+----------------------------------------------------------------------
+✅ Total samples: 80,000
+   Train: 64,000 (80.0%)
+   Val: 8,000 (10.0%)
+   Test: 8,000 (10.0%)
+✅ Train ratio is reasonable (~80%)
+✅ Val ratio is reasonable (~10%)
+✅ Test ratio is reasonable (~10%)
+
+📈 Test 7: Class Distribution (Quick Check)
+----------------------------------------------------------------------
+Class    Train      Val        Test      
+----------------------------------------
+AK       8000       1000       1000      
+BCC      8000       1000       1000      
+BKL      8000       1000       1000      
+DF       8000       1000       1000      
+MEL      8000       1000       1000      
+NV       8000       1000       1000      
+SCC      8000       1000       1000      
+VASC     8000       1000       1000      
+✅ All classes present in all splits
+
+🔬 Test 8: Quick Corruption Check (Sample)
+----------------------------------------------------------------------
+✅ Train: No corruption in 100 samples
+✅ Val: No corruption in 100 samples
+✅ Test: No corruption in 100 samples
+
+======================================================================
+QUICK VALIDATION SUMMARY
+======================================================================
+✅ ALL TESTS PASSED!
+
+💡 Your dataset splits appear to be valid.
+   For comprehensive validation, run: python test_week4_splits.py

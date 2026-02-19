@@ -1,0 +1,9 @@
+,Pred_AK,Pred_BCC,Pred_BKL,Pred_DF,Pred_MEL,Pred_NV,Pred_SCC,Pred_VASC
+True_AK,0,0,0,0,0,1000,0,0
+True_BCC,0,0,0,0,0,1000,0,0
+True_BKL,0,0,0,0,0,1000,0,0
+True_DF,0,0,0,0,0,1000,0,0
+True_MEL,0,0,0,0,0,1000,0,0
+True_NV,0,0,0,0,0,1000,0,0
+True_SCC,0,0,0,0,0,1000,0,0
+True_VASC,0,0,0,0,0,1000,0,0

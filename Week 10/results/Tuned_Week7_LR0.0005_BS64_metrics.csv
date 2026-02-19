@@ -1,0 +1,6 @@
+Metric,Value
+Accuracy,0.477250
+Precision (weighted),0.506379
+Recall (weighted),0.477250
+F1-Score (weighted),0.482952
+AUC (weighted),0.819344

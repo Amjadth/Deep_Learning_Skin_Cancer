@@ -1,0 +1,211 @@
+================================================================================
+CREATE 300x300 EFFICIENTNETB3 DATASET
+================================================================================
+================================================================================
+SETUP
+================================================================================
+📁 Output Directory: /workspace/outputs
+💾 Network Volume: /workspace
+
+🖥️  System Information:
+   Container RAM: 46.6GB (Docker/RunPod limit)
+   Host RAM: 503.5GB (physical server)
+   ⚠️  Running in container - using container limit!
+   💾 Container RAM: Process=0.1GB | Used=97.8GB/46.6GB (210.0%) | Available=0.0GB
+      (Host has 503.5GB, but container limited to 46.6GB)
+
+================================================================================
+STEP 1: CHECK SOURCE FILES
+================================================================================
+   ✅ train: X_train.npy (257.49 GB)
+   ✅ val: X_val.npy (32.19 GB)
+   ✅ test: X_test.npy (32.19 GB)
+
+================================================================================
+STEP 2: PROCESS ALL SPLITS
+================================================================================
+
+================================================================================
+PROCESSING TRAIN SET
+================================================================================
+
+✅ Destination file already exists: X_train_300.npy
+   Size: 64.37 GB
+   Attempting to verify integrity...
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_train_300.npy' as a pickle
+     Trying direct memmap with expected shape: (64000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+   ✅ File is VALID and readable!
+      Shape: (64000, 300, 300, 3)
+      Dtype: float32
+      Data range: [0.0000, 1.0000]
+      ✅ Data is in correct [0,1] range
+
+🚀 SKIPPING TRAIN - Already processed!
+
+================================================================================
+PROCESSING VAL SET
+================================================================================
+
+📥 Loading val source with recovery strategy...
+   Path: /workspace/outputs/X_val.npy
+   Size: 32.19 GB
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_val.npy' as a pickle
+     Trying direct memmap with expected shape: (8000, 600, 600, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+   Source: (8000, 600, 600, 3)
+   Total samples: 8,000
+   Chunk size: 100 images
+   💾 Container RAM: Process=0.1GB | Used=97.8GB/46.6GB (210.0%) | Available=0.0GB
+      (Host has 503.5GB, but container limited to 46.6GB)
+
+📝 Creating destination: (8000, 300, 300, 3)
+
+🔄 Processing 80 chunks...
+  val:   0%|          | 0/8000 [00:00<?, ?img/s]  val: 100%|██████████| 8000/8000 [21:27<00:00,  6.21img/s, RAM: 35.8GB]
+
+✅ Val set complete!
+   💾 Container RAM: Process=0.1GB | Used=98.1GB/46.6GB (210.7%) | Available=0.0GB
+      (Host has 503.5GB, but container limited to 46.6GB)
+
+🔍 Verifying val...
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_val_300.npy' as a pickle
+     Trying direct memmap with expected shape: (8000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+   Shape: (8000, 300, 300, 3)
+   Dtype: float32
+   Min: 0.000000
+   Max: 1.000000
+   Mean: 0.666176
+   Std: 0.337720
+   ✅ Data is in [0, 1] range (CORRECT for EfficientNet preprocessing)
+
+================================================================================
+PROCESSING TEST SET
+================================================================================
+
+📥 Loading test source with recovery strategy...
+   Path: /workspace/outputs/X_test.npy
+   Size: 32.19 GB
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_test.npy' as a pickle
+     Trying direct memmap with expected shape: (8000, 600, 600, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+   Source: (8000, 600, 600, 3)
+   Total samples: 8,000
+   Chunk size: 100 images
+   💾 Container RAM: Process=0.1GB | Used=98.1GB/46.6GB (210.7%) | Available=0.0GB
+      (Host has 503.5GB, but container limited to 46.6GB)
+
+📝 Creating destination: (8000, 300, 300, 3)
+
+🔄 Processing 80 chunks...
+  test: 100%|██████████| 8000/8000 [04:08<00:00, 32.21img/s, RAM: 35.8GB]
+
+✅ Test set complete!
+   💾 Container RAM: Process=0.1GB | Used=100.2GB/46.6GB (215.3%) | Available=0.0GB
+      (Host has 503.5GB, but container limited to 46.6GB)
+
+🔍 Verifying test...
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_test_300.npy' as a pickle
+     Trying direct memmap with expected shape: (8000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+   Shape: (8000, 300, 300, 3)
+   Dtype: float32
+   Min: 0.000000
+   Max: 1.000000
+   Mean: 0.671515
+   Std: 0.364230
+   ✅ Data is in [0, 1] range (CORRECT for EfficientNet preprocessing)
+
+================================================================================
+FINAL VERIFICATION
+================================================================================
+
+📊 Created Files:
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_train_300.npy' as a pickle
+     Trying direct memmap with expected shape: (64000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+   ✅ X_train_300.npy
+      Shape: (64000, 300, 300, 3)
+      Size: 64.37 GB
+      Dtype: float32
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_val_300.npy' as a pickle
+     Trying direct memmap with expected shape: (8000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+   ✅ X_val_300.npy
+      Shape: (8000, 300, 300, 3)
+      Size: 8.05 GB
+      Dtype: float32
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_test_300.npy' as a pickle
+     Trying direct memmap with expected shape: (8000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+   ✅ X_test_300.npy
+      Shape: (8000, 300, 300, 3)
+      Size: 8.05 GB
+      Dtype: float32
+
+📊 Label Files (unchanged):
+   ✅ y_train.npy: (64000,), dtype=int32
+   ✅ y_val.npy: (8000,), dtype=int32
+   ✅ y_test.npy: (8000,), dtype=int32
+   💾 Container RAM: Process=0.1GB | Used=99.6GB/46.6GB (213.9%) | Available=0.0GB
+      (Host has 503.5GB, but container limited to 46.6GB)
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_train_300.npy' as a pickle
+     Trying direct memmap with expected shape: (64000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_val_300.npy' as a pickle
+     Trying direct memmap with expected shape: (8000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+     Attempting standard np.load()...
+     ❌ Standard load failed: Cannot load file containing pickled data when allow_pickle=False
+     Trying with allow_pickle=True...
+     ❌ Pickle load failed: Failed to interpret file '/workspace/outputs/X_test_300.npy' as a pickle
+     Trying direct memmap with expected shape: (8000, 300, 300, 3)...
+     ✅ Loaded with direct memmap (bypassing headers)
+
+📁 Report saved: /workspace/outputs/efficientnetb3_dataset_report.json
+
+================================================================================
+✅ DATASET CREATION COMPLETE!
+================================================================================
+
+⏱️  Processing time: 25.6 minutes
+
+🎯 NEXT STEPS:
+   1. ✅ 300x300 datasets created and verified
+   2. ✅ Data denormalized to [0,1] range
+   3. Create Week9_EfficientNetB3.py training script
+   4. Use scale_to_efficientnet_range() to scale [0,1]→[0,255]
+   5. Train EfficientNetB3 and compare with B0 (70.45%)
+
+================================================================================

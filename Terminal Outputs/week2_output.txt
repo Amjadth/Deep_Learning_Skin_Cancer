@@ -1,0 +1,116 @@
+✓ Using /workspace as network volume (Pod)
+  Note: Network volumes for Pods are mounted at /workspace per RunPod docs
+  If you attached a network volume during deployment, /workspace is persistent
+  If no network volume was attached, /workspace is temporary (data lost when pod stops)
+✓ Using network volume for persistent storage: /workspace
+
+🔍 Auto-detection: Dataset found in parent directory: /workspace/data
+   Expected location: /workspace/data/isic2019
+   Actual location: /workspace/data
+   ✓ Updated INPUT_DIR to: /workspace/data
+   ✓ Dataset will be accessed directly (no symlink to avoid recursion)
+
+📁 Storage Configuration:
+   RunPod Environment: Pod
+   Pod ID: p85ss9e9x5vykn
+   Base directory: /workspace
+   Network volume: /workspace
+   ✓ Network volume at /workspace (Pod) - data will persist
+   Output directory: /workspace/outputs
+   Input directory: /workspace/data
+🔧 HIGH-RESOLUTION PREPROCESSING STRATEGY:
+   Target Size: (600, 600) (maximum detail preservation)
+   Later downscaling: Dynamic per model requirements
+   Benefits: No upscaling artifacts, optimal medical AI performance
+✓ Network volume is at /workspace (Pod) - outputs will be persistent
+======================================================================
+WEEK 2: HIGH-RESOLUTION PREPROCESSING (ISIC 2019)
+======================================================================
+💻 Note: Preprocessing runs on CPU (medical image processing)
+🎯 Target: Full ISIC 2019 dataset with 600x600 preprocessing
+🔧 Strategy: High-resolution preprocessing → Dynamic downscaling per model
+✅ Benefits: No upscaling artifacts, maximum detail preservation
+======================================================================
+
+📊 Step 1: Preparing dataset...
+
+📁 Checking local dataset availability...
+  Dataset path: /workspace/data
+✓ Found 4 CSV file(s):
+    - ISIC_2019_Training_Metadata.csv
+    - ISIC_2019_Training_GroundTruth.csv
+    - ISIC_2019_Training_Metadata.csv
+    - ISIC_2019_Training_GroundTruth.csv
+✓ Found 8 class directories (class-based structure - salviohexia/isic-2019):
+    - AK: ~867 images
+    - BCC: ~3323 images
+    - BKL: ~2624 images
+    - DF: ~239 images
+    - MEL: ~4522 images
+    - NV: ~12875 images
+    - SCC: ~628 images
+    - VASC: ~253 images
+✓ Dataset found and validated
+
+📖 Loading ground truth from: ISIC_2019_Training_GroundTruth.csv
+📖 Loading metadata from: ISIC_2019_Training_Metadata.csv
+✓ Found 8 label columns: ['AK', 'BCC', 'BKL', 'DF', 'MEL', 'NV', 'SCC', 'VASC']
+
+📈 Original Dataset Class Distribution:
+  NV: 12875 images (50.83%)
+  MEL:  4522 images (17.85%)
+  BCC:  3323 images (13.12%)
+  BKL:  2624 images (10.36%)
+  AK:   867 images ( 3.42%)
+  SCC:   628 images ( 2.48%)
+  VASC:   253 images ( 1.00%)
+  DF:   239 images ( 0.94%)
+
+🎯 Using full dataset (no per-class sampling)
+
+✅ Full dataset dataframe prepared!
+  Total images: 25331
+
+📈 Dataset Class Distribution (full):
+  NV: 12875 images (50.83%)
+  MEL:  4522 images (17.85%)
+  BCC:  3323 images (13.12%)
+  BKL:  2624 images (10.36%)
+  AK:   867 images ( 3.42%)
+  SCC:   628 images ( 2.48%)
+  VASC:   253 images ( 1.00%)
+  DF:   239 images ( 0.94%)
+
+🔧 Step 2: Fast medical preprocessing function...
+
+📊 Step 3: Computing fast statistics...
+
+🖼️  Step 4: Processing full dataset with tf.data pipeline...
+Computing statistics for 25331 images...
+⚡ Using 64 CPU cores for parallel processing (out of 96 available)
+⚙️  Chunksize: 10 (optimized for progress updates)
+Computing stats (parallel): 100%|██████████| 25331/25331 [52:10<00:00,  8.09img/s]  
+✓ Dataset Mean (RGB): [928.4187, 917.1630, 896.1345]
+✓ Dataset Std  (RGB): [308.8225, 346.2082, 358.0401]
+✓ Medical preprocessing: ['color_constancy', 'advanced_medical', 'lesion_enhancement', 'clahe', 'hair_removal', 'aspect_ratio_preservation']
+✓ Processed 25331/25331 images successfully
+✓ Statistics saved to: /workspace/outputs/custom_dataset_statistics.json
+
+⚙️  Creating tf.data pipeline for 25331 images...
+✓ Found 25331 valid images out of 25331
+2025-11-10 13:22:07.241621: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 43695 MB memory:  -> device: 0, name: NVIDIA A40, pci bus id: 0000:d2:00.0, compute capability: 8.6
+WARNING:absl:options.experimental_threading is deprecated. Use options.threading instead.
+WARNING:absl:options.experimental_threading is deprecated. Use options.threading instead.
+✓ tf.data pipeline created with batch size: 32
+
+⚙️  Processing images with tf.data pipeline...
+Processing batches: 100%|██████████| 792/792 [1:26:19<00:00,  1.28it/s]2025-11-10 14:48:27.190641: W tensorflow/core/kernels/data/cache_dataset_ops.cc:302] The calling iterator did not fully read the dataset being cached. In order to avoid unexpected truncation of the dataset, the partially cached contents of the dataset  will be discarded. This can happen if you have an input pipeline similar to `dataset.cache().take(k).repeat()`. You should use `dataset.take(k).cache().repeat()` instead.
+Processing batches: 100%|██████████| 792/792 [1:26:19<00:00,  6.54s/it]
+
+✅ Successfully processed: 25331 images
+❌ Failed to process: 0 images
+⏱️  Total processing time: 86.32 minutes
+⚡ Average rate: 4.9 images/second
+🚀 tf.data pipeline efficiency: 4.9 images/second
+
+💾 Step 5: Saving full dataset...

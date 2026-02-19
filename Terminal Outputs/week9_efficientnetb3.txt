@@ -1,0 +1,1258 @@
+2025-11-17 14:13:29.401038: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-11-17 14:13:29.448821: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2025-11-17 14:13:29.448860: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-11-17 14:13:29.450143: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-11-17 14:13:29.458209: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+
+======================================================================
+🚀 EFFICIENTNETB3 300×300 - PROVEN TEMPLATE
+======================================================================
+Image size: (300, 300, 3)
+Batch size: 32
+Effective batch: 256
+Parallel workers: -1
+======================================================================
+🔧 Configuring GPU for MAXIMUM performance...
+✅ Found 1 GPU(s)
+INFO:tensorflow:Mixed precision compatibility check (mixed_float16): OK
+Your GPU will likely run quickly with dtype policy mixed_float16 as it has compute capability of at least 7.0. Your GPU: NVIDIA A40, compute capability 8.6
+✅ Mixed precision: mixed_float16
+✅ GPU memory limit: 40 GB
+✅ Advanced GPU optimizations enabled (XLA disabled due to compatibility)
+
+🧪 Testing GPU...
+✅ GPU computation successful!
+🎮 GPU initial:
+   Compute: 0% | Memory: 0% (41241/46068 MB)
+   Power: 63W / 300W (21%)
+
+📊 Calculating class weights for imbalanced dataset...
+  Class distribution: {0: 8000, 1: 8000, 2: 8000, 3: 8000, 4: 8000, 5: 8000, 6: 8000, 7: 8000}
+  Class weights: {0: 1.0, 1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0}
+2025-11-17 14:13:33.073087: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 40960 MB memory:  -> device: 0, name: NVIDIA A40, pci bus id: 0000:d5:00.0, compute capability: 8.6
+
+🎯 Models: ['EfficientNetB3']
+
+######################################################################
+# MODEL 1/1: EfficientNetB3
+######################################################################
+
+🔄 Loading OPTIMIZED data for EfficientNetB3
+   ✅ Found: X_train_300.npy (64.37 GB)
+   ✅ Found: y_train.npy (0.00 GB)
+   ✅ Found: X_val_300.npy (8.05 GB)
+   ✅ Found: y_val.npy (0.00 GB)
+
+📂 Creating OPTIMIZED Training...
+     ⚠️  Standard load failed, trying pickle...
+     ⚠️  Pickle load failed, trying direct memmap...
+     ✅ Loaded with direct memmap (bypassing headers)
+  Samples: 64,000
+  Image shape: (300, 300, 3)
+  Batch size: 32
+  Parallel workers: -1
+  Label dtype: int32 (converted to int32)
+  💾 Memory-safe pipeline (no train caching, mmap-based loading)
+  ✅ Optimized pipeline created
+
+📂 Creating OPTIMIZED Validation...
+     ⚠️  Standard load failed, trying pickle...
+     ⚠️  Pickle load failed, trying direct memmap...
+     ✅ Loaded with direct memmap (bypassing headers)
+  Samples: 8,000
+  Image shape: (300, 300, 3)
+  Batch size: 32
+  Parallel workers: -1
+  Label dtype: int32 (converted to int32)
+  💾 Validation dataset cached for stable evaluation
+  ✅ Optimized pipeline created
+  🔄 Applying data augmentation to training set...
+  🔄 Scaling to EfficientNet range [0, 255] for pretrained weights...
+  🔄 Scaling validation set to EfficientNet range [0, 255]...
+  ✅ Data ready: [0, 1] → augmented → [0, 255] (EfficientNet compatible)
+
+🏗️  Building EfficientNetB3...
+  Parameters: 11,582,775 total, 795,144 trainable
+
+======================================================================
+🎯 Training EfficientNetB3 (OPTIMIZED)
+======================================================================
+  Batch size: 32
+  Effective batch: 256
+🎮 GPU before training:
+   Compute: 0% | Memory: 0% (41241/46068 MB)
+   Power: 112W / 300W (37%)
+
+🔒 PHASE 1: Feature extraction
+  ✅ LR: 1.00e-03
+  ✅ Steps per epoch: 2000, Validation steps: 250
+Epoch 1/50
+2025-11-17 14:13:42.439537: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:13:42.450453: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:13:42.465474: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:13:42.516362: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:13:53.968733: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:2254] Converted 4/2321 nodes to float16 precision using 1 cast(s) to float16 (excluding Const and Variable casts)
+2025-11-17 14:13:55.691221: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:454] Loaded cuDNN version 8907
+2025-11-17 14:13:58.591410: I external/local_xla/xla/service/service.cc:168] XLA service 0x7f5420378370 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-11-17 14:13:58.591442: I external/local_xla/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA A40, Compute Capability 8.6
+2025-11-17 14:13:58.604125: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1763388838.755510    1860 device_compiler.h:186] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2000/2000 [==============================] - ETA: 0s - loss: 1.4769 - accuracy: 0.47202025-11-17 14:21:47.361675: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:21:47.374952: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:21:47.386164: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:21:47.397737: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:21:47.405908: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:21:47.414959: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:21:52.089504: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:2254] Converted 2/1928 nodes to float16 precision using 0 cast(s) to float16 (excluding Const and Variable casts)
+
+📊 Epoch 1:
+   Loss: 1.4769 | Val Loss: 1.2303
+   Acc: 0.4720 | Val Acc: 0.5404
+   LR: 1.00e-03
+   Time: 568.8s | Throughput: 137 samples/sec
+🎮 GPU after epoch:
+   Compute: 3% | Memory: 1% (41293/46068 MB)
+   Power: 154W / 300W (51%)
+
+Epoch 1: val_accuracy improved from -inf to 0.54037, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 575s 279ms/step - loss: 1.4769 - accuracy: 0.4720 - val_loss: 1.2303 - val_accuracy: 0.5404 - lr: 0.0010
+Epoch 2/50
+2000/2000 [==============================] - ETA: 0s - loss: 1.2090 - accuracy: 0.55432025-11-17 14:29:21.908769: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:29:21.929680: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 2:
+   Loss: 1.2090 | Val Loss: 1.1617
+   Acc: 0.5543 | Val Acc: 0.5692
+   LR: 1.00e-03
+   Time: 382.1s | Throughput: 141 samples/sec
+🎮 GPU after epoch:
+   Compute: 33% | Memory: 30% (41293/46068 MB)
+   Power: 228W / 300W (76%)
+
+Epoch 2: val_accuracy improved from 0.54037 to 0.56925, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 384s 192ms/step - loss: 1.2090 - accuracy: 0.5543 - val_loss: 1.1617 - val_accuracy: 0.5692 - lr: 0.0010
+Epoch 3/50
+2000/2000 [==============================] - ETA: 0s - loss: 1.1111 - accuracy: 0.58982025-11-17 14:35:19.187040: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:35:19.203780: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 3:
+   Loss: 1.1111 | Val Loss: 1.0983
+   Acc: 0.5898 | Val Acc: 0.5853
+   LR: 1.00e-03
+   Time: 357.7s | Throughput: 179 samples/sec
+🎮 GPU after epoch:
+   Compute: 48% | Memory: 43% (41293/46068 MB)
+   Power: 181W / 300W (60%)
+
+Epoch 3: val_accuracy improved from 0.56925 to 0.58525, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 362s 181ms/step - loss: 1.1111 - accuracy: 0.5898 - val_loss: 1.0983 - val_accuracy: 0.5853 - lr: 0.0010
+Epoch 4/50
+2000/2000 [==============================] - ETA: 0s - loss: 1.0507 - accuracy: 0.61122025-11-17 14:40:32.329394: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:40:32.359786: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 4:
+   Loss: 1.0507 | Val Loss: 1.0557
+   Acc: 0.6112 | Val Acc: 0.6109
+   LR: 1.00e-03
+   Time: 301.9s | Throughput: 204 samples/sec
+🎮 GPU after epoch:
+   Compute: 71% | Memory: 63% (41293/46068 MB)
+   Power: 244W / 300W (81%)
+
+Epoch 4: val_accuracy improved from 0.58525 to 0.61088, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 304s 152ms/step - loss: 1.0507 - accuracy: 0.6112 - val_loss: 1.0557 - val_accuracy: 0.6109 - lr: 0.0010
+Epoch 5/50
+2000/2000 [==============================] - ETA: 0s - loss: 1.0008 - accuracy: 0.63132025-11-17 14:44:22.597797: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:44:22.633091: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 5:
+   Loss: 1.0008 | Val Loss: 1.0295
+   Acc: 0.6313 | Val Acc: 0.6176
+   LR: 1.00e-03
+   Time: 228.6s | Throughput: 278 samples/sec
+🎮 GPU after epoch:
+   Compute: 77% | Memory: 69% (41293/46068 MB)
+   Power: 244W / 300W (81%)
+
+Epoch 5: val_accuracy improved from 0.61088 to 0.61762, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 231s 115ms/step - loss: 1.0008 - accuracy: 0.6313 - val_loss: 1.0295 - val_accuracy: 0.6176 - lr: 0.0010
+Epoch 6/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.9669 - accuracy: 0.64472025-11-17 14:48:05.378957: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:48:05.402374: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 6:
+   Loss: 0.9669 | Val Loss: 1.0093
+   Acc: 0.6447 | Val Acc: 0.6267
+   LR: 1.00e-03
+   Time: 220.7s | Throughput: 287 samples/sec
+🎮 GPU after epoch:
+   Compute: 75% | Memory: 67% (41293/46068 MB)
+   Power: 242W / 300W (81%)
+
+Epoch 6: val_accuracy improved from 0.61762 to 0.62675, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 223s 111ms/step - loss: 0.9669 - accuracy: 0.6447 - val_loss: 1.0093 - val_accuracy: 0.6267 - lr: 0.0010
+Epoch 7/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.9308 - accuracy: 0.65912025-11-17 14:51:44.381816: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:51:44.411958: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 7:
+   Loss: 0.9308 | Val Loss: 0.9936
+   Acc: 0.6591 | Val Acc: 0.6314
+   LR: 1.00e-03
+   Time: 216.9s | Throughput: 292 samples/sec
+🎮 GPU after epoch:
+   Compute: 70% | Memory: 61% (41293/46068 MB)
+   Power: 228W / 300W (76%)
+
+Epoch 7: val_accuracy improved from 0.62675 to 0.63138, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 219s 109ms/step - loss: 0.9308 - accuracy: 0.6591 - val_loss: 0.9936 - val_accuracy: 0.6314 - lr: 0.0010
+Epoch 8/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.8974 - accuracy: 0.66942025-11-17 14:55:22.638383: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:55:22.653811: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 8:
+   Loss: 0.8974 | Val Loss: 0.9801
+   Acc: 0.6694 | Val Acc: 0.6420
+   LR: 1.00e-03
+   Time: 216.3s | Throughput: 293 samples/sec
+🎮 GPU after epoch:
+   Compute: 68% | Memory: 60% (41293/46068 MB)
+   Power: 229W / 300W (76%)
+
+Epoch 8: val_accuracy improved from 0.63138 to 0.64200, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 218s 109ms/step - loss: 0.8974 - accuracy: 0.6694 - val_loss: 0.9801 - val_accuracy: 0.6420 - lr: 0.0010
+Epoch 9/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.8726 - accuracy: 0.67812025-11-17 14:59:34.102122: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 14:59:34.163505: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 9:
+   Loss: 0.8726 | Val Loss: 0.9622
+   Acc: 0.6781 | Val Acc: 0.6442
+   LR: 1.00e-03
+   Time: 255.6s | Throughput: 255 samples/sec
+🎮 GPU after epoch:
+   Compute: 69% | Memory: 61% (41293/46068 MB)
+   Power: 228W / 300W (76%)
+
+Epoch 9: val_accuracy improved from 0.64200 to 0.64425, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 258s 129ms/step - loss: 0.8726 - accuracy: 0.6781 - val_loss: 0.9622 - val_accuracy: 0.6442 - lr: 0.0010
+Epoch 10/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.8483 - accuracy: 0.68922025-11-17 15:05:01.079823: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:05:01.158717: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 10:
+   Loss: 0.8483 | Val Loss: 0.9593
+   Acc: 0.6892 | Val Acc: 0.6506
+   LR: 1.00e-03
+   Time: 328.8s | Throughput: 196 samples/sec
+🎮 GPU after epoch:
+   Compute: 39% | Memory: 35% (41293/46068 MB)
+   Power: 154W / 300W (51%)
+
+Epoch 10: val_accuracy improved from 0.64425 to 0.65062, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 334s 167ms/step - loss: 0.8483 - accuracy: 0.6892 - val_loss: 0.9593 - val_accuracy: 0.6506 - lr: 0.0010
+Epoch 11/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.8241 - accuracy: 0.69652025-11-17 15:10:41.839203: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:10:41.885957: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 11:
+   Loss: 0.8241 | Val Loss: 0.9569
+   Acc: 0.6965 | Val Acc: 0.6564
+   LR: 1.00e-03
+   Time: 336.2s | Throughput: 188 samples/sec
+🎮 GPU after epoch:
+   Compute: 36% | Memory: 32% (41293/46068 MB)
+   Power: 159W / 300W (53%)
+
+Epoch 11: val_accuracy improved from 0.65062 to 0.65637, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 341s 170ms/step - loss: 0.8241 - accuracy: 0.6965 - val_loss: 0.9569 - val_accuracy: 0.6564 - lr: 0.0010
+Epoch 12/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.8033 - accuracy: 0.70472025-11-17 15:14:55.598391: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:14:55.631546: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 12:
+   Loss: 0.8033 | Val Loss: 0.9648
+   Acc: 0.7047 | Val Acc: 0.6538
+   LR: 1.00e-03
+   Time: 238.5s | Throughput: 252 samples/sec
+🎮 GPU after epoch:
+   Compute: 66% | Memory: 58% (41293/46068 MB)
+   Power: 231W / 300W (77%)
+
+Epoch 12: val_accuracy did not improve from 0.65637
+2000/2000 [==============================] - 239s 120ms/step - loss: 0.8033 - accuracy: 0.7047 - val_loss: 0.9648 - val_accuracy: 0.6538 - lr: 0.0010
+Epoch 13/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.7858 - accuracy: 0.71172025-11-17 15:18:37.333654: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:18:37.365649: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 13:
+   Loss: 0.7858 | Val Loss: 0.9379
+   Acc: 0.7117 | Val Acc: 0.6643
+   LR: 1.00e-03
+   Time: 221.2s | Throughput: 289 samples/sec
+🎮 GPU after epoch:
+   Compute: 77% | Memory: 69% (41293/46068 MB)
+   Power: 227W / 300W (76%)
+
+Epoch 13: val_accuracy improved from 0.65637 to 0.66425, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 223s 112ms/step - loss: 0.7858 - accuracy: 0.7117 - val_loss: 0.9379 - val_accuracy: 0.6643 - lr: 0.0010
+Epoch 14/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.7711 - accuracy: 0.71762025-11-17 15:22:17.888510: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:22:17.924610: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 14:
+   Loss: 0.7711 | Val Loss: 0.9448
+   Acc: 0.7176 | Val Acc: 0.6620
+   LR: 1.00e-03
+   Time: 218.7s | Throughput: 290 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 221W / 300W (74%)
+
+Epoch 14: val_accuracy did not improve from 0.66425
+2000/2000 [==============================] - 219s 110ms/step - loss: 0.7711 - accuracy: 0.7176 - val_loss: 0.9448 - val_accuracy: 0.6620 - lr: 0.0010
+Epoch 15/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.7584 - accuracy: 0.72012025-11-17 15:25:58.939932: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:25:58.973467: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 15:
+   Loss: 0.7584 | Val Loss: 0.9257
+   Acc: 0.7201 | Val Acc: 0.6744
+   LR: 1.00e-03
+   Time: 220.3s | Throughput: 290 samples/sec
+🎮 GPU after epoch:
+   Compute: 66% | Memory: 58% (41293/46068 MB)
+   Power: 224W / 300W (75%)
+
+Epoch 15: val_accuracy improved from 0.66425 to 0.67437, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 222s 111ms/step - loss: 0.7584 - accuracy: 0.7201 - val_loss: 0.9257 - val_accuracy: 0.6744 - lr: 0.0010
+Epoch 16/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.7425 - accuracy: 0.72782025-11-17 15:29:41.220264: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:29:41.249702: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 16:
+   Loss: 0.7425 | Val Loss: 0.9336
+   Acc: 0.7278 | Val Acc: 0.6694
+   LR: 1.00e-03
+   Time: 220.3s | Throughput: 288 samples/sec
+🎮 GPU after epoch:
+   Compute: 68% | Memory: 61% (41293/46068 MB)
+   Power: 241W / 300W (80%)
+
+Epoch 16: val_accuracy did not improve from 0.67437
+2000/2000 [==============================] - 221s 110ms/step - loss: 0.7425 - accuracy: 0.7278 - val_loss: 0.9336 - val_accuracy: 0.6694 - lr: 0.0010
+Epoch 17/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.7253 - accuracy: 0.73202025-11-17 15:33:58.926319: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:33:58.942200: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 17:
+   Loss: 0.7253 | Val Loss: 0.9451
+   Acc: 0.7320 | Val Acc: 0.6678
+   LR: 1.00e-03
+   Time: 263.7s | Throughput: 248 samples/sec
+🎮 GPU after epoch:
+   Compute: 48% | Memory: 43% (41293/46068 MB)
+   Power: 201W / 300W (67%)
+
+Epoch 17: val_accuracy did not improve from 0.67437
+2000/2000 [==============================] - 264s 132ms/step - loss: 0.7253 - accuracy: 0.7320 - val_loss: 0.9451 - val_accuracy: 0.6678 - lr: 0.0010
+Epoch 18/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.7212 - accuracy: 0.73482025-11-17 15:37:45.843635: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:37:45.875974: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 18:
+   Loss: 0.7212 | Val Loss: 0.9225
+   Acc: 0.7348 | Val Acc: 0.6730
+   LR: 1.00e-03
+   Time: 219.8s | Throughput: 282 samples/sec
+🎮 GPU after epoch:
+   Compute: 69% | Memory: 61% (41293/46068 MB)
+   Power: 228W / 300W (76%)
+
+Epoch 18: val_accuracy did not improve from 0.67437
+2000/2000 [==============================] - 220s 110ms/step - loss: 0.7212 - accuracy: 0.7348 - val_loss: 0.9225 - val_accuracy: 0.6730 - lr: 0.0010
+Epoch 19/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.7076 - accuracy: 0.74002025-11-17 15:41:40.059205: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:41:40.075909: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 19:
+   Loss: 0.7076 | Val Loss: 0.9206
+   Acc: 0.7400 | Val Acc: 0.6746
+   LR: 1.00e-03
+   Time: 234.0s | Throughput: 273 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 63% (41293/46068 MB)
+   Power: 222W / 300W (74%)
+
+Epoch 19: val_accuracy improved from 0.67437 to 0.67462, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 236s 118ms/step - loss: 0.7076 - accuracy: 0.7400 - val_loss: 0.9206 - val_accuracy: 0.6746 - lr: 0.0010
+Epoch 20/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6942 - accuracy: 0.74312025-11-17 15:45:41.683958: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:45:41.710724: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 20:
+   Loss: 0.6942 | Val Loss: 0.9302
+   Acc: 0.7431 | Val Acc: 0.6720
+   LR: 1.00e-03
+   Time: 239.6s | Throughput: 265 samples/sec
+🎮 GPU after epoch:
+   Compute: 77% | Memory: 69% (41293/46068 MB)
+   Power: 233W / 300W (78%)
+
+Epoch 20: val_accuracy did not improve from 0.67462
+2000/2000 [==============================] - 240s 120ms/step - loss: 0.6942 - accuracy: 0.7431 - val_loss: 0.9302 - val_accuracy: 0.6720 - lr: 0.0010
+Epoch 21/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6825 - accuracy: 0.74892025-11-17 15:49:30.746594: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:49:30.772699: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 21:
+   Loss: 0.6825 | Val Loss: 0.9134
+   Acc: 0.7489 | Val Acc: 0.6829
+   LR: 1.00e-03
+   Time: 227.8s | Throughput: 279 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 241W / 300W (80%)
+
+Epoch 21: val_accuracy improved from 0.67462 to 0.68287, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 230s 115ms/step - loss: 0.6825 - accuracy: 0.7489 - val_loss: 0.9134 - val_accuracy: 0.6829 - lr: 0.0010
+Epoch 22/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6778 - accuracy: 0.75122025-11-17 15:53:34.541529: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:53:34.571852: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 22:
+   Loss: 0.6778 | Val Loss: 0.9167
+   Acc: 0.7512 | Val Acc: 0.6799
+   LR: 1.00e-03
+   Time: 241.5s | Throughput: 263 samples/sec
+🎮 GPU after epoch:
+   Compute: 69% | Memory: 61% (41293/46068 MB)
+   Power: 245W / 300W (82%)
+
+Epoch 22: val_accuracy did not improve from 0.68287
+2000/2000 [==============================] - 242s 121ms/step - loss: 0.6778 - accuracy: 0.7512 - val_loss: 0.9167 - val_accuracy: 0.6799 - lr: 0.0010
+Epoch 23/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6621 - accuracy: 0.75512025-11-17 15:57:20.104964: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 15:57:20.131871: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 23:
+   Loss: 0.6621 | Val Loss: 0.9068
+   Acc: 0.7551 | Val Acc: 0.6833
+   LR: 1.00e-03
+   Time: 225.2s | Throughput: 284 samples/sec
+🎮 GPU after epoch:
+   Compute: 66% | Memory: 58% (41293/46068 MB)
+   Power: 236W / 300W (79%)
+
+Epoch 23: val_accuracy improved from 0.68287 to 0.68325, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 228s 114ms/step - loss: 0.6621 - accuracy: 0.7551 - val_loss: 0.9068 - val_accuracy: 0.6833 - lr: 0.0010
+Epoch 24/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6535 - accuracy: 0.75962025-11-17 16:01:53.296332: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:01:53.311609: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 24:
+   Loss: 0.6535 | Val Loss: 0.9166
+   Acc: 0.7596 | Val Acc: 0.6815
+   LR: 1.00e-03
+   Time: 271.5s | Throughput: 234 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 221W / 300W (74%)
+
+Epoch 24: val_accuracy did not improve from 0.68325
+2000/2000 [==============================] - 272s 136ms/step - loss: 0.6535 - accuracy: 0.7596 - val_loss: 0.9166 - val_accuracy: 0.6815 - lr: 0.0010
+Epoch 25/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6393 - accuracy: 0.76322025-11-17 16:06:27.496817: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:06:27.513695: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 25:
+   Loss: 0.6393 | Val Loss: 0.9091
+   Acc: 0.7632 | Val Acc: 0.6829
+   LR: 1.00e-03
+   Time: 272.8s | Throughput: 233 samples/sec
+🎮 GPU after epoch:
+   Compute: 68% | Memory: 60% (41293/46068 MB)
+   Power: 227W / 300W (76%)
+
+Epoch 25: val_accuracy did not improve from 0.68325
+2000/2000 [==============================] - 273s 137ms/step - loss: 0.6393 - accuracy: 0.7632 - val_loss: 0.9091 - val_accuracy: 0.6829 - lr: 0.0010
+Epoch 26/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6404 - accuracy: 0.76512025-11-17 16:10:57.169578: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:10:57.217498: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 26:
+   Loss: 0.6404 | Val Loss: 0.9085
+   Acc: 0.7651 | Val Acc: 0.6851
+   LR: 1.00e-03
+   Time: 271.4s | Throughput: 238 samples/sec
+🎮 GPU after epoch:
+   Compute: 77% | Memory: 69% (41293/46068 MB)
+   Power: 224W / 300W (75%)
+
+Epoch 26: val_accuracy improved from 0.68325 to 0.68512, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 273s 137ms/step - loss: 0.6404 - accuracy: 0.7651 - val_loss: 0.9085 - val_accuracy: 0.6851 - lr: 0.0010
+Epoch 27/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6304 - accuracy: 0.76912025-11-17 16:15:36.476416: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:15:36.543135: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 27:
+   Loss: 0.6304 | Val Loss: 0.9335
+   Acc: 0.7691 | Val Acc: 0.6845
+   LR: 1.00e-03
+   Time: 280.8s | Throughput: 229 samples/sec
+🎮 GPU after epoch:
+   Compute: 75% | Memory: 67% (41293/46068 MB)
+   Power: 231W / 300W (77%)
+
+Epoch 27: val_accuracy did not improve from 0.68512
+2000/2000 [==============================] - 281s 141ms/step - loss: 0.6304 - accuracy: 0.7691 - val_loss: 0.9335 - val_accuracy: 0.6845 - lr: 0.0010
+Epoch 28/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6217 - accuracy: 0.77202025-11-17 16:20:11.993287: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:20:12.020610: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 28:
+   Loss: 0.6217 | Val Loss: 0.9051
+   Acc: 0.7720 | Val Acc: 0.6930
+   LR: 1.00e-03
+   Time: 269.0s | Throughput: 232 samples/sec
+🎮 GPU after epoch:
+   Compute: 59% | Memory: 52% (41293/46068 MB)
+   Power: 242W / 300W (81%)
+
+Epoch 28: val_accuracy improved from 0.68512 to 0.69300, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 271s 136ms/step - loss: 0.6217 - accuracy: 0.7720 - val_loss: 0.9051 - val_accuracy: 0.6930 - lr: 0.0010
+Epoch 29/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6179 - accuracy: 0.77502025-11-17 16:24:41.078098: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:24:41.103534: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 29:
+   Loss: 0.6179 | Val Loss: 0.9094
+   Acc: 0.7750 | Val Acc: 0.6826
+   LR: 1.00e-03
+   Time: 275.1s | Throughput: 238 samples/sec
+🎮 GPU after epoch:
+   Compute: 8% | Memory: 6% (41293/46068 MB)
+   Power: 201W / 300W (67%)
+
+Epoch 29: val_accuracy did not improve from 0.69300
+2000/2000 [==============================] - 276s 138ms/step - loss: 0.6179 - accuracy: 0.7750 - val_loss: 0.9094 - val_accuracy: 0.6826 - lr: 0.0010
+Epoch 30/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.6089 - accuracy: 0.77712025-11-17 16:29:17.869966: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:29:17.887044: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 30:
+   Loss: 0.6089 | Val Loss: 0.8952
+   Acc: 0.7771 | Val Acc: 0.6984
+   LR: 1.00e-03
+   Time: 267.8s | Throughput: 231 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 241W / 300W (80%)
+
+Epoch 30: val_accuracy improved from 0.69300 to 0.69837, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 270s 135ms/step - loss: 0.6089 - accuracy: 0.7771 - val_loss: 0.8952 - val_accuracy: 0.6984 - lr: 0.0010
+Epoch 31/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5980 - accuracy: 0.78182025-11-17 16:33:48.488656: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:33:48.505862: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 31:
+   Loss: 0.5980 | Val Loss: 0.9052
+   Acc: 0.7818 | Val Acc: 0.6904
+   LR: 1.00e-03
+   Time: 273.0s | Throughput: 236 samples/sec
+🎮 GPU after epoch:
+   Compute: 31% | Memory: 27% (41293/46068 MB)
+   Power: 207W / 300W (69%)
+
+Epoch 31: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 274s 137ms/step - loss: 0.5980 - accuracy: 0.7818 - val_loss: 0.9052 - val_accuracy: 0.6904 - lr: 0.0010
+Epoch 32/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5888 - accuracy: 0.78392025-11-17 16:37:33.699500: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:37:33.720024: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 32:
+   Loss: 0.5888 | Val Loss: 0.9083
+   Acc: 0.7839 | Val Acc: 0.6900
+   LR: 1.00e-03
+   Time: 219.4s | Throughput: 284 samples/sec
+🎮 GPU after epoch:
+   Compute: 74% | Memory: 66% (41293/46068 MB)
+   Power: 226W / 300W (75%)
+
+Epoch 32: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 220s 110ms/step - loss: 0.5888 - accuracy: 0.7839 - val_loss: 0.9083 - val_accuracy: 0.6900 - lr: 0.0010
+Epoch 33/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5926 - accuracy: 0.78232025-11-17 16:41:43.398435: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:41:43.417052: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 33:
+   Loss: 0.5926 | Val Loss: 0.8957
+   Acc: 0.7823 | Val Acc: 0.6963
+   LR: 1.00e-03
+   Time: 251.9s | Throughput: 256 samples/sec
+🎮 GPU after epoch:
+   Compute: 63% | Memory: 55% (41293/46068 MB)
+   Power: 221W / 300W (74%)
+
+Epoch 33: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 252s 126ms/step - loss: 0.5926 - accuracy: 0.7823 - val_loss: 0.8957 - val_accuracy: 0.6963 - lr: 0.0010
+Epoch 34/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5827 - accuracy: 0.78682025-11-17 16:46:01.510997: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:46:01.542680: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 34:
+   Loss: 0.5827 | Val Loss: 0.8931
+   Acc: 0.7868 | Val Acc: 0.6873
+   LR: 1.00e-03
+   Time: 254.8s | Throughput: 248 samples/sec
+🎮 GPU after epoch:
+   Compute: 69% | Memory: 61% (41293/46068 MB)
+   Power: 230W / 300W (77%)
+
+Epoch 34: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 255s 128ms/step - loss: 0.5827 - accuracy: 0.7868 - val_loss: 0.8931 - val_accuracy: 0.6873 - lr: 0.0010
+Epoch 35/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5764 - accuracy: 0.78832025-11-17 16:51:02.383083: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:51:02.414868: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 35:
+   Loss: 0.5764 | Val Loss: 0.8963
+   Acc: 0.7883 | Val Acc: 0.6902
+   LR: 1.00e-03
+   Time: 300.1s | Throughput: 213 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 241W / 300W (80%)
+
+Epoch 35: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 301s 150ms/step - loss: 0.5764 - accuracy: 0.7883 - val_loss: 0.8963 - val_accuracy: 0.6902 - lr: 0.0010
+Epoch 36/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5624 - accuracy: 0.79382025-11-17 16:55:18.561710: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:55:18.588781: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 36:
+   Loss: 0.5624 | Val Loss: 0.8922
+   Acc: 0.7938 | Val Acc: 0.6944
+   LR: 1.00e-03
+   Time: 262.5s | Throughput: 250 samples/sec
+🎮 GPU after epoch:
+   Compute: 36% | Memory: 32% (41293/46068 MB)
+   Power: 165W / 300W (55%)
+
+Epoch 36: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 264s 132ms/step - loss: 0.5624 - accuracy: 0.7938 - val_loss: 0.8922 - val_accuracy: 0.6944 - lr: 0.0010
+Epoch 37/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5617 - accuracy: 0.79472025-11-17 16:59:57.403978: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 16:59:57.441911: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 37:
+   Loss: 0.5617 | Val Loss: 0.9031
+   Acc: 0.7947 | Val Acc: 0.6948
+   LR: 1.00e-03
+   Time: 270.3s | Throughput: 230 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 227W / 300W (76%)
+
+Epoch 37: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 271s 135ms/step - loss: 0.5617 - accuracy: 0.7947 - val_loss: 0.9031 - val_accuracy: 0.6948 - lr: 0.0010
+Epoch 38/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5608 - accuracy: 0.79402025-11-17 17:04:44.846455: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:04:44.878598: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 38:
+   Loss: 0.5608 | Val Loss: 0.9050
+   Acc: 0.7940 | Val Acc: 0.6950
+   LR: 1.00e-03
+   Time: 287.3s | Throughput: 223 samples/sec
+🎮 GPU after epoch:
+   Compute: 69% | Memory: 61% (41293/46068 MB)
+   Power: 239W / 300W (80%)
+
+Epoch 38: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 288s 144ms/step - loss: 0.5608 - accuracy: 0.7940 - val_loss: 0.9050 - val_accuracy: 0.6950 - lr: 0.0010
+Epoch 39/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5519 - accuracy: 0.79892025-11-17 17:09:23.451478: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:09:23.488626: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 39:
+   Loss: 0.5519 | Val Loss: 0.9074
+   Acc: 0.7989 | Val Acc: 0.6975
+   LR: 1.00e-03
+   Time: 284.1s | Throughput: 230 samples/sec
+🎮 GPU after epoch:
+   Compute: 34% | Memory: 30% (41293/46068 MB)
+   Power: 207W / 300W (69%)
+
+Epoch 39: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 285s 143ms/step - loss: 0.5519 - accuracy: 0.7989 - val_loss: 0.9074 - val_accuracy: 0.6975 - lr: 0.0010
+Epoch 40/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5413 - accuracy: 0.80092025-11-17 17:14:35.879693: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:14:35.912778: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 40:
+   Loss: 0.5413 | Val Loss: 0.9104
+   Acc: 0.8009 | Val Acc: 0.6954
+   LR: 1.00e-03
+   Time: 313.9s | Throughput: 205 samples/sec
+🎮 GPU after epoch:
+   Compute: 61% | Memory: 55% (41293/46068 MB)
+   Power: 205W / 300W (68%)
+
+Epoch 40: val_accuracy did not improve from 0.69837
+2000/2000 [==============================] - 315s 158ms/step - loss: 0.5413 - accuracy: 0.8009 - val_loss: 0.9104 - val_accuracy: 0.6954 - lr: 0.0010
+Epoch 41/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5427 - accuracy: 0.80172025-11-17 17:19:33.060434: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:19:33.120859: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 41:
+   Loss: 0.5427 | Val Loss: 0.9018
+   Acc: 0.8017 | Val Acc: 0.7011
+   LR: 1.00e-03
+   Time: 290.4s | Throughput: 216 samples/sec
+🎮 GPU after epoch:
+   Compute: 69% | Memory: 60% (41293/46068 MB)
+   Power: 233W / 300W (78%)
+
+Epoch 41: val_accuracy improved from 0.69837 to 0.70113, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 292s 146ms/step - loss: 0.5427 - accuracy: 0.8017 - val_loss: 0.9018 - val_accuracy: 0.7011 - lr: 0.0010
+Epoch 42/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5354 - accuracy: 0.80362025-11-17 17:24:31.690245: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:24:31.710508: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 42:
+   Loss: 0.5354 | Val Loss: 0.8990
+   Acc: 0.8036 | Val Acc: 0.7024
+   LR: 1.00e-03
+   Time: 292.7s | Throughput: 214 samples/sec
+🎮 GPU after epoch:
+   Compute: 75% | Memory: 68% (41293/46068 MB)
+   Power: 222W / 300W (74%)
+
+Epoch 42: val_accuracy improved from 0.70113 to 0.70237, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 295s 147ms/step - loss: 0.5354 - accuracy: 0.8036 - val_loss: 0.8990 - val_accuracy: 0.7024 - lr: 0.0010
+Epoch 43/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.5322 - accuracy: 0.80392025-11-17 17:28:28.188044: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:28:28.201466: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 43:
+   Loss: 0.5322 | Val Loss: 0.9114
+   Acc: 0.8039 | Val Acc: 0.6950
+   LR: 1.00e-03
+   Time: 232.4s | Throughput: 271 samples/sec
+🎮 GPU after epoch:
+   Compute: 87% | Memory: 77% (41293/46068 MB)
+   Power: 258W / 300W (86%)
+
+Epoch 43: val_accuracy did not improve from 0.70237
+
+Epoch 43: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+2000/2000 [==============================] - 233s 116ms/step - loss: 0.5322 - accuracy: 0.8039 - val_loss: 0.9114 - val_accuracy: 0.6950 - lr: 0.0010
+Epoch 44/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.4846 - accuracy: 0.82372025-11-17 17:31:52.805665: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:31:52.833430: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 44:
+   Loss: 0.4846 | Val Loss: 0.8744
+   Acc: 0.8237 | Val Acc: 0.7092
+   LR: 5.00e-04
+   Time: 206.2s | Throughput: 313 samples/sec
+🎮 GPU after epoch:
+   Compute: 75% | Memory: 67% (41293/46068 MB)
+   Power: 238W / 300W (79%)
+
+Epoch 44: val_accuracy improved from 0.70237 to 0.70925, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 208s 104ms/step - loss: 0.4846 - accuracy: 0.8237 - val_loss: 0.8744 - val_accuracy: 0.7092 - lr: 5.0000e-04
+Epoch 45/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.4601 - accuracy: 0.83242025-11-17 17:36:10.913853: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:36:10.926945: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 45:
+   Loss: 0.4601 | Val Loss: 0.8759
+   Acc: 0.8324 | Val Acc: 0.7122
+   LR: 5.00e-04
+   Time: 256.1s | Throughput: 248 samples/sec
+🎮 GPU after epoch:
+   Compute: 70% | Memory: 62% (41293/46068 MB)
+   Power: 234W / 300W (78%)
+
+Epoch 45: val_accuracy improved from 0.70925 to 0.71225, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 258s 129ms/step - loss: 0.4601 - accuracy: 0.8324 - val_loss: 0.8759 - val_accuracy: 0.7122 - lr: 5.0000e-04
+Epoch 46/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.4507 - accuracy: 0.83722025-11-17 17:40:17.612893: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:40:17.638082: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 46:
+   Loss: 0.4507 | Val Loss: 0.8775
+   Acc: 0.8372 | Val Acc: 0.7154
+   LR: 5.00e-04
+   Time: 244.4s | Throughput: 259 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 239W / 300W (80%)
+
+Epoch 46: val_accuracy improved from 0.71225 to 0.71538, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/phase1_best.keras
+2000/2000 [==============================] - 247s 123ms/step - loss: 0.4507 - accuracy: 0.8372 - val_loss: 0.8775 - val_accuracy: 0.7154 - lr: 5.0000e-04
+Epoch 47/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.4395 - accuracy: 0.83892025-11-17 17:43:53.184622: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:43:53.210258: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 47:
+   Loss: 0.4395 | Val Loss: 0.8977
+   Acc: 0.8389 | Val Acc: 0.7101
+   LR: 5.00e-04
+   Time: 213.5s | Throughput: 297 samples/sec
+🎮 GPU after epoch:
+   Compute: 67% | Memory: 59% (41293/46068 MB)
+   Power: 229W / 300W (76%)
+
+Epoch 47: val_accuracy did not improve from 0.71538
+2000/2000 [==============================] - 214s 107ms/step - loss: 0.4395 - accuracy: 0.8389 - val_loss: 0.8977 - val_accuracy: 0.7101 - lr: 5.0000e-04
+Epoch 48/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.4385 - accuracy: 0.84062025-11-17 17:48:12.370331: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:48:12.401446: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 48:
+   Loss: 0.4385 | Val Loss: 0.8962
+   Acc: 0.8406 | Val Acc: 0.7141
+   LR: 5.00e-04
+   Time: 271.7s | Throughput: 247 samples/sec
+🎮 GPU after epoch:
+   Compute: 68% | Memory: 61% (41293/46068 MB)
+   Power: 184W / 300W (61%)
+
+Epoch 48: val_accuracy did not improve from 0.71538
+2000/2000 [==============================] - 272s 136ms/step - loss: 0.4385 - accuracy: 0.8406 - val_loss: 0.8962 - val_accuracy: 0.7141 - lr: 5.0000e-04
+Epoch 49/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.4340 - accuracy: 0.84242025-11-17 17:52:08.069106: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:52:08.097071: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 49:
+   Loss: 0.4340 | Val Loss: 0.9015
+   Acc: 0.8424 | Val Acc: 0.7138
+   LR: 5.00e-04
+   Time: 221.9s | Throughput: 271 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 236W / 300W (79%)
+
+Epoch 49: val_accuracy did not improve from 0.71538
+2000/2000 [==============================] - 222s 111ms/step - loss: 0.4340 - accuracy: 0.8424 - val_loss: 0.9015 - val_accuracy: 0.7138 - lr: 5.0000e-04
+Epoch 50/50
+2000/2000 [==============================] - ETA: 0s - loss: 0.4272 - accuracy: 0.84352025-11-17 17:56:14.595567: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:56:14.615167: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 50:
+   Loss: 0.4272 | Val Loss: 0.8983
+   Acc: 0.8435 | Val Acc: 0.7130
+   LR: 5.00e-04
+   Time: 246.1s | Throughput: 260 samples/sec
+🎮 GPU after epoch:
+   Compute: 75% | Memory: 67% (41293/46068 MB)
+   Power: 242W / 300W (81%)
+
+Epoch 50: val_accuracy did not improve from 0.71538
+2000/2000 [==============================] - 247s 123ms/step - loss: 0.4272 - accuracy: 0.8435 - val_loss: 0.8983 - val_accuracy: 0.7130 - lr: 5.0000e-04
+
+✅ Phase 1: 0.7154
+
+🔓 PHASE 2: Fine-tuning
+  Unfrozen: 193/385 layers
+  Trainable: 795,144
+  ✅ LR: 1.00e-04
+Epoch 1/25
+2025-11-17 17:56:28.866182: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:56:28.872066: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:56:28.890596: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:56:28.932203: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 17:56:40.663436: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:2254] Converted 4/2321 nodes to float16 precision using 1 cast(s) to float16 (excluding Const and Variable casts)
+2000/2000 [==============================] - ETA: 0s - loss: 0.4074 - accuracy: 0.85172025-11-17 18:03:44.019597: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:03:44.044381: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:03:47.775849: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:2254] Converted 2/1928 nodes to float16 precision using 0 cast(s) to float16 (excluding Const and Variable casts)
+
+📊 Epoch 1:
+   Loss: 0.4074 | Val Loss: 0.8815
+   Acc: 0.8517 | Val Acc: 0.7153
+   LR: 1.00e-04
+   Time: 454.6s | Throughput: 152 samples/sec
+🎮 GPU after epoch:
+   Compute: 35% | Memory: 31% (41293/46068 MB)
+   Power: 167W / 300W (56%)
+
+Epoch 1: val_accuracy improved from -inf to 0.71525, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/best_model.keras
+2000/2000 [==============================] - 460s 223ms/step - loss: 0.4074 - accuracy: 0.8517 - val_loss: 0.8815 - val_accuracy: 0.7153 - lr: 1.0000e-04
+Epoch 2/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3951 - accuracy: 0.85572025-11-17 18:12:01.302096: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:12:01.326393: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 2:
+   Loss: 0.3951 | Val Loss: 0.8830
+   Acc: 0.8557 | Val Acc: 0.7161
+   LR: 1.00e-04
+   Time: 491.7s | Throughput: 129 samples/sec
+🎮 GPU after epoch:
+   Compute: 38% | Memory: 34% (41293/46068 MB)
+   Power: 154W / 300W (51%)
+
+Epoch 2: val_accuracy improved from 0.71525 to 0.71613, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/best_model.keras
+2000/2000 [==============================] - 502s 251ms/step - loss: 0.3951 - accuracy: 0.8557 - val_loss: 0.8830 - val_accuracy: 0.7161 - lr: 1.0000e-04
+Epoch 3/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3873 - accuracy: 0.85932025-11-17 18:20:05.943811: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:20:05.973468: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 3:
+   Loss: 0.3873 | Val Loss: 0.8846
+   Acc: 0.8593 | Val Acc: 0.7166
+   LR: 1.00e-04
+   Time: 480.1s | Throughput: 132 samples/sec
+🎮 GPU after epoch:
+   Compute: 68% | Memory: 60% (41293/46068 MB)
+   Power: 228W / 300W (76%)
+
+Epoch 3: val_accuracy improved from 0.71613 to 0.71662, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/best_model.keras
+2000/2000 [==============================] - 482s 241ms/step - loss: 0.3873 - accuracy: 0.8593 - val_loss: 0.8846 - val_accuracy: 0.7166 - lr: 1.0000e-04
+Epoch 4/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3862 - accuracy: 0.86172025-11-17 18:27:39.549056: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:27:39.633999: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 4:
+   Loss: 0.3862 | Val Loss: 0.8833
+   Acc: 0.8617 | Val Acc: 0.7166
+   LR: 1.00e-04
+   Time: 449.8s | Throughput: 141 samples/sec
+🎮 GPU after epoch:
+   Compute: 39% | Memory: 35% (41293/46068 MB)
+   Power: 164W / 300W (55%)
+
+Epoch 4: val_accuracy did not improve from 0.71662
+2000/2000 [==============================] - 451s 226ms/step - loss: 0.3862 - accuracy: 0.8617 - val_loss: 0.8833 - val_accuracy: 0.7166 - lr: 1.0000e-04
+Epoch 5/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3767 - accuracy: 0.86322025-11-17 18:33:10.893017: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:33:10.931824: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 5:
+   Loss: 0.3767 | Val Loss: 0.8801
+   Acc: 0.8632 | Val Acc: 0.7160
+   LR: 1.00e-04
+   Time: 320.6s | Throughput: 193 samples/sec
+🎮 GPU after epoch:
+   Compute: 67% | Memory: 58% (41293/46068 MB)
+   Power: 242W / 300W (81%)
+
+Epoch 5: val_accuracy did not improve from 0.71662
+2000/2000 [==============================] - 321s 161ms/step - loss: 0.3767 - accuracy: 0.8632 - val_loss: 0.8801 - val_accuracy: 0.7160 - lr: 1.0000e-04
+Epoch 6/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3687 - accuracy: 0.86602025-11-17 18:37:05.755207: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:37:05.783124: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 6:
+   Loss: 0.3687 | Val Loss: 0.8833
+   Acc: 0.8660 | Val Acc: 0.7188
+   LR: 1.00e-04
+   Time: 234.1s | Throughput: 272 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 235W / 300W (78%)
+
+Epoch 6: val_accuracy improved from 0.71662 to 0.71875, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/best_model.keras
+2000/2000 [==============================] - 236s 118ms/step - loss: 0.3687 - accuracy: 0.8660 - val_loss: 0.8833 - val_accuracy: 0.7188 - lr: 1.0000e-04
+Epoch 7/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3644 - accuracy: 0.86732025-11-17 18:40:42.965956: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:40:42.996037: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 7:
+   Loss: 0.3644 | Val Loss: 0.8876
+   Acc: 0.8673 | Val Acc: 0.7181
+   LR: 1.00e-04
+   Time: 214.9s | Throughput: 295 samples/sec
+🎮 GPU after epoch:
+   Compute: 68% | Memory: 60% (41293/46068 MB)
+   Power: 229W / 300W (76%)
+
+Epoch 7: val_accuracy did not improve from 0.71875
+2000/2000 [==============================] - 216s 108ms/step - loss: 0.3644 - accuracy: 0.8673 - val_loss: 0.8876 - val_accuracy: 0.7181 - lr: 1.0000e-04
+Epoch 8/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3672 - accuracy: 0.86692025-11-17 18:44:19.357982: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:44:19.388274: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 8:
+   Loss: 0.3672 | Val Loss: 0.8842
+   Acc: 0.8669 | Val Acc: 0.7181
+   LR: 1.00e-04
+   Time: 215.8s | Throughput: 296 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 241W / 300W (80%)
+
+Epoch 8: val_accuracy did not improve from 0.71875
+2000/2000 [==============================] - 216s 108ms/step - loss: 0.3672 - accuracy: 0.8669 - val_loss: 0.8842 - val_accuracy: 0.7181 - lr: 1.0000e-04
+Epoch 9/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3658 - accuracy: 0.86732025-11-17 18:48:33.477222: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:48:33.538310: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 9:
+   Loss: 0.3658 | Val Loss: 0.8871
+   Acc: 0.8673 | Val Acc: 0.7201
+   LR: 1.00e-04
+   Time: 265.8s | Throughput: 252 samples/sec
+🎮 GPU after epoch:
+   Compute: 38% | Memory: 33% (41293/46068 MB)
+   Power: 177W / 300W (59%)
+
+Epoch 9: val_accuracy improved from 0.71875 to 0.72013, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/best_model.keras
+2000/2000 [==============================] - 271s 135ms/step - loss: 0.3658 - accuracy: 0.8673 - val_loss: 0.8871 - val_accuracy: 0.7201 - lr: 1.0000e-04
+Epoch 10/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3647 - accuracy: 0.86792025-11-17 18:54:05.856306: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 18:54:05.888885: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 10:
+   Loss: 0.3647 | Val Loss: 0.8854
+   Acc: 0.8679 | Val Acc: 0.7184
+   LR: 1.00e-04
+   Time: 314.4s | Throughput: 192 samples/sec
+🎮 GPU after epoch:
+   Compute: 78% | Memory: 69% (41293/46068 MB)
+   Power: 256W / 300W (85%)
+
+Epoch 10: val_accuracy did not improve from 0.72013
+2000/2000 [==============================] - 315s 158ms/step - loss: 0.3647 - accuracy: 0.8679 - val_loss: 0.8854 - val_accuracy: 0.7184 - lr: 1.0000e-04
+Epoch 11/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3686 - accuracy: 0.86612025-11-17 19:00:02.477730: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 19:00:02.503952: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 11:
+   Loss: 0.3686 | Val Loss: 0.8878
+   Acc: 0.8661 | Val Acc: 0.7189
+   LR: 1.00e-04
+   Time: 361.3s | Throughput: 179 samples/sec
+🎮 GPU after epoch:
+   Compute: 71% | Memory: 63% (41293/46068 MB)
+   Power: 224W / 300W (75%)
+
+Epoch 11: val_accuracy did not improve from 0.72013
+2000/2000 [==============================] - 362s 181ms/step - loss: 0.3686 - accuracy: 0.8661 - val_loss: 0.8878 - val_accuracy: 0.7189 - lr: 1.0000e-04
+Epoch 12/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3619 - accuracy: 0.86842025-11-17 19:07:11.843291: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 19:07:11.921264: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 12:
+   Loss: 0.3619 | Val Loss: 0.8867
+   Acc: 0.8684 | Val Acc: 0.7194
+   LR: 1.00e-04
+   Time: 425.8s | Throughput: 149 samples/sec
+🎮 GPU after epoch:
+   Compute: 73% | Memory: 64% (41293/46068 MB)
+   Power: 233W / 300W (78%)
+
+Epoch 12: val_accuracy did not improve from 0.72013
+2000/2000 [==============================] - 427s 213ms/step - loss: 0.3619 - accuracy: 0.8684 - val_loss: 0.8867 - val_accuracy: 0.7194 - lr: 1.0000e-04
+Epoch 13/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3629 - accuracy: 0.86802025-11-17 19:13:51.181304: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 19:13:51.250919: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 13:
+   Loss: 0.3629 | Val Loss: 0.8928
+   Acc: 0.8680 | Val Acc: 0.7182
+   LR: 1.00e-04
+   Time: 397.2s | Throughput: 160 samples/sec
+🎮 GPU after epoch:
+   Compute: 69% | Memory: 60% (41293/46068 MB)
+   Power: 226W / 300W (75%)
+
+Epoch 13: val_accuracy did not improve from 0.72013
+2000/2000 [==============================] - 398s 199ms/step - loss: 0.3629 - accuracy: 0.8680 - val_loss: 0.8928 - val_accuracy: 0.7182 - lr: 1.0000e-04
+Epoch 14/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3563 - accuracy: 0.86942025-11-17 19:19:51.945110: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 19:19:51.972040: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 14:
+   Loss: 0.3563 | Val Loss: 0.8877
+   Acc: 0.8694 | Val Acc: 0.7215
+   LR: 1.00e-04
+   Time: 360.0s | Throughput: 177 samples/sec
+🎮 GPU after epoch:
+   Compute: 68% | Memory: 60% (41293/46068 MB)
+   Power: 231W / 300W (77%)
+
+Epoch 14: val_accuracy improved from 0.72013 to 0.72150, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/best_model.keras
+2000/2000 [==============================] - 362s 181ms/step - loss: 0.3563 - accuracy: 0.8694 - val_loss: 0.8877 - val_accuracy: 0.7215 - lr: 1.0000e-04
+Epoch 15/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3556 - accuracy: 0.87102025-11-17 19:25:50.308540: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 19:25:50.334902: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 15:
+   Loss: 0.3556 | Val Loss: 0.8924
+   Acc: 0.8710 | Val Acc: 0.7175
+   LR: 1.00e-04
+   Time: 356.0s | Throughput: 179 samples/sec
+🎮 GPU after epoch:
+   Compute: 72% | Memory: 64% (41293/46068 MB)
+   Power: 223W / 300W (74%)
+
+Epoch 15: val_accuracy did not improve from 0.72150
+
+Epoch 15: ReduceLROnPlateau reducing learning rate to 4.999999873689376e-05.
+2000/2000 [==============================] - 357s 178ms/step - loss: 0.3556 - accuracy: 0.8710 - val_loss: 0.8924 - val_accuracy: 0.7175 - lr: 1.0000e-04
+Epoch 16/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3542 - accuracy: 0.87042025-11-17 19:34:36.355543: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 19:34:36.393437: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 16:
+   Loss: 0.3542 | Val Loss: 0.8940
+   Acc: 0.8704 | Val Acc: 0.7203
+   LR: 5.00e-05
+   Time: 527.5s | Throughput: 122 samples/sec
+🎮 GPU after epoch:
+   Compute: 22% | Memory: 20% (41293/46068 MB)
+   Power: 240W / 300W (80%)
+
+Epoch 16: val_accuracy did not improve from 0.72150
+2000/2000 [==============================] - 529s 265ms/step - loss: 0.3542 - accuracy: 0.8704 - val_loss: 0.8940 - val_accuracy: 0.7203 - lr: 5.0000e-05
+Epoch 17/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3526 - accuracy: 0.87262025-11-17 19:43:15.833656: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 19:43:15.857173: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 17:
+   Loss: 0.3526 | Val Loss: 0.8932
+   Acc: 0.8726 | Val Acc: 0.7211
+   LR: 5.00e-05
+   Time: 525.1s | Throughput: 123 samples/sec
+🎮 GPU after epoch:
+   Compute: 30% | Memory: 27% (41293/46068 MB)
+   Power: 148W / 300W (49%)
+
+Epoch 17: val_accuracy did not improve from 0.72150
+2000/2000 [==============================] - 528s 264ms/step - loss: 0.3526 - accuracy: 0.8726 - val_loss: 0.8932 - val_accuracy: 0.7211 - lr: 5.0000e-05
+Epoch 18/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3510 - accuracy: 0.87262025-11-17 19:51:40.193752: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 19:51:40.216860: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 18:
+   Loss: 0.3510 | Val Loss: 0.8927
+   Acc: 0.8726 | Val Acc: 0.7197
+   LR: 5.00e-05
+   Time: 504.4s | Throughput: 127 samples/sec
+🎮 GPU after epoch:
+   Compute: 2% | Memory: 0% (41293/46068 MB)
+   Power: 173W / 300W (58%)
+
+Epoch 18: val_accuracy did not improve from 0.72150
+2000/2000 [==============================] - 506s 252ms/step - loss: 0.3510 - accuracy: 0.8726 - val_loss: 0.8927 - val_accuracy: 0.7197 - lr: 5.0000e-05
+Epoch 19/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3465 - accuracy: 0.87512025-11-17 20:00:42.953324: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 20:00:42.982337: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 19:
+   Loss: 0.3465 | Val Loss: 0.8896
+   Acc: 0.8751 | Val Acc: 0.7215
+   LR: 5.00e-05
+   Time: 541.6s | Throughput: 118 samples/sec
+🎮 GPU after epoch:
+   Compute: 12% | Memory: 10% (41293/46068 MB)
+   Power: 142W / 300W (47%)
+
+Epoch 19: val_accuracy did not improve from 0.72150
+2000/2000 [==============================] - 544s 272ms/step - loss: 0.3465 - accuracy: 0.8751 - val_loss: 0.8896 - val_accuracy: 0.7215 - lr: 5.0000e-05
+Epoch 20/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3472 - accuracy: 0.87352025-11-17 20:09:30.237651: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 20:09:30.262582: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 20:
+   Loss: 0.3472 | Val Loss: 0.8887
+   Acc: 0.8735 | Val Acc: 0.7205
+   LR: 5.00e-05
+   Time: 531.0s | Throughput: 121 samples/sec
+🎮 GPU after epoch:
+   Compute: 28% | Memory: 25% (41293/46068 MB)
+   Power: 135W / 300W (45%)
+
+Epoch 20: val_accuracy did not improve from 0.72150
+2000/2000 [==============================] - 534s 267ms/step - loss: 0.3472 - accuracy: 0.8735 - val_loss: 0.8887 - val_accuracy: 0.7205 - lr: 5.0000e-05
+Epoch 21/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3431 - accuracy: 0.87542025-11-17 20:17:38.130459: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 20:17:38.165009: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 21:
+   Loss: 0.3431 | Val Loss: 0.8940
+   Acc: 0.8754 | Val Acc: 0.7226
+   LR: 5.00e-05
+   Time: 479.9s | Throughput: 131 samples/sec
+🎮 GPU after epoch:
+   Compute: 34% | Memory: 31% (41293/46068 MB)
+   Power: 139W / 300W (46%)
+
+Epoch 21: val_accuracy improved from 0.72150 to 0.72263, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/best_model.keras
+2000/2000 [==============================] - 486s 243ms/step - loss: 0.3431 - accuracy: 0.8754 - val_loss: 0.8940 - val_accuracy: 0.7226 - lr: 5.0000e-05
+Epoch 22/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3463 - accuracy: 0.87412025-11-17 20:26:11.834869: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 20:26:12.272553: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 22:
+   Loss: 0.3463 | Val Loss: 0.8931
+   Acc: 0.8741 | Val Acc: 0.7216
+   LR: 5.00e-05
+   Time: 507.5s | Throughput: 126 samples/sec
+🎮 GPU after epoch:
+   Compute: 39% | Memory: 35% (41293/46068 MB)
+   Power: 180W / 300W (60%)
+
+Epoch 22: val_accuracy did not improve from 0.72263
+2000/2000 [==============================] - 509s 255ms/step - loss: 0.3463 - accuracy: 0.8741 - val_loss: 0.8931 - val_accuracy: 0.7216 - lr: 5.0000e-05
+Epoch 23/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3454 - accuracy: 0.87442025-11-17 20:35:03.466283: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 20:35:03.479030: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 23:
+   Loss: 0.3454 | Val Loss: 0.8908
+   Acc: 0.8744 | Val Acc: 0.7222
+   LR: 5.00e-05
+   Time: 516.8s | Throughput: 119 samples/sec
+🎮 GPU after epoch:
+   Compute: 71% | Memory: 63% (41293/46068 MB)
+   Power: 222W / 300W (74%)
+
+Epoch 23: val_accuracy did not improve from 0.72263
+2000/2000 [==============================] - 517s 259ms/step - loss: 0.3454 - accuracy: 0.8744 - val_loss: 0.8908 - val_accuracy: 0.7222 - lr: 5.0000e-05
+Epoch 24/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3414 - accuracy: 0.87452025-11-17 20:41:22.812320: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 20:41:22.889425: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 24:
+   Loss: 0.3414 | Val Loss: 0.8958
+   Acc: 0.8745 | Val Acc: 0.7216
+   LR: 5.00e-05
+   Time: 385.7s | Throughput: 169 samples/sec
+🎮 GPU after epoch:
+   Compute: 71% | Memory: 63% (41293/46068 MB)
+   Power: 229W / 300W (76%)
+
+Epoch 24: val_accuracy did not improve from 0.72263
+2000/2000 [==============================] - 386s 193ms/step - loss: 0.3414 - accuracy: 0.8745 - val_loss: 0.8958 - val_accuracy: 0.7216 - lr: 5.0000e-05
+Epoch 25/25
+2000/2000 [==============================] - ETA: 0s - loss: 0.3406 - accuracy: 0.87602025-11-17 20:46:48.171646: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+2025-11-17 20:46:48.194831: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1502] No allowlist ops found, nothing to do
+
+📊 Epoch 25:
+   Loss: 0.3406 | Val Loss: 0.8962
+   Acc: 0.8760 | Val Acc: 0.7230
+   LR: 5.00e-05
+   Time: 317.4s | Throughput: 196 samples/sec
+🎮 GPU after epoch:
+   Compute: 55% | Memory: 48% (41293/46068 MB)
+   Power: 237W / 300W (79%)
+
+Epoch 25: val_accuracy improved from 0.72263 to 0.72300, saving model to /workspace/outputs/transfer_learning_EB3/EfficientNetB3/best_model.keras
+
+Epoch 25: ReduceLROnPlateau reducing learning rate to 2.499999936844688e-05.
+2000/2000 [==============================] - 320s 160ms/step - loss: 0.3406 - accuracy: 0.8760 - val_loss: 0.8962 - val_accuracy: 0.7230 - lr: 5.0000e-05
+
+✅ Complete! Phase1: 0.7154 | Phase2: 0.7230
+
+🧹 Cleanup complete
+
+======================================================================
+🎉 COMPLETE!
+======================================================================
+  EfficientNetB3: 0.7230

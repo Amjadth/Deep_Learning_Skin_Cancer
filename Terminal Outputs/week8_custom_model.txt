@@ -1,0 +1,426 @@
+2025-11-14 12:00:01.942574: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-11-14 12:00:01.987774: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2025-11-14 12:00:01.987817: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-11-14 12:00:01.988997: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-11-14 12:00:01.996813: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+📁 Storage: /workspace/outputs
+📁 Models: /workspace/outputs/regularization_experiments
+======================================================================
+WEEK 8: A40-OPTIMIZED REGULARIZATION METHODS (with Memory Management)
+======================================================================
+
+🔧 Setting up A40 optimizations...
+INFO:tensorflow:Mixed precision compatibility check (mixed_float16): OK
+Your GPU will likely run quickly with dtype policy mixed_float16 as it has compute capability of at least 7.0. Your GPU: NVIDIA A40, compute capability 8.6
+✓ Mixed precision (FP16) enabled
+✓ GPU configured: 1 GPU(s) detected
+✓ XLA compilation enabled
+✓ CUDA kernel optimization enabled
+
+📂 Step 1: Loading data with memory mapping...
+💾 Memory (Before loading): 0.79GB / Available: 313.54GB (37.7% used)
+   GPU: 3MB/46068MB (0.0%)
+
+📥 Loading denormalized data with memory mapping...
+  📥 Loading X_train_denormalized (64k images)...
+  ✓ X_train_denormalized (64k images): (64000, 224, 224, 3) (memmap + pickle)
+  📥 Loading y_train (labels)...
+  ✓ y_train (labels): (64000,)
+  📥 Loading X_val_denormalized (8k images)...
+  ✓ X_val_denormalized (8k images): (8000, 224, 224, 3) (memmap + pickle)
+  📥 Loading y_val (labels)...
+  ✓ y_val (labels): (8000,)
+  📥 Loading X_test_denormalized (8k images)...
+  ✓ X_test_denormalized (8k images): (8000, 224, 224, 3) (memmap + pickle)
+  📥 Loading y_test (labels)...
+  ✓ y_test (labels): (8000,)
+  ℹ️  Data types (memmap-safe inspection):
+     X_train dtype: float32 (will be cast in generator)
+     y_train dtype: int32
+     X_val dtype: float32 (will be cast in generator)
+     X_test dtype: float32 (will be cast in generator)
+✓ Training set: (64000, 224, 224, 3)
+✓ Validation set: (8000, 224, 224, 3)
+✓ Test set: (8000, 224, 224, 3)
+💾 Memory (After loading with mmap): 0.79GB / Available: 313.36GB (37.8% used)
+   GPU: 3MB/46068MB (0.0%)
+
+💾 Memory Consumption Breakdown:
+  X_train_denormalized:  64k × 224×224×3 × 4 bytes = ~19.1 GB
+  X_val_denormalized:     8k × 224×224×3 × 4 bytes = ~2.4 GB
+  X_test_denormalized:    8k × 224×224×3 × 4 bytes = ~2.4 GB
+  y_train + y_val + y_test labels:                  ~0.3 GB
+  5 Models + optimizers:                            ~2-3 GB
+  ─────────────────────────────────────────────────────────
+  Expected Total:                                   ~26-27 GB
+  ⚠️  ACTUAL on 46GB system: Check above 'Memory' line
+  ℹ️  If using 45GB+ → System has 1GB buffer only!
+  🔴 WARNING: Very little headroom for training (risky!)
+
+✓ Best hyperparameters (with Week 6 optimizations):
+  Learning Rate: 0.001
+  Batch Size: 64 (↑ from 32 - Week 6 optimization)
+  Cache Clear Frequency: Every 5 epochs
+✓ Classes: 8 - ['AK', 'BCC', 'BKL', 'DF', 'MEL', 'NV', 'SCC', 'VASC']
+
+✅ Step 2: Baseline architecture verification
+   We are building 5 NEW models from scratch
+   Architecture: Same 5.75M parameter CNN baseline as Week 6/7
+   Regularization: Adding DIFFERENT strategies to each model
+   Training: All 5 models trained from scratch on training data
+   Goal: Compare which regularization works BEST for skin cancer
+
+   ❌ NOT loading Week 6/7 weights
+   ❌ NOT doing transfer learning
+   ✅ Building 5 fresh models with same architecture but different reg
+
+🏗️ Step 3: Creating 5 regularization strategies...
+
+✓ Creating 5 regularization models...
+2025-11-14 12:00:09.640848: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 43695 MB memory:  -> device: 0, name: NVIDIA A40, pci bus id: 0000:53:00.0, compute capability: 8.6
+  ✓ Baseline_Reg        : 357,288 parameters
+  ✓ Heavy_Reg           : 357,288 parameters
+  ✓ Spatial_Dropout     : 357,288 parameters
+  ✓ Mixed_Reg           : 357,288 parameters
+  ✓ Advanced_Reg        : 357,288 parameters
+
+⚠️  RUNPOD CONTAINER MEMORY WARNING:
+  Container Limit:     50 GB (hard limit)
+  All 5 models:        ~2-3 GB
+  Data memmap:         ~23-24 GB
+  System overhead:     ~3-5 GB
+  ─────────────────────────────────────
+  Expected before training: ~26-27 GB
+  Peak during training:     ~30-35 GB (Batch=64) ✅ SAFE
+  With Batch=128:           ~45-50 GB ❌ RISKY (now reduced to 64)
+💾 Memory (After creating all 5 models): 0.91GB / Available: 313.23GB (37.8% used)
+   GPU: 283MB/46068MB (0.6%)
+
+🚀 Step 3: Training models with optimized pipeline...
+⚙️  Training config:
+  Batch size: 64
+  Steps per epoch: 1000
+  Learning rate: 0.001
+  Epochs: 50
+
+============================================================
+Training: Baseline_Reg
+============================================================
+  ✓ Starting fresh training from epoch 0
+  Creating optimized datasets...
+✓ Model compiled with LR schedule and gradient clipping
+💾 Memory (Start): 0.91GB / Available: 313.22GB (37.8% used)
+   GPU: 283MB/46068MB (0.6%)
+✓ Callbacks configured (Early Stopping: patience=15, min_delta=0.001)
+💾 Memory (Before training): 0.91GB / Available: 313.22GB (37.8% used)
+   GPU: 283MB/46068MB (0.6%)
+Epoch 1/50
+2025-11-14 12:00:16.219586: I external/local_xla/xla/service/service.cc:168] XLA service 0x214573e0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-11-14 12:00:16.219681: I external/local_xla/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA A40, Compute Capability 8.6
+2025-11-14 12:00:16.236008: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2025-11-14 12:00:16.327956: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:454] Loaded cuDNN version 8907
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1763121617.503439    1033 device_compiler.h:186] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2025-11-14 12:00:22.898016: I external/local_xla/xla/stream_executor/gpu/asm_compiler.cc:326] ptxas warning : Registers are spilled to local memory in function 'triton_gemm_dot_1328', 64 bytes spill stores, 64 bytes spill loads
+
+2025-11-14 12:00:35.342410: I external/local_xla/xla/stream_executor/gpu/asm_compiler.cc:326] ptxas warning : Registers are spilled to local memory in function 'fusion_35__2', 8 bytes spill stores, 8 bytes spill loads
+
+   1000/Unknown - 282s 254ms/step - loss: 8.3043 - accuracy: 0.21232025-11-14 12:05:05.545876: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 2543391345019173105
+2025-11-14 12:05:05.546029: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 13936670846622879352
+💾 Memory (Epoch 0): 43.14GB / Available: 310.65GB (38.3% used)
+   GPU: 8511MB/46068MB (18.5%)
+  📊 Epoch 1 Stats:
+     Loss: 8.3043, Accuracy: 0.2123
+     Val Loss: 5.9581, Val Accuracy: 0.2722
+     Elapsed: 0h 4m 56s
+1000/1000 [==============================] - 296s 267ms/step - loss: 8.3043 - accuracy: 0.2123 - val_loss: 5.9581 - val_accuracy: 0.2722 - lr: 1.9980e-04
+Epoch 2/50
+1000/1000 [==============================] - 65s 60ms/step - loss: 3.9088 - accuracy: 0.2930 - val_loss: 2.7803 - val_accuracy: 0.2481 - lr: 3.9980e-04
+Epoch 3/50
+1000/1000 [==============================] - 66s 61ms/step - loss: 2.1733 - accuracy: 0.3214 - val_loss: 2.1450 - val_accuracy: 0.2407 - lr: 5.9980e-04
+Epoch 4/50
+1000/1000 [==============================] - 66s 61ms/step - loss: 1.9355 - accuracy: 0.3330 - val_loss: 4.7150 - val_accuracy: 0.1439 - lr: 7.9980e-04
+Epoch 5/50
+1000/1000 [==============================] - 66s 61ms/step - loss: 1.9275 - accuracy: 0.3322 - val_loss: 2.2067 - val_accuracy: 0.2373 - lr: 9.9980e-04
+Epoch 6/50
+ 999/1000 [============================>.] - ETA: 0s - loss: 1.9196 - accuracy: 0.3381💾 Memory (Epoch 5): 43.79GB / Available: 341.93GB (32.1% used)
+   GPU: 8521MB/46068MB (18.5%)
+  📊 Epoch 6 Stats:
+     Loss: 1.9195, Accuracy: 0.3380
+     Val Loss: 3.4538, Val Accuracy: 0.1462
+     Elapsed: 0h 10m 24s
+1000/1000 [==============================] - 66s 62ms/step - loss: 1.9195 - accuracy: 0.3380 - val_loss: 3.4538 - val_accuracy: 0.1462 - lr: 9.5017e-04
+Epoch 7/50
+1000/1000 [==============================] - 66s 62ms/step - loss: 1.8910 - accuracy: 0.3452 - val_loss: 2.1821 - val_accuracy: 0.2535 - lr: 9.0277e-04
+Epoch 8/50
+1000/1000 [==============================] - 66s 61ms/step - loss: 1.8544 - accuracy: 0.3565 - val_loss: 2.1077 - val_accuracy: 0.2541 - lr: 8.5774e-04
+Epoch 9/50
+1000/1000 [==============================] - ETA: 0s - loss: 1.8227 - accuracy: 0.3635Restoring model weights from the end of the best epoch: 1.
+1000/1000 [==============================] - 66s 61ms/step - loss: 1.8227 - accuracy: 0.3635 - val_loss: 2.4662 - val_accuracy: 0.2030 - lr: 8.1495e-04
+Epoch 9: early stopping
+💾 Memory (After training): 44.02GB / Available: 338.28GB (32.8% used)
+   GPU: 8523MB/46068MB (18.5%)
+
+✓ Evaluating on test set...
+  Test Accuracy: 0.2727
+  Test F1-Score: 0.2286
+  ✓ Checkpoint marked as complete
+
+  🧹 Cleanup after Baseline_Reg...
+💾 Memory (After cleanup (Baseline_Reg)): 46.28GB / Available: 337.66GB (32.9% used)
+   GPU: 8523MB/46068MB (18.5%)
+
+
+============================================================
+Training: Heavy_Reg
+============================================================
+  ✓ Starting fresh training from epoch 0
+  Creating optimized datasets...
+✓ Model compiled with LR schedule and gradient clipping
+💾 Memory (Start): 46.28GB / Available: 337.66GB (32.9% used)
+   GPU: 8523MB/46068MB (18.5%)
+✓ Callbacks configured (Early Stopping: patience=15, min_delta=0.001)
+💾 Memory (Before training): 46.28GB / Available: 337.65GB (32.9% used)
+   GPU: 8523MB/46068MB (18.5%)
+Epoch 1/50
+2025-11-14 12:14:30.279162: I external/local_xla/xla/stream_executor/gpu/asm_compiler.cc:326] ptxas warning : Registers are spilled to local memory in function 'fusion_35__2', 8 bytes spill stores, 8 bytes spill loads
+
+   1000/Unknown - 113s 101ms/step - loss: 10.8461 - accuracy: 0.20722025-11-14 12:16:32.352673: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 17505132314858250355
+2025-11-14 12:16:32.352817: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 15919715254835183396
+💾 Memory (Epoch 0): 46.44GB / Available: 340.96GB (32.3% used)
+   GPU: 8525MB/46068MB (18.5%)
+  📊 Epoch 1 Stats:
+     Loss: 10.8461, Accuracy: 0.2072
+     Val Loss: 6.4891, Val Accuracy: 0.2599
+     Elapsed: 0h 2m 12s
+1000/1000 [==============================] - 132s 120ms/step - loss: 10.8461 - accuracy: 0.2072 - val_loss: 6.4891 - val_accuracy: 0.2599 - lr: 1.9980e-04
+Epoch 2/50
+1000/1000 [==============================] - 146s 141ms/step - loss: 3.9011 - accuracy: 0.2813 - val_loss: 2.6467 - val_accuracy: 0.2229 - lr: 3.9980e-04
+Epoch 3/50
+1000/1000 [==============================] - 91s 87ms/step - loss: 2.1737 - accuracy: 0.3089 - val_loss: 2.0245 - val_accuracy: 0.2945 - lr: 5.9980e-04
+Epoch 4/50
+1000/1000 [==============================] - 87s 82ms/step - loss: 1.9648 - accuracy: 0.3191 - val_loss: 2.4444 - val_accuracy: 0.2369 - lr: 7.9980e-04
+Epoch 5/50
+1000/1000 [==============================] - 73s 68ms/step - loss: 1.9597 - accuracy: 0.3174 - val_loss: 2.2720 - val_accuracy: 0.1936 - lr: 9.9980e-04
+Epoch 6/50
+1000/1000 [==============================] - ETA: 0s - loss: 1.9597 - accuracy: 0.3190💾 Memory (Epoch 5): 46.54GB / Available: 340.93GB (32.3% used)
+   GPU: 8529MB/46068MB (18.5%)
+  📊 Epoch 6 Stats:
+     Loss: 1.9597, Accuracy: 0.3190
+     Val Loss: 2.1514, Val Accuracy: 0.2215
+     Elapsed: 0h 9m 56s
+1000/1000 [==============================] - 68s 63ms/step - loss: 1.9597 - accuracy: 0.3190 - val_loss: 2.1514 - val_accuracy: 0.2215 - lr: 9.5017e-04
+Epoch 7/50
+1000/1000 [==============================] - 75s 70ms/step - loss: 1.9406 - accuracy: 0.3226 - val_loss: 2.3384 - val_accuracy: 0.2155 - lr: 9.0277e-04
+Epoch 8/50
+1000/1000 [==============================] - 71s 66ms/step - loss: 1.9010 - accuracy: 0.3269 - val_loss: 2.0243 - val_accuracy: 0.3051 - lr: 8.5774e-04
+Epoch 9/50
+1000/1000 [==============================] - 71s 66ms/step - loss: 1.8678 - accuracy: 0.3368 - val_loss: 2.0873 - val_accuracy: 0.2646 - lr: 8.1495e-04
+Epoch 10/50
+1000/1000 [==============================] - 69s 64ms/step - loss: 1.8334 - accuracy: 0.3484 - val_loss: 2.4416 - val_accuracy: 0.1796 - lr: 7.7430e-04
+Epoch 11/50
+ 999/1000 [============================>.] - ETA: 0s - loss: 1.8072 - accuracy: 0.3549💾 Memory (Epoch 10): 46.53GB / Available: 396.57GB (21.2% used)
+   GPU: 8533MB/46068MB (18.5%)
+  📊 Epoch 11 Stats:
+     Loss: 1.8072, Accuracy: 0.3548
+     Val Loss: 2.3748, Val Accuracy: 0.1951
+     Elapsed: 0h 15m 53s
+1000/1000 [==============================] - 71s 66ms/step - loss: 1.8072 - accuracy: 0.3548 - val_loss: 2.3748 - val_accuracy: 0.1951 - lr: 7.3568e-04
+Epoch 12/50
+1000/1000 [==============================] - 74s 69ms/step - loss: 1.7840 - accuracy: 0.3619 - val_loss: 3.1626 - val_accuracy: 0.1366 - lr: 6.9898e-04
+Epoch 13/50
+1000/1000 [==============================] - 72s 66ms/step - loss: 1.7676 - accuracy: 0.3650 - val_loss: 1.9944 - val_accuracy: 0.2771 - lr: 6.6412e-04
+Epoch 14/50
+1000/1000 [==============================] - 67s 62ms/step - loss: 1.7539 - accuracy: 0.3678 - val_loss: 2.0972 - val_accuracy: 0.2733 - lr: 6.3099e-04
+Epoch 15/50
+1000/1000 [==============================] - 66s 62ms/step - loss: 1.7379 - accuracy: 0.3722 - val_loss: 2.0881 - val_accuracy: 0.2625 - lr: 5.9951e-04
+Epoch 16/50
+1000/1000 [==============================] - ETA: 0s - loss: 1.7215 - accuracy: 0.3810Restoring model weights from the end of the best epoch: 8.
+💾 Memory (Epoch 15): 46.54GB / Available: 338.44GB (32.8% used)
+   GPU: 8539MB/46068MB (18.5%)
+  📊 Epoch 16 Stats:
+     Loss: 1.7215, Accuracy: 0.3810
+     Val Loss: 2.0850, Val Accuracy: 0.2869
+     Elapsed: 0h 21m 38s
+1000/1000 [==============================] - 66s 61ms/step - loss: 1.7215 - accuracy: 0.3810 - val_loss: 2.0850 - val_accuracy: 0.2869 - lr: 5.6961e-04
+Epoch 16: early stopping
+💾 Memory (After training): 46.53GB / Available: 338.43GB (32.8% used)
+   GPU: 8539MB/46068MB (18.5%)
+
+✓ Evaluating on test set...
+  Test Accuracy: 0.3109
+  Test F1-Score: 0.2380
+  ✓ Checkpoint marked as complete
+
+  🧹 Cleanup after Heavy_Reg...
+💾 Memory (After cleanup (Heavy_Reg)): 46.51GB / Available: 337.70GB (32.9% used)
+   GPU: 8539MB/46068MB (18.5%)
+
+
+============================================================
+Training: Spatial_Dropout
+============================================================
+  ✓ Starting fresh training from epoch 0
+  Creating optimized datasets...
+✓ Model compiled with LR schedule and gradient clipping
+💾 Memory (Start): 46.50GB / Available: 337.70GB (32.9% used)
+   GPU: 8539MB/46068MB (18.5%)
+✓ Callbacks configured (Early Stopping: patience=15, min_delta=0.001)
+💾 Memory (Before training): 46.50GB / Available: 337.68GB (32.9% used)
+   GPU: 8539MB/46068MB (18.5%)
+Epoch 1/50
+2025-11-14 12:36:32.879659: I external/local_xla/xla/stream_executor/gpu/asm_compiler.cc:326] ptxas warning : Registers are spilled to local memory in function 'fusion_35__2', 8 bytes spill stores, 8 bytes spill loads
+
+   1000/Unknown - 217s 205ms/step - loss: 8.6142 - accuracy: 0.16502025-11-14 12:40:15.139135: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 2543391345019173105
+2025-11-14 12:40:15.139499: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 13936670846622879352
+💾 Memory (Epoch 0): 46.39GB / Available: 341.52GB (32.2% used)
+   GPU: 8541MB/46068MB (18.5%)
+  📊 Epoch 1 Stats:
+     Loss: 8.6141, Accuracy: 0.1650
+     Val Loss: 6.3516, Val Accuracy: 0.2579
+     Elapsed: 0h 3m 52s
+1000/1000 [==============================] - 232s 220ms/step - loss: 8.6141 - accuracy: 0.1650 - val_loss: 6.3516 - val_accuracy: 0.2579 - lr: 1.9980e-04
+Epoch 2/50
+1000/1000 [==============================] - 217s 213ms/step - loss: 4.1669 - accuracy: 0.2562 - val_loss: 2.8999 - val_accuracy: 0.1821 - lr: 3.9980e-04
+Epoch 3/50
+1000/1000 [==============================] - 81s 76ms/step - loss: 2.2303 - accuracy: 0.2872 - val_loss: 1.9946 - val_accuracy: 0.3171 - lr: 5.9980e-04
+Epoch 4/50
+1000/1000 [==============================] - 70s 65ms/step - loss: 1.9974 - accuracy: 0.2989 - val_loss: 2.0757 - val_accuracy: 0.2695 - lr: 7.9980e-04
+Epoch 5/50
+1000/1000 [==============================] - 71s 66ms/step - loss: 1.9899 - accuracy: 0.3029 - val_loss: 2.0210 - val_accuracy: 0.2854 - lr: 9.9980e-04
+Epoch 6/50
+1000/1000 [==============================] - ETA: 0s - loss: 1.9965 - accuracy: 0.2993💾 Memory (Epoch 5): 46.52GB / Available: 434.58GB (13.7% used)
+   GPU: 8545MB/46068MB (18.5%)
+  📊 Epoch 6 Stats:
+     Loss: 1.9965, Accuracy: 0.2993
+     Val Loss: 2.1406, Val Accuracy: 0.2215
+     Elapsed: 0h 12m 21s
+1000/1000 [==============================] - 71s 66ms/step - loss: 1.9965 - accuracy: 0.2993 - val_loss: 2.1406 - val_accuracy: 0.2215 - lr: 9.5017e-04
+Epoch 7/50
+1000/1000 [==============================] - 77s 71ms/step - loss: 1.9857 - accuracy: 0.3052 - val_loss: 2.2672 - val_accuracy: 0.1896 - lr: 9.0277e-04
+Epoch 8/50
+1000/1000 [==============================] - 66s 62ms/step - loss: 1.9670 - accuracy: 0.3075 - val_loss: 2.0222 - val_accuracy: 0.2851 - lr: 8.5774e-04
+Epoch 9/50
+1000/1000 [==============================] - 69s 64ms/step - loss: 1.9497 - accuracy: 0.3121 - val_loss: 2.1348 - val_accuracy: 0.2101 - lr: 8.1495e-04
+Epoch 10/50
+1000/1000 [==============================] - 68s 63ms/step - loss: 1.9320 - accuracy: 0.3127 - val_loss: 1.9098 - val_accuracy: 0.3117 - lr: 7.7430e-04
+Epoch 11/50
+1000/1000 [==============================] - ETA: 0s - loss: 1.9118 - accuracy: 0.3207Restoring model weights from the end of the best epoch: 3.
+💾 Memory (Epoch 10): 46.53GB / Available: 388.36GB (22.9% used)
+   GPU: 8549MB/46068MB (18.6%)
+  📊 Epoch 11 Stats:
+     Loss: 1.9118, Accuracy: 0.3207
+     Val Loss: 1.9120, Val Accuracy: 0.3129
+     Elapsed: 0h 18m 12s
+1000/1000 [==============================] - 71s 66ms/step - loss: 1.9118 - accuracy: 0.3207 - val_loss: 1.9120 - val_accuracy: 0.3129 - lr: 7.3568e-04
+Epoch 11: early stopping
+💾 Memory (After training): 46.53GB / Available: 388.35GB (22.9% used)
+   GPU: 8549MB/46068MB (18.6%)
+
+✓ Evaluating on test set...
+2025-11-14 12:54:58.150330: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 17505132314858250355
+2025-11-14 12:54:58.150392: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 15919715254835183396
+2025-11-14 12:55:05.919169: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 3847975629235344679
+  Test Accuracy: 0.3186
+  Test F1-Score: 0.2789
+  ✓ Checkpoint marked as complete
+
+  🧹 Cleanup after Spatial_Dropout...
+💾 Memory (After cleanup (Spatial_Dropout)): 46.46GB / Available: 378.33GB (24.9% used)
+   GPU: 8549MB/46068MB (18.6%)
+
+
+============================================================
+Training: Mixed_Reg
+============================================================
+  ✓ Starting fresh training from epoch 0
+  Creating optimized datasets...
+✓ Model compiled with LR schedule and gradient clipping
+💾 Memory (Start): 46.46GB / Available: 378.23GB (24.9% used)
+   GPU: 8549MB/46068MB (18.6%)
+✓ Callbacks configured (Early Stopping: patience=15, min_delta=0.001)
+💾 Memory (Before training): 46.46GB / Available: 378.19GB (24.9% used)
+   GPU: 8549MB/46068MB (18.6%)
+Epoch 1/50
+2025-11-14 12:55:16.392080: I external/local_xla/xla/stream_executor/gpu/asm_compiler.cc:326] ptxas warning : Registers are spilled to local memory in function 'fusion_41__2', 8 bytes spill stores, 8 bytes spill loads
+
+   1000/Unknown - 220s 208ms/step - loss: 15.2828 - accuracy: 0.1643💾 Memory (Epoch 0): 46.40GB / Available: 319.20GB (36.6% used)
+   GPU: 8551MB/46068MB (18.6%)
+  📊 Epoch 1 Stats:
+     Loss: 15.2828, Accuracy: 0.1643
+     Val Loss: 9.1791, Val Accuracy: 0.2397
+     Elapsed: 0h 3m 57s
+1000/1000 [==============================] - 236s 224ms/step - loss: 15.2828 - accuracy: 0.1643 - val_loss: 9.1791 - val_accuracy: 0.2397 - lr: 1.9980e-04
+Epoch 2/50
+1000/1000 [==============================] - 236s 232ms/step - loss: 4.8444 - accuracy: 0.2426 - val_loss: 3.0364 - val_accuracy: 0.2033 - lr: 3.9980e-04
+Epoch 3/50
+1000/1000 [==============================] - 89s 85ms/step - loss: 2.5685 - accuracy: 0.2592 - val_loss: 2.4465 - val_accuracy: 0.2081 - lr: 5.9980e-04
+Epoch 4/50
+1000/1000 [==============================] - 70s 65ms/step - loss: 2.3533 - accuracy: 0.2773 - val_loss: 2.5135 - val_accuracy: 0.2086 - lr: 7.9980e-04
+Epoch 5/50
+1000/1000 [==============================] - 73s 68ms/step - loss: 2.3405 - accuracy: 0.2849 - val_loss: 2.5916 - val_accuracy: 0.1961 - lr: 9.9980e-04
+Epoch 6/50
+1000/1000 [==============================] - ETA: 0s - loss: 2.2863 - accuracy: 0.2868💾 Memory (Epoch 5): 46.53GB / Available: 346.48GB (31.2% used)
+   GPU: 8557MB/46068MB (18.6%)
+  📊 Epoch 6 Stats:
+     Loss: 2.2863, Accuracy: 0.2868
+     Val Loss: 2.3639, Val Accuracy: 0.2424
+     Elapsed: 0h 13m 1s
+1000/1000 [==============================] - 76s 71ms/step - loss: 2.2863 - accuracy: 0.2868 - val_loss: 2.3639 - val_accuracy: 0.2424 - lr: 9.5017e-04
+Epoch 7/50
+1000/1000 [==============================] - 88s 83ms/step - loss: 2.1862 - accuracy: 0.2975 - val_loss: 2.2415 - val_accuracy: 0.2225 - lr: 9.0277e-04
+Epoch 8/50
+1000/1000 [==============================] - 97s 92ms/step - loss: 2.1436 - accuracy: 0.2995 - val_loss: 3.0081 - val_accuracy: 0.1937 - lr: 8.5774e-04
+Epoch 9/50
+1000/1000 [==============================] - 96s 91ms/step - loss: 2.1054 - accuracy: 0.3030 - val_loss: 2.0820 - val_accuracy: 0.2740 - lr: 8.1495e-04
+Epoch 10/50
+1000/1000 [==============================] - 103s 98ms/step - loss: 2.0282 - accuracy: 0.3082 - val_loss: 1.9694 - val_accuracy: 0.3228 - lr: 7.7430e-04
+Epoch 11/50
+1000/1000 [==============================] - ETA: 0s - loss: 1.9760 - accuracy: 0.3117💾 Memory (Epoch 10): 46.50GB / Available: 346.29GB (31.2% used)
+   GPU: 8561MB/46068MB (18.6%)
+  📊 Epoch 11 Stats:
+     Loss: 1.9760, Accuracy: 0.3117
+     Val Loss: 1.9480, Val Accuracy: 0.3130
+     Elapsed: 0h 21m 14s
+1000/1000 [==============================] - 108s 103ms/step - loss: 1.9760 - accuracy: 0.3117 - val_loss: 1.9480 - val_accuracy: 0.3130 - lr: 7.3568e-04
+Epoch 12/50
+1000/1000 [==============================] - 126s 120ms/step - loss: 1.9613 - accuracy: 0.3161 - val_loss: 1.9600 - val_accuracy: 0.3041 - lr: 6.9898e-04
+Epoch 13/50
+1000/1000 [==============================] - 109s 104ms/step - loss: 1.9710 - accuracy: 0.3171 - val_loss: 2.1971 - val_accuracy: 0.2459 - lr: 6.6412e-04
+Epoch 14/50
+1000/1000 [==============================] - 115s 110ms/step - loss: 1.9393 - accuracy: 0.3206 - val_loss: 1.9991 - val_accuracy: 0.2935 - lr: 6.3099e-04
+Epoch 15/50
+1000/1000 [==============================] - 120s 115ms/step - loss: 1.9182 - accuracy: 0.3223 - val_loss: 1.9722 - val_accuracy: 0.2870 - lr: 5.9951e-04
+Epoch 16/50
+1000/1000 [==============================] - ETA: 0s - loss: 1.9035 - accuracy: 0.3245💾 Memory (Epoch 15): 46.50GB / Available: 339.71GB (32.5% used)
+   GPU: 8565MB/46068MB (18.6%)
+  📊 Epoch 16 Stats:
+     Loss: 1.9035, Accuracy: 0.3245
+     Val Loss: 1.9099, Val Accuracy: 0.3189
+     Elapsed: 0h 31m 44s
+1000/1000 [==============================] - 161s 156ms/step - loss: 1.9035 - accuracy: 0.3245 - val_loss: 1.9099 - val_accuracy: 0.3189 - lr: 5.6961e-04
+Epoch 17/50
+1000/1000 [==============================] - 148s 143ms/step - loss: 1.9057 - accuracy: 0.3247 - val_loss: 2.0817 - val_accuracy: 0.2797 - lr: 5.4120e-04
+Epoch 18/50
+1000/1000 [==============================] - 138s 133ms/step - loss: 1.8934 - accuracy: 0.3286 - val_loss: 1.8485 - val_accuracy: 0.3299 - lr: 5.1420e-04
+Epoch 19/50
+1000/1000 [==============================] - 142s 138ms/step - loss: 1.8613 - accuracy: 0.3334 - val_loss: 1.9078 - val_accuracy: 0.3090 - lr: 4.8855e-04
+Epoch 20/50
+1000/1000 [==============================] - 191s 186ms/step - loss: 1.8575 - accuracy: 0.3335 - val_loss: 1.8610 - val_accuracy: 0.3210 - lr: 4.6418e-04
+Epoch 21/50
+1000/1000 [==============================] - ETA: 0s - loss: 1.8537 - accuracy: 0.3369💾 Memory (Epoch 20): 46.30GB / Available: 338.66GB (32.7% used)
+   GPU: 8571MB/46068MB (18.6%)
+  📊 Epoch 21 Stats:
+     Loss: 1.8537, Accuracy: 0.3369
+     Val Loss: 1.8349, Val Accuracy: 0.3203
+     Elapsed: 0h 44m 36s
+1000/1000 [==============================] - 152s 147ms/step - loss: 1.8537 - accuracy: 0.3369 - val_loss: 1.8349 - val_accuracy: 0.3203 - lr: 4.4103e-04
+Epoch 22/50
+1000/1000 [==============================] - 186s 181ms/step - loss: 1.8434 - accuracy: 0.3375 - val_loss: 1.9376 - val_accuracy: 0.2759 - lr: 4.1903e-04
+Epoch 23/50
+1000/1000 [==============================] - 178s 173ms/step - loss: 1.8302 - accuracy: 0.3405 - val_loss: 1.8768 - val_accuracy: 0.3129 - lr: 3.9813e-04
+Epoch 24/50
+1000/1000 [==============================] - 235s 231ms/step - loss: 1.8246 - accuracy: 0.3412 - val_loss: 1.8398 - val_accuracy: 0.3240 - lr: 3.7827e-04
+Epoch 25/50
+ 470/1000 [=============>................] - ETA: 1:19 - loss: 1.8251 - accuracy: 0.3431

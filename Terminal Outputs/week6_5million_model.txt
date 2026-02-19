@@ -1,0 +1,345 @@
+2025-11-13 16:11:27.704698: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-11-13 16:11:27.752489: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2025-11-13 16:11:27.752531: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-11-13 16:11:27.753864: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-11-13 16:11:27.763651: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+================================================================================
+WEEK 6: MAXIMUM PERFORMANCE VERSION
+Using Pre-Denormalized Data + All Optimization Fixes
+================================================================================
+
+📊 Configuration:
+   Storage base: /workspace
+   Output directory: /workspace/outputs
+   Model directory: /workspace/outputs/models
+   Results directory: /workspace/outputs/results
+
+🎮 STEP 0: Aggressive GPU Configuration...
+✓ Maximum performance settings:
+   Batch size: 128 (↑ from 64)
+   Learning rate: 0.0001
+   Epochs: 100
+   Precision: FP32 (stable)
+   Cache clear frequency: Every 5 epochs
+
+✓ GPU configured: 1 GPU(s) detected
+  GPU 0: /physical_device:GPU:0
+✓ Single GPU training
+
+✓ Strategy mode: Single GPU (A40)
+
+📥 STEP 1: Loading pre-denormalized datasets...
+   (No runtime denormalization = 20-30% faster!)
+  💾 Memory before loading:
+     Process: 812 MB (0.2%)
+     System: 115.7GB/503.5GB (23.7%)
+     GPU: 4MB/46068MB (0.0%)
+  📥 Loading X_train_denormalized (64k images)...
+  ✓ X_train_denormalized (64k images): (64000, 224, 224, 3) (memmap)
+  📥 Loading y_train (labels)...
+  ✓ y_train (labels): (64000,)
+  📥 Loading X_val_denormalized (8k images)...
+  ✓ X_val_denormalized (8k images): (8000, 224, 224, 3) (memmap)
+  📥 Loading y_val (labels)...
+  ✓ y_val (labels): (8000,)
+  📥 Loading X_test_denormalized (8k images)...
+  ✓ X_test_denormalized (8k images): (8000, 224, 224, 3) (memmap)
+  📥 Loading y_test (labels)...
+  ✓ y_test (labels): (8000,)
+
+✓ All denormalized data loaded!
+  X_train: (64000, 224, 224, 3), Range: [0.000, 1.000]
+  X_val: (8000, 224, 224, 3), Range: [0.000, 1.000]
+  X_test: (8000, 224, 224, 3), Range: [0.000, 1.000]
+  ✅ Data properly denormalized (range [0, 1])
+
+✓ Classes: AK, BCC, BKL, DF, MEL, NV, SCC, VASC
+  💾 Memory after loading data:
+     Process: 46736 MB (9.1%)
+     System: 115.9GB/503.5GB (23.8%)
+     GPU: 4MB/46068MB (0.0%)
+
+🔍 VALIDATING DENORMALIZED DATA QUALITY...
+
+  📊 Range validation:
+    ✓ train: [0.0000, 1.0000]
+    ✓ val: [0.0000, 1.0000]
+    ✓ test: [0.0000, 1.0000]
+
+  🔢 NaN/Inf validation:
+    ✓ train: No NaN/Inf values
+    ✓ val: No NaN/Inf values
+    ✓ test: No NaN/Inf values
+
+  📈 Class distribution:
+    TRAIN:
+      • AK:   8000 samples ( 12.5%)
+      • BCC:   8000 samples ( 12.5%)
+      • BKL:   8000 samples ( 12.5%)
+      • DF:   8000 samples ( 12.5%)
+      • MEL:   8000 samples ( 12.5%)
+      • NV:   8000 samples ( 12.5%)
+      • SCC:   8000 samples ( 12.5%)
+      • VASC:   8000 samples ( 12.5%)
+    VAL:
+      • AK:   1000 samples ( 12.5%)
+      • BCC:   1000 samples ( 12.5%)
+      • BKL:   1000 samples ( 12.5%)
+      • DF:   1000 samples ( 12.5%)
+      • MEL:   1000 samples ( 12.5%)
+      • NV:   1000 samples ( 12.5%)
+      • SCC:   1000 samples ( 12.5%)
+      • VASC:   1000 samples ( 12.5%)
+    TEST:
+      • AK:   1000 samples ( 12.5%)
+      • BCC:   1000 samples ( 12.5%)
+      • BKL:   1000 samples ( 12.5%)
+      • DF:   1000 samples ( 12.5%)
+      • MEL:   1000 samples ( 12.5%)
+      • NV:   1000 samples ( 12.5%)
+      • SCC:   1000 samples ( 12.5%)
+      • VASC:   1000 samples ( 12.5%)
+
+🔧 STEP 2: Creating OPTIMIZED tf.data pipeline...
+   ✅ FIX #3: Memory-safe generator (no full array loading)
+   ✅ FIX #4: Reduced prefetch buffer (2 instead of AUTOTUNE)
+   ✅ FIX #5: Memmap-aware batching
+
+  Creating training dataset...
+  ✓ Training pipeline created (streaming from memmap)
+  ✓ 500 batches per epoch
+  Creating validation dataset...
+  ✓ Validation pipeline created (streaming from memmap)
+  ✓ 63 batches
+  Creating test dataset...
+  ✓ Test pipeline created (streaming from memmap)
+  ✓ 63 batches
+
+✅ PIPELINE OPTIMIZATIONS ACTIVE:
+  • Batch size: 128 (3x faster epochs than 64)
+  • Prefetch: 2 batches (saves 8-10 GB vs AUTOTUNE)
+  • Data range: [0, 1] (no runtime overhead)
+  • Memory-safe: Generator streams from memmap (no full load)
+  • Expected memory: ~12-15 GB active (vs 40+ GB)
+  • Expected training speed: 2-3x faster
+  • Expected GPU utilization: 75-85%
+  💾 Memory after creating datasets:
+     Process: 46018 MB (8.9%)
+     System: 112.4GB/503.5GB (23.1%)
+     GPU: 271MB/46068MB (0.6%)
+
+🏗️  STEP 3: Loading baseline CNN model...
+  Attempting to load from: baseline_cnn.keras
+INFO:tensorflow:Mixed precision compatibility check (mixed_float16): OK
+Your GPU will likely run quickly with dtype policy mixed_float16 as it has compute capability of at least 7.0. Your GPU: NVIDIA A40, compute capability 8.6
+2025-11-13 16:16:42.022415: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 43710 MB memory:  -> device: 0, name: NVIDIA A40, pci bus id: 0000:d6:00.0, compute capability: 8.6
+  ✓ Model loaded successfully!
+  ✓ Parameters: 5,753,416
+
+✓ Model ready: 5,753,416 parameters
+✓ Parameter count verified: 5,753,416 ≈ 5,753,416
+
+⚙️  STEP 4: Compiling with gradient clipping and LR warmup...
+✓ Model compiled:
+  Base learning rate: 0.0001
+  LR Schedule: Warmup 5 epochs → Decay 45 epochs → Constant
+  Gradient clipping: clipnorm=1.0, clipvalue=0.5
+
+📋 STEP 5: Setting up callbacks with AGGRESSIVE memory cleanup...
+✓ Callbacks configured with aggressive memory management
+
+🧪 STEP 5B: Running diagnostic checks on first batch...
+  Running diagnostics...
+  First batch shape: (128, 224, 224, 3)
+
+  📊 Forward pass test:
+2025-11-13 16:16:44.837931: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:454] Loaded cuDNN version 8907
+    ✓ Predictions shape: (128, 8)
+
+  💔 Loss test:
+    Initial loss: 2.080355
+    ✓ Loss in reasonable range
+
+  🔄 Gradient flow test:
+    ✓ Gradient norms: [0.000077, 10.473585]
+    ⚠️  High gradient norm - may need clipping adjustment
+
+  🏷️  Label range test:
+    Unique labels in batch: [0 1 2 3 4 5 6 7]
+    ✓ Labels in valid range [0, 7]
+
+✅ All diagnostic checks passed! Ready to train.
+
+
+================================================================================
+🚀 STEP 6: TRAINING WITH ALL OPTIMIZATIONS
+================================================================================
+
+📊 Configuration Summary:
+   Batch size: 128 (↑ from 64)
+   Epochs: 100
+   Data: Pre-denormalized [0, 1]
+   Prefetch buffer: 2 (↓ from AUTOTUNE)
+   Memory cleanup: Every 5 epochs
+
+✅ ACTIVE OPTIMIZATIONS:
+   ✓ Pre-denormalized data (no runtime overhead)
+   ✓ Batch size 128 (3-4x faster)
+   ✓ Minimal prefetch buffer (8-10GB saved)
+   ✓ Linux cache clearing (recover 10-15GB)
+   ✓ Aggressive GC (prevent OOM)
+   ✓ Direct tensor slicing (parallel loading)
+
+🎯 Expected Results:
+   Time per epoch: 6-8 minutes (↓ from 20-25)
+   Container RAM: 35-40 GB (↓ from 45)
+   GPU utilization: 80-90% (↑ from 75%)
+   100 epochs: ~10-13 hours (↓ from 33-42)
+
+🔥 Starting training...
+
+  💾 Memory before training:
+     Process: 47605 MB (9.2%)
+     System: 118.1GB/503.5GB (24.2%)
+     GPU: 17007MB/46068MB (36.9%)
+Epoch 1/100
+2025-11-13 16:17:28.161794: I external/local_xla/xla/service/service.cc:168] XLA service 0x754e79652de0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-11-13 16:17:28.161846: I external/local_xla/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA A40, Compute Capability 8.6
+2025-11-13 16:17:28.166934: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1763050648.255164    3053 device_compiler.h:186] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+    500/Unknown - 179s 339ms/step - loss: 2.5461 - accuracy: 0.18422025-11-13 16:20:20.795168: I tensorflow/core/framework/local_rendezvous.cc:421] Local rendezvous recv item cancelled. Key hash: 11725130966366196322
+
+Epoch 1: val_accuracy improved from -inf to 0.13625, saving model to /workspace/outputs/models/denormalized_best_model.keras
+
+  📊 Epoch 1 Stats:
+     Loss: 2.5461, Accuracy: 0.1842
+     Val Loss: 2.4421, Val Accuracy: 0.1363
+     Elapsed: 0h 3m 45s
+  💾 Memory after epoch:
+     Process: 47374 MB (9.2%)
+     System: 144.5GB/503.5GB (29.5%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 188s 356ms/step - loss: 2.5461 - accuracy: 0.1842 - val_loss: 2.4421 - val_accuracy: 0.1363 - lr: 1.9960e-05
+Epoch 2/100
+500/500 [==============================] - ETA: 0s - loss: 2.0263 - accuracy: 0.2815
+Epoch 2: val_accuracy improved from 0.13625 to 0.26487, saving model to /workspace/outputs/models/denormalized_best_model.keras
+
+  📊 Epoch 2 Stats:
+     Loss: 2.0263, Accuracy: 0.2815
+     Val Loss: 1.9638, Val Accuracy: 0.2649
+     Elapsed: 0h 6m 41s
+  💾 Memory after epoch:
+     Process: 47431 MB (9.2%)
+     System: 136.3GB/503.5GB (27.8%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 176s 350ms/step - loss: 2.0263 - accuracy: 0.2815 - val_loss: 1.9638 - val_accuracy: 0.2649 - lr: 3.9960e-05
+Epoch 3/100
+500/500 [==============================] - ETA: 0s - loss: 1.8201 - accuracy: 0.3315
+Epoch 3: val_accuracy improved from 0.26487 to 0.29263, saving model to /workspace/outputs/models/denormalized_best_model.keras
+
+  📊 Epoch 3 Stats:
+     Loss: 1.8201, Accuracy: 0.3315
+     Val Loss: 1.8340, Val Accuracy: 0.2926
+     Elapsed: 0h 9m 37s
+  💾 Memory after epoch:
+     Process: 47468 MB (9.2%)
+     System: 146.0GB/503.5GB (29.8%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 176s 350ms/step - loss: 1.8201 - accuracy: 0.3315 - val_loss: 1.8340 - val_accuracy: 0.2926 - lr: 5.9960e-05
+Epoch 4/100
+500/500 [==============================] - ETA: 0s - loss: 1.6742 - accuracy: 0.3801
+Epoch 4: val_accuracy improved from 0.29263 to 0.30038, saving model to /workspace/outputs/models/denormalized_best_model.keras
+
+  📊 Epoch 4 Stats:
+     Loss: 1.6742, Accuracy: 0.3801
+     Val Loss: 1.8806, Val Accuracy: 0.3004
+     Elapsed: 0h 12m 32s
+  💾 Memory after epoch:
+     Process: 47478 MB (9.2%)
+     System: 127.8GB/503.5GB (26.1%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 176s 350ms/step - loss: 1.6742 - accuracy: 0.3801 - val_loss: 1.8806 - val_accuracy: 0.3004 - lr: 7.9960e-05
+Epoch 5/100
+500/500 [==============================] - ETA: 0s - loss: 1.5747 - accuracy: 0.4124
+Epoch 5: val_accuracy did not improve from 0.30038
+
+  📊 Epoch 5 Stats:
+     Loss: 1.5747, Accuracy: 0.4124
+     Val Loss: 1.8186, Val Accuracy: 0.2980
+     Elapsed: 0h 15m 27s
+  💾 Memory after epoch:
+     Process: 47484 MB (9.2%)
+     System: 132.8GB/503.5GB (27.1%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 175s 348ms/step - loss: 1.5747 - accuracy: 0.4124 - val_loss: 1.8186 - val_accuracy: 0.2980 - lr: 9.9960e-05
+Epoch 6/100
+500/500 [==============================] - ETA: 0s - loss: 1.4701 - accuracy: 0.4534
+Epoch 6: val_accuracy did not improve from 0.30038
+
+  📊 Epoch 6 Stats:
+     Loss: 1.4701, Accuracy: 0.4534
+     Val Loss: 2.8197, Val Accuracy: 0.2404
+     Elapsed: 0h 18m 22s
+  💾 Memory after epoch:
+     Process: 47466 MB (9.2%)
+     System: 132.7GB/503.5GB (27.1%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 175s 349ms/step - loss: 1.4701 - accuracy: 0.4534 - val_loss: 2.8197 - val_accuracy: 0.2404 - lr: 9.2602e-05
+Epoch 7/100
+500/500 [==============================] - ETA: 0s - loss: 1.3896 - accuracy: 0.4825
+Epoch 7: val_accuracy improved from 0.30038 to 0.33675, saving model to /workspace/outputs/models/denormalized_best_model.keras
+
+  📊 Epoch 7 Stats:
+     Loss: 1.3896, Accuracy: 0.4825
+     Val Loss: 1.9732, Val Accuracy: 0.3368
+     Elapsed: 0h 21m 18s
+  💾 Memory after epoch:
+     Process: 47474 MB (9.2%)
+     System: 118.7GB/503.5GB (24.3%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 175s 349ms/step - loss: 1.3896 - accuracy: 0.4825 - val_loss: 1.9732 - val_accuracy: 0.3368 - lr: 8.5738e-05
+Epoch 8/100
+500/500 [==============================] - ETA: 0s - loss: 1.3245 - accuracy: 0.5089
+Epoch 8: val_accuracy did not improve from 0.33675
+
+  📊 Epoch 8 Stats:
+     Loss: 1.3245, Accuracy: 0.5089
+     Val Loss: 2.0735, Val Accuracy: 0.3245
+     Elapsed: 0h 24m 12s
+  💾 Memory after epoch:
+     Process: 47481 MB (9.2%)
+     System: 135.8GB/503.5GB (27.7%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 175s 348ms/step - loss: 1.3245 - accuracy: 0.5089 - val_loss: 2.0735 - val_accuracy: 0.3245 - lr: 7.9382e-05
+Epoch 9/100
+500/500 [==============================] - ETA: 0s - loss: 1.2738 - accuracy: 0.5272
+Epoch 9: val_accuracy did not improve from 0.33675
+
+  📊 Epoch 9 Stats:
+     Loss: 1.2738, Accuracy: 0.5272
+     Val Loss: 2.0698, Val Accuracy: 0.3076
+     Elapsed: 0h 27m 7s
+  💾 Memory after epoch:
+     Process: 47481 MB (9.2%)
+     System: 135.8GB/503.5GB (27.7%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 175s 348ms/step - loss: 1.2738 - accuracy: 0.5272 - val_loss: 2.0698 - val_accuracy: 0.3076 - lr: 7.3498e-05
+Epoch 10/100
+500/500 [==============================] - ETA: 0s - loss: 1.2304 - accuracy: 0.5409
+Epoch 10: val_accuracy did not improve from 0.33675
+
+Epoch 10: ReduceLROnPlateau reducing learning rate to 3.402498987270519e-05.
+
+  📊 Epoch 10 Stats:
+     Loss: 1.2304, Accuracy: 0.5409
+     Val Loss: 2.7739, Val Accuracy: 0.2767
+     Elapsed: 0h 30m 2s
+  💾 Memory after epoch:
+     Process: 47484 MB (9.2%)
+     System: 136.9GB/503.5GB (28.0%)
+     GPU: 17007MB/46068MB (36.9%)
+500/500 [==============================] - 174s 348ms/step - loss: 1.2304 - accuracy: 0.5409 - val_loss: 2.7739 - val_accuracy: 0.2767 - lr: 6.8050e-05
+Epoch 11/100
+302/500 [=================>............] - ETA: 1:06 - loss: 1.1952 - accuracy: 0.5555

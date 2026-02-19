@@ -1,0 +1,215 @@
+======================================================================
+DENORMALIZE AND SAVE ALL DATASETS (FIXED - MEMORY SAFE)
+======================================================================
+
+📁 Storage base: /workspace
+📁 Output directory: /workspace/outputs
+
+🔧 Denormalization parameters:
+   ImageNet mean: [0.485 0.456 0.406]
+   ImageNet std: [0.229 0.224 0.225]
+   Processing batch size: 64
+
+⚙️  Output format:
+   Input: ImageNet normalized (≈ [-2.12, 2.64])
+   Output: Denormalized, clipped to [0, 1]
+
+🔑 KEY FIX:
+   ✓ Uses memmap for incremental disk writes
+   ✓ Never pre-allocates entire array in RAM
+   ✓ Memory usage: ~500 MB (constant)
+   ✓ Safe for 46 GB container limit
+
+📂 Verifying input files...
+  ✓ Training data: X_train_baseline.npy (35.89 GB)
+  ✓ Validation data: X_val_baseline.npy (4.49 GB)
+  ✓ Test data: X_test_baseline.npy (4.49 GB)
+
+======================================================================
+STARTING DENORMALIZATION (MEMORY-SAFE MODE)
+======================================================================
+  💾 Memory at start: 80.3 MB (0.0%)
+
+======================================================================
+DENORMALIZING: Training dataset (64k images)
+======================================================================
+  Loading Training dataset (64k images)...
+  ⚠️  Using raw memmap with shape (64000, 224, 224, 3)...
+  ✓ Training dataset (64k images): (64000, 224, 224, 3)
+
+  📊 Dataset size: 64000 images
+  🔄 Processing batch size: 64
+  📦 Total batches: 1000
+  💾 Memory before processing: 80.3 MB (0.0%)
+
+  🔧 Creating output file with memmap (incremental write)...
+  ✓ Output file created: /workspace/outputs/X_train_denormalized.npy
+    File size: 35.89 GB on disk
+
+  🔧 Denormalizing and writing in progress...
+Denormalizing Training dataset (64k images):   0%|          | 1/1000 [00:00<12:37,  1.32it/s]  💾 Memory at batch 0/1000: 227.6 MB (0.0%)
+Denormalizing Training dataset (64k images):   1%|          | 7/1000 [00:02<04:16,  3.87it/s]Denormalizing Training dataset (64k images):   2%|▏         | 21/1000 [00:08<13:57,  1.17it/s]  💾 Memory at batch 20/1000: 1696.9 MB (0.3%)
+Denormalizing Training dataset (64k images):   4%|▍         | 41/1000 [00:15<10:32,  1.52it/s]  💾 Memory at batch 40/1000: 3166.2 MB (0.6%)
+Denormalizing Training dataset (64k images):   6%|▌         | 61/1000 [00:21<10:00,  1.56it/s]  💾 Memory at batch 60/1000: 4636.2 MB (0.9%)
+Denormalizing Training dataset (64k images):   8%|▊         | 81/1000 [00:28<09:49,  1.56it/s]  💾 Memory at batch 80/1000: 6105.7 MB (1.2%)
+Denormalizing Training dataset (64k images):  10%|█         | 101/1000 [00:35<11:55,  1.26it/s]  💾 Memory at batch 100/1000: 7574.2 MB (1.5%)
+Denormalizing Training dataset (64k images):  12%|█▏        | 121/1000 [00:41<09:04,  1.62it/s]  💾 Memory at batch 120/1000: 9043.2 MB (1.8%)
+Denormalizing Training dataset (64k images):  14%|█▍        | 141/1000 [00:49<11:03,  1.30it/s]  💾 Memory at batch 140/1000: 10512.4 MB (2.0%)
+Denormalizing Training dataset (64k images):  16%|█▌        | 161/1000 [00:56<09:13,  1.52it/s]  💾 Memory at batch 160/1000: 11982.5 MB (2.3%)
+Denormalizing Training dataset (64k images):  18%|█▊        | 181/1000 [01:03<09:28,  1.44it/s]  💾 Memory at batch 180/1000: 13452.0 MB (2.6%)
+Denormalizing Training dataset (64k images):  20%|██        | 201/1000 [01:09<07:47,  1.71it/s]  💾 Memory at batch 200/1000: 14920.5 MB (2.9%)
+Denormalizing Training dataset (64k images):  22%|██▏       | 221/1000 [01:16<08:20,  1.56it/s]  💾 Memory at batch 220/1000: 16389.7 MB (3.2%)
+Denormalizing Training dataset (64k images):  24%|██▍       | 241/1000 [01:23<08:21,  1.51it/s]  💾 Memory at batch 240/1000: 17856.7 MB (3.5%)
+Denormalizing Training dataset (64k images):  26%|██▌       | 261/1000 [01:29<07:51,  1.57it/s]  💾 Memory at batch 260/1000: 19326.2 MB (3.7%)
+Denormalizing Training dataset (64k images):  28%|██▊       | 281/1000 [01:36<07:38,  1.57it/s]  💾 Memory at batch 280/1000: 20795.5 MB (4.0%)
+Denormalizing Training dataset (64k images):  30%|███       | 301/1000 [01:43<07:33,  1.54it/s]  💾 Memory at batch 300/1000: 22264.8 MB (4.3%)
+Denormalizing Training dataset (64k images):  32%|███▏      | 321/1000 [01:49<07:38,  1.48it/s]  💾 Memory at batch 320/1000: 23734.1 MB (4.6%)
+Denormalizing Training dataset (64k images):  34%|███▍      | 341/1000 [01:56<06:57,  1.58it/s]  💾 Memory at batch 340/1000: 25204.1 MB (4.9%)
+Denormalizing Training dataset (64k images):  36%|███▌      | 361/1000 [02:02<06:43,  1.58it/s]  💾 Memory at batch 360/1000: 26673.3 MB (5.2%)
+Denormalizing Training dataset (64k images):  38%|███▊      | 381/1000 [02:09<07:18,  1.41it/s]  💾 Memory at batch 380/1000: 28141.1 MB (5.5%)
+Denormalizing Training dataset (64k images):  40%|████      | 401/1000 [02:15<06:06,  1.64it/s]  💾 Memory at batch 400/1000: 29611.1 MB (5.7%)
+Denormalizing Training dataset (64k images):  42%|████▏     | 421/1000 [02:22<06:21,  1.52it/s]  💾 Memory at batch 420/1000: 31079.7 MB (6.0%)
+Denormalizing Training dataset (64k images):  44%|████▍     | 441/1000 [02:28<05:56,  1.57it/s]  💾 Memory at batch 440/1000: 32550.0 MB (6.3%)
+Denormalizing Training dataset (64k images):  46%|████▌     | 461/1000 [02:35<06:00,  1.49it/s]  💾 Memory at batch 460/1000: 34020.0 MB (6.6%)
+Denormalizing Training dataset (64k images):  48%|████▊     | 481/1000 [02:42<05:44,  1.51it/s]  💾 Memory at batch 480/1000: 35489.2 MB (6.9%)
+Denormalizing Training dataset (64k images):  50%|█████     | 501/1000 [02:48<05:19,  1.56it/s]  💾 Memory at batch 500/1000: 36957.4 MB (7.2%)
+Denormalizing Training dataset (64k images):  52%|█████▏    | 521/1000 [02:55<05:19,  1.50it/s]  💾 Memory at batch 520/1000: 38427.7 MB (7.5%)
+Denormalizing Training dataset (64k images):  54%|█████▍    | 541/1000 [03:01<05:08,  1.49it/s]  💾 Memory at batch 540/1000: 39897.7 MB (7.7%)
+Denormalizing Training dataset (64k images):  56%|█████▌    | 561/1000 [03:08<04:46,  1.53it/s]  💾 Memory at batch 560/1000: 41367.7 MB (8.0%)
+Denormalizing Training dataset (64k images):  58%|█████▊    | 581/1000 [03:14<04:31,  1.54it/s]  💾 Memory at batch 580/1000: 42837.0 MB (8.3%)
+Denormalizing Training dataset (64k images):  60%|██████    | 601/1000 [03:21<04:12,  1.58it/s]  💾 Memory at batch 600/1000: 44306.2 MB (8.6%)
+Denormalizing Training dataset (64k images):  62%|██████▏   | 621/1000 [03:27<04:16,  1.48it/s]  💾 Memory at batch 620/1000: 45777.0 MB (8.9%)
+Denormalizing Training dataset (64k images):  64%|██████▍   | 641/1000 [03:34<04:03,  1.47it/s]  💾 Memory at batch 640/1000: 47072.3 MB (9.1%)
+Denormalizing Training dataset (64k images):  66%|██████▌   | 661/1000 [03:41<03:49,  1.48it/s]  💾 Memory at batch 660/1000: 47068.5 MB (9.1%)
+Denormalizing Training dataset (64k images):  68%|██████▊   | 681/1000 [03:48<03:25,  1.55it/s]  💾 Memory at batch 680/1000: 47054.3 MB (9.1%)
+Denormalizing Training dataset (64k images):  70%|███████   | 701/1000 [03:55<03:21,  1.48it/s]  💾 Memory at batch 700/1000: 47051.3 MB (9.1%)
+Denormalizing Training dataset (64k images):  72%|███████▏  | 721/1000 [04:02<03:14,  1.43it/s]  💾 Memory at batch 720/1000: 47046.9 MB (9.1%)
+Denormalizing Training dataset (64k images):  74%|███████▍  | 741/1000 [04:08<02:47,  1.54it/s]  💾 Memory at batch 740/1000: 47043.1 MB (9.1%)
+Denormalizing Training dataset (64k images):  76%|███████▌  | 761/1000 [04:15<02:45,  1.44it/s]  💾 Memory at batch 760/1000: 47060.3 MB (9.1%)
+Denormalizing Training dataset (64k images):  78%|███████▊  | 781/1000 [04:21<02:16,  1.60it/s]  💾 Memory at batch 780/1000: 47048.8 MB (9.1%)
+Denormalizing Training dataset (64k images):  80%|████████  | 802/1000 [04:27<01:40,  1.97it/s]  💾 Memory at batch 800/1000: 47045.5 MB (9.1%)
+Denormalizing Training dataset (64k images):  82%|████████▏ | 821/1000 [04:32<01:56,  1.54it/s]  💾 Memory at batch 820/1000: 47041.7 MB (9.1%)
+Denormalizing Training dataset (64k images):  84%|████████▍ | 842/1000 [04:38<01:17,  2.03it/s]  💾 Memory at batch 840/1000: 47004.2 MB (9.1%)
+Denormalizing Training dataset (64k images):  86%|████████▌ | 861/1000 [04:46<01:34,  1.47it/s]  💾 Memory at batch 860/1000: 46999.7 MB (9.1%)
+Denormalizing Training dataset (64k images):  88%|████████▊ | 882/1000 [04:52<00:56,  2.08it/s]  💾 Memory at batch 880/1000: 46996.7 MB (9.1%)
+Denormalizing Training dataset (64k images):  90%|█████████ | 901/1000 [04:58<01:04,  1.54it/s]  💾 Memory at batch 900/1000: 46992.2 MB (9.1%)
+Denormalizing Training dataset (64k images):  92%|█████████▏| 921/1000 [05:04<00:51,  1.54it/s]  💾 Memory at batch 920/1000: 46988.5 MB (9.1%)
+Denormalizing Training dataset (64k images):  94%|█████████▍| 941/1000 [05:11<00:40,  1.46it/s]  💾 Memory at batch 940/1000: 46973.5 MB (9.1%)
+Denormalizing Training dataset (64k images):  96%|█████████▌| 961/1000 [05:17<00:26,  1.49it/s]  💾 Memory at batch 960/1000: 46992.2 MB (9.1%)
+Denormalizing Training dataset (64k images):  98%|█████████▊| 981/1000 [05:23<00:11,  1.71it/s]  💾 Memory at batch 980/1000: 46990.0 MB (9.1%)
+Denormalizing Training dataset (64k images): 100%|██████████| 1000/1000 [05:28<00:00,  3.05it/s]
+
+  ✓ Denormalization complete!
+  ⏱️  Time: 329.7 seconds (5.5 minutes)
+  📈 Speed: 194 images/second
+
+  📊 Verifying saved data...
+  💾 Memory before verification: 23609.3 MB (4.6%)
+  Loading Training dataset (64k images) (verification)...
+  ✓ Training dataset (64k images) (verification): (64000, 224, 224, 3) (memmap)
+     Shape: (64000, 224, 224, 3)
+     Min: 0.000000
+     Max: 1.000000
+     Mean: 0.735342
+  ✓ Data range valid!
+  💾 Memory after verification: 47014.6 MB (9.1%)
+
+======================================================================
+DENORMALIZING: Validation dataset (8k images)
+======================================================================
+  Loading Validation dataset (8k images)...
+  ⚠️  Using raw memmap with shape (8000, 224, 224, 3)...
+  ✓ Validation dataset (8k images): (8000, 224, 224, 3)
+
+  📊 Dataset size: 8000 images
+  🔄 Processing batch size: 64
+  📦 Total batches: 125
+  💾 Memory before processing: 76.5 MB (0.0%)
+
+  🔧 Creating output file with memmap (incremental write)...
+  ✓ Output file created: /workspace/outputs/X_val_denormalized.npy
+    File size: 4.49 GB on disk
+
+  🔧 Denormalizing and writing in progress...
+Denormalizing Validation dataset (8k images):   1%|          | 1/125 [00:00<01:12,  1.72it/s]  💾 Memory at batch 0/125: 223.5 MB (0.0%)
+Denormalizing Validation dataset (8k images):  17%|█▋        | 21/125 [00:06<01:00,  1.73it/s]  💾 Memory at batch 20/125: 1693.1 MB (0.3%)
+Denormalizing Validation dataset (8k images):  33%|███▎      | 41/125 [00:12<00:56,  1.50it/s]  💾 Memory at batch 40/125: 3163.1 MB (0.6%)
+Denormalizing Validation dataset (8k images):  49%|████▉     | 61/125 [00:18<00:42,  1.50it/s]  💾 Memory at batch 60/125: 4633.9 MB (0.9%)
+Denormalizing Validation dataset (8k images):  65%|██████▍   | 81/125 [00:25<00:29,  1.48it/s]  💾 Memory at batch 80/125: 6103.2 MB (1.2%)
+Denormalizing Validation dataset (8k images):  81%|████████  | 101/125 [00:31<00:16,  1.47it/s]  💾 Memory at batch 100/125: 7571.7 MB (1.5%)
+Denormalizing Validation dataset (8k images):  97%|█████████▋| 121/125 [00:37<00:02,  1.49it/s]  💾 Memory at batch 120/125: 9041.0 MB (1.8%)
+Denormalizing Validation dataset (8k images): 100%|██████████| 125/125 [00:38<00:00,  3.28it/s]
+
+  ✓ Denormalization complete!
+  ⏱️  Time: 38.6 seconds (0.6 minutes)
+  📈 Speed: 207 images/second
+
+  📊 Verifying saved data...
+  💾 Memory before verification: 4741.5 MB (0.9%)
+  Loading Validation dataset (8k images) (verification)...
+  ✓ Validation dataset (8k images) (verification): (8000, 224, 224, 3) (memmap)
+     Shape: (8000, 224, 224, 3)
+     Min: 0.000000
+     Max: 1.000000
+     Mean: 0.726609
+  ✓ Data range valid!
+  💾 Memory after verification: 9335.3 MB (1.8%)
+
+======================================================================
+DENORMALIZING: Test dataset (8k images)
+======================================================================
+  Loading Test dataset (8k images)...
+  ⚠️  Using raw memmap with shape (8000, 224, 224, 3)...
+  ✓ Test dataset (8k images): (8000, 224, 224, 3)
+
+  📊 Dataset size: 8000 images
+  🔄 Processing batch size: 64
+  📦 Total batches: 125
+  💾 Memory before processing: 74.2 MB (0.0%)
+
+  🔧 Creating output file with memmap (incremental write)...
+  ✓ Output file created: /workspace/outputs/X_test_denormalized.npy
+    File size: 4.49 GB on disk
+
+  🔧 Denormalizing and writing in progress...
+Denormalizing Test dataset (8k images):   1%|          | 1/125 [00:00<01:13,  1.70it/s]  💾 Memory at batch 0/125: 221.3 MB (0.0%)
+Denormalizing Test dataset (8k images):  17%|█▋        | 21/125 [00:06<01:05,  1.59it/s]  💾 Memory at batch 20/125: 1690.5 MB (0.3%)
+Denormalizing Test dataset (8k images):  33%|███▎      | 41/125 [00:12<00:54,  1.53it/s]  💾 Memory at batch 40/125: 3160.5 MB (0.6%)
+Denormalizing Test dataset (8k images):  49%|████▉     | 61/125 [00:18<00:40,  1.60it/s]  💾 Memory at batch 60/125: 4630.5 MB (0.9%)
+Denormalizing Test dataset (8k images):  65%|██████▍   | 81/125 [00:24<00:29,  1.49it/s]  💾 Memory at batch 80/125: 6099.8 MB (1.2%)
+Denormalizing Test dataset (8k images):  81%|████████  | 101/125 [00:30<00:16,  1.42it/s]  💾 Memory at batch 100/125: 7570.5 MB (1.5%)
+Denormalizing Test dataset (8k images):  97%|█████████▋| 121/125 [00:36<00:02,  1.53it/s]  💾 Memory at batch 120/125: 9038.3 MB (1.8%)
+Denormalizing Test dataset (8k images): 100%|██████████| 125/125 [00:37<00:00,  3.33it/s]
+
+  ✓ Denormalization complete!
+  ⏱️  Time: 38.0 seconds (0.6 minutes)
+  📈 Speed: 210 images/second
+
+  📊 Verifying saved data...
+  💾 Memory before verification: 4738.3 MB (0.9%)
+  Loading Test dataset (8k images) (verification)...
+  ✓ Test dataset (8k images) (verification): (8000, 224, 224, 3) (memmap)
+     Shape: (8000, 224, 224, 3)
+     Min: 0.000000
+     Max: 1.000000
+     Mean: 0.726148
+  ✓ Data range valid!
+  💾 Memory after verification: 9332.0 MB (1.8%)
+
+======================================================================
+✅ ALL DENORMALIZATION COMPLETE!
+======================================================================
+
+📁 Denormalized files saved to: /workspace/outputs
+   ✓ X_train_denormalized.npy (64k images, ~37 GB)
+   ✓ X_val_denormalized.npy (8k images, ~4.5 GB)
+   ✓ X_test_denormalized.npy (8k images, ~4.5 GB)
+
+🚀 Next step: Run training with denormalized data:
+   python Week\ 6/week6_optimized_maximum_performance.py
+
+💡 Benefits:
+   • No runtime denormalization overhead
+   • 20-30% faster training
+   • Simplified data pipeline
+  💾 Memory at end: 71.0 MB (0.0%)

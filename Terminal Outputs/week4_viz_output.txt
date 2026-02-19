@@ -1,0 +1,12 @@
+✓ Saved: /workspace/outputs/visualizations/split_distribution.png (300 DPI)
+✓ Saved: /workspace/outputs/visualizations/split_pie_charts.png (300 DPI)
+✓ Saved: /workspace/outputs/visualizations/split_statistics_summary.png (300 DPI)
+✓ Saved: /workspace/outputs/split_distribution.png (150 DPI)
+
+✅ All visualizations saved to: /workspace/outputs/visualizations
+  📊 High-Resolution Visualizations (300 DPI - Report Ready):
+     • split_distribution.png (300 DPI)
+     • split_pie_charts.png (300 DPI)
+     • split_statistics_summary.png (300 DPI)
+  📄 Quick Reference (150 DPI):
+     • split_distribution.png (150 DPI) - Saved to /workspace/outputs

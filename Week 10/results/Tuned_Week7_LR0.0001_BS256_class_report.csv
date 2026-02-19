@@ -1,0 +1,2 @@
+Class,Precision,Recall,F1-Score,Support
+WEIGHTED AVG,0.399286,0.320000,0.281658,8000

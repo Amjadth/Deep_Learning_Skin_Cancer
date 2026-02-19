@@ -1,0 +1,79 @@
+====================================================================================================
+WEEK 9 LOSS CURVES AND TRAINING DYNAMICS - COMPREHENSIVE ANALYSIS REPORT
+====================================================================================================
+
+
+EFFICIENTNETB0
+----------------------------------------------------------------------------------------------------
+
+OVERALL STATISTICS:
+  Total Epochs: 75
+  Phase 1 Epochs: 50
+  Phase 2 Epochs: 25
+
+LOSS ANALYSIS:
+  Initial Training Loss: 1.523282
+  Final Training Loss: 0.355153
+  Min Training Loss: 0.355153
+  Initial Validation Loss: 1.277055
+  Final Validation Loss: 0.955419
+  Min Validation Loss: 0.922903
+
+ACCURACY ANALYSIS:
+  Initial Training Accuracy: 0.456609
+  Final Training Accuracy: 0.869922
+  Initial Validation Accuracy: 0.526125
+  Final Validation Accuracy: 0.704125
+  Max Validation Accuracy: 0.704500
+
+OVERFITTING ANALYSIS:
+  Final Loss Gap (Val - Train): 0.600266
+  Final Accuracy Gap (Train - Val): 0.165797
+  Average Loss Gap: 0.379618
+  Status: Moderate overfitting - Acceptable
+
+LEARNING RATE SCHEDULE:
+  Epoch 0: LR = 0.001
+  Epoch 36: LR = 0.0005
+  Epoch 48: LR = 0.00025
+  Epoch 50: LR = 0.0001
+  Epoch 64: LR = 5e-05
+  Epoch 74: LR = 2.5e-05
+
+
+EFFICIENTNETB3
+----------------------------------------------------------------------------------------------------
+
+OVERALL STATISTICS:
+  Total Epochs: 75
+  Phase 1 Epochs: 50
+  Phase 2 Epochs: 25
+
+LOSS ANALYSIS:
+  Initial Training Loss: 1.476890
+  Final Training Loss: 0.340603
+  Min Training Loss: 0.340603
+  Initial Validation Loss: 1.230279
+  Final Validation Loss: 0.896233
+  Min Validation Loss: 0.874414
+
+ACCURACY ANALYSIS:
+  Initial Training Accuracy: 0.472047
+  Final Training Accuracy: 0.876047
+  Initial Validation Accuracy: 0.540375
+  Final Validation Accuracy: 0.723000
+  Max Validation Accuracy: 0.723000
+
+OVERFITTING ANALYSIS:
+  Final Loss Gap (Val - Train): 0.555630
+  Final Accuracy Gap (Train - Val): 0.153047
+  Average Loss Gap: 0.337217
+  Status: Moderate overfitting - Acceptable
+
+LEARNING RATE SCHEDULE:
+  Epoch 0: LR = 0.001
+  Epoch 43: LR = 0.0005
+  Epoch 50: LR = 0.0001
+  Epoch 65: LR = 5e-05
+
+====================================================================================================

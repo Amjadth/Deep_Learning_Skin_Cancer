@@ -1,0 +1,419 @@
+2025-11-17 21:29:32.467708: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-11-17 21:29:32.514435: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2025-11-17 21:29:32.514473: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-11-17 21:29:32.515842: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-11-17 21:29:32.523492: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+================================================================================
+WEEK 10: CORRECTED MODEL EVALUATION - A40 GPU OPTIMIZED
+================================================================================
+
+🎮 Configuring A40 GPU for model evaluation...
+✅ Found 1 GPU(s)
+✅ GPU memory limit: 40 GB
+
+📁 Week 10 Evaluation Directory: /workspace/outputs/week10_evaluation_corrected
+📁 Output Directory: /workspace/outputs
+
+📂 Checking test data files...
+✅ X_test_denormalized.npy exists
+✅ X_test_300.npy exists
+
+📂 Loading test labels...
+✅ Loaded y_test: (8000,)
+
+================================================================================
+EVALUATING MODELS
+================================================================================
+
+================================================================================
+Model: Baseline_Week6
+Description: Baseline CNN (Week 6) - 224×224 denormalized
+================================================================================
+📥 Loading model from: denormalized_best_model.keras...
+INFO:tensorflow:Mixed precision compatibility check (mixed_float16): OK
+Your GPU will likely run quickly with dtype policy mixed_float16 as it has compute capability of at least 7.0. Your GPU: NVIDIA A40, compute capability 8.6
+2025-11-17 21:29:35.790315: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 40960 MB memory:  -> device: 0, name: NVIDIA A40, pci bus id: 0000:d5:00.0, compute capability: 8.6
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41231/46068 MB)
+
+📊 Evaluating Baseline_Week6...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   🔄 Scaling test data [0,1] → [0,255] for Baseline_Week6
+   ✅ Scaled to range [0,255]
+   Running inference...
+2025-11-17 21:31:19.846991: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:454] Loaded cuDNN version 8907
+   ✅ Accuracy: 0.1250
+   ✅ Precision: 0.0156
+   ✅ Recall: 0.1250
+   ✅ F1-Score: 0.0278
+   ✅ AUC: 0.5000
+🎮 GPU after inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.001_BS64
+Description: Tuned Baseline (Week 7, LR=0.001, BS=64) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.001_bs64.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.001_BS64...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.001_BS64
+   Running inference...
+   ✅ Accuracy: 0.5061
+   ✅ Precision: 0.5150
+   ✅ Recall: 0.5061
+   ✅ F1-Score: 0.5027
+   ✅ AUC: 0.8257
+🎮 GPU after inference:
+   Compute: 44% | Memory: 33% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.0001_BS64
+Description: Tuned Baseline (Week 7, LR=0.0001, BS=64) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.0001_bs64.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.0001_BS64...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.0001_BS64
+   Running inference...
+   ✅ Accuracy: 0.3939
+   ✅ Precision: 0.4326
+   ✅ Recall: 0.3939
+   ✅ F1-Score: 0.3718
+   ✅ AUC: 0.7988
+🎮 GPU after inference:
+   Compute: 48% | Memory: 36% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.001_BS128
+Description: Tuned Baseline (Week 7, LR=0.001, BS=128) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.001_bs128.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.001_BS128...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.001_BS128
+   Running inference...
+   ✅ Accuracy: 0.2565
+   ✅ Precision: 0.4792
+   ✅ Recall: 0.2565
+   ✅ F1-Score: 0.2123
+   ✅ AUC: 0.7241
+🎮 GPU after inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.0001_BS128
+Description: Tuned Baseline (Week 7, LR=0.0001, BS=128) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.0001_bs128.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.0001_BS128...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.0001_BS128
+   Running inference...
+   ✅ Accuracy: 0.3548
+   ✅ Precision: 0.4205
+   ✅ Recall: 0.3548
+   ✅ F1-Score: 0.3494
+   ✅ AUC: 0.7658
+🎮 GPU after inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.001_BS256
+Description: Tuned Baseline (Week 7, LR=0.001, BS=256) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.001_bs256.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.001_BS256...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.001_BS256
+   Running inference...
+   ✅ Accuracy: 0.1774
+   ✅ Precision: 0.1657
+   ✅ Recall: 0.1774
+   ✅ F1-Score: 0.1022
+   ✅ AUC: 0.6582
+🎮 GPU after inference:
+   Compute: 88% | Memory: 70% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.0001_BS256
+Description: Tuned Baseline (Week 7, LR=0.0001, BS=256) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.0001_bs256.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.0001_BS256...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.0001_BS256
+   Running inference...
+   ✅ Accuracy: 0.3200
+   ✅ Precision: 0.3993
+   ✅ Recall: 0.3200
+   ✅ F1-Score: 0.2817
+   ✅ AUC: 0.7631
+🎮 GPU after inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.0005_BS64
+Description: Tuned Baseline (Week 7, LR=0.0005, BS=64) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.0005_bs64.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.0005_BS64...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.0005_BS64
+   Running inference...
+   ✅ Accuracy: 0.4773
+   ✅ Precision: 0.5064
+   ✅ Recall: 0.4773
+   ✅ F1-Score: 0.4830
+   ✅ AUC: 0.8193
+🎮 GPU after inference:
+   Compute: 87% | Memory: 69% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.0005_BS128
+Description: Tuned Baseline (Week 7, LR=0.0005, BS=128) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.0005_bs128.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.0005_BS128...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.0005_BS128
+   Running inference...
+   ✅ Accuracy: 0.3320
+   ✅ Precision: 0.4258
+   ✅ Recall: 0.3320
+   ✅ F1-Score: 0.3163
+   ✅ AUC: 0.7717
+🎮 GPU after inference:
+   Compute: 91% | Memory: 71% (41259/46068 MB)
+
+================================================================================
+Model: Tuned_Week7_LR0.0005_BS256
+Description: Tuned Baseline (Week 7, LR=0.0005, BS=256) - 224×224
+================================================================================
+📥 Loading model from: best_lr0.0005_bs256.keras...
+✅ Model loaded successfully
+   Parameters: 5,753,416
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating Tuned_Week7_LR0.0005_BS256...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   ℹ️  No scaling needed for Tuned_Week7_LR0.0005_BS256
+   Running inference...
+   ✅ Accuracy: 0.4258
+   ✅ Precision: 0.4917
+   ✅ Recall: 0.4258
+   ✅ F1-Score: 0.4215
+   ✅ AUC: 0.8017
+🎮 GPU after inference:
+   Compute: 2% | Memory: 1% (41259/46068 MB)
+
+================================================================================
+Model: EfficientNetB0_Week9
+Description: EfficientNetB0 (Week 9) - 224×224
+================================================================================
+📥 Loading model from: best_model.keras...
+✅ Model loaded successfully
+   Parameters: 4,716,715
+📂 Loading test data: X_test_denormalized.npy
+✅ Loaded X_test_denormalized.npy: (8000, 224, 224, 3)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating EfficientNetB0_Week9...
+   Model input shape: (None, 224, 224, 3)
+   Test data shape: (8000, 224, 224, 3)
+   🔄 Scaling test data [0,1] → [0,255] for EfficientNetB0_Week9
+   ✅ Scaled to range [0,255]
+   Running inference...
+   ✅ Accuracy: 0.7060
+   ✅ Precision: 0.6981
+   ✅ Recall: 0.7060
+   ✅ F1-Score: 0.7002
+   ✅ AUC: 0.9395
+🎮 GPU after inference:
+   Compute: 32% | Memory: 29% (41259/46068 MB)
+
+================================================================================
+Model: EfficientNetB3_Week9
+Description: EfficientNetB3 (Week 9) - 300×300
+================================================================================
+📥 Loading model from: best_model.keras...
+✅ Model loaded successfully
+   Parameters: 11,582,775
+📂 Loading test data: X_test_300.npy
+⚠️  Standard load failed, using 3-level fallback...
+     ⚠️  Standard load failed (ValueError), trying allow_pickle...
+     ⚠️  Pickle load failed, trying direct memmap...
+     ✅ Loaded X_test_300.npy with direct memmap (bypassing headers)
+🎮 GPU before inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+📊 Evaluating EfficientNetB3_Week9...
+   Model input shape: (None, 300, 300, 3)
+   Test data shape: (8000, 300, 300, 3)
+   🔄 Scaling test data [0,1] → [0,255] for EfficientNetB3_Week9
+   ✅ Scaled to range [0,255]
+   Running inference...
+   ✅ Accuracy: 0.7120
+   ✅ Precision: 0.7023
+   ✅ Recall: 0.7120
+   ✅ F1-Score: 0.7052
+   ✅ AUC: 0.9402
+🎮 GPU after inference:
+   Compute: 0% | Memory: 0% (41259/46068 MB)
+
+================================================================================
+EVALUATION SUMMARY
+================================================================================
+
+📊 Results Table:
+                     Model Accuracy Precision Recall F1-Score    AUC
+            Baseline_Week6   0.1250    0.0156 0.1250   0.0278 0.5000
+  Tuned_Week7_LR0.001_BS64   0.5061    0.5150 0.5061   0.5027 0.8257
+ Tuned_Week7_LR0.0001_BS64   0.3939    0.4326 0.3939   0.3718 0.7988
+ Tuned_Week7_LR0.001_BS128   0.2565    0.4792 0.2565   0.2123 0.7241
+Tuned_Week7_LR0.0001_BS128   0.3548    0.4205 0.3548   0.3494 0.7658
+ Tuned_Week7_LR0.001_BS256   0.1774    0.1657 0.1774   0.1022 0.6582
+Tuned_Week7_LR0.0001_BS256   0.3200    0.3993 0.3200   0.2817 0.7631
+ Tuned_Week7_LR0.0005_BS64   0.4773    0.5064 0.4773   0.4830 0.8193
+Tuned_Week7_LR0.0005_BS128   0.3320    0.4258 0.3320   0.3163 0.7717
+Tuned_Week7_LR0.0005_BS256   0.4258    0.4917 0.4258   0.4215 0.8017
+      EfficientNetB0_Week9   0.7060    0.6981 0.7060   0.7002 0.9395
+      EfficientNetB3_Week9   0.7120    0.7023 0.7120   0.7052 0.9402
+
+✅ Saved: /workspace/outputs/week10_evaluation_corrected/evaluation_results.csv
+
+💾 Saving per-model detailed results...
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Baseline_Week6_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Baseline_Week6_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Baseline_Week6_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Baseline_Week6_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS64_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS64_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS64_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS64_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS64_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS64_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS64_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS64_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS128_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS128_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS128_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS128_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS128_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS128_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS128_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS128_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS256_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS256_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS256_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.001_BS256_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS256_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS256_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS256_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0001_BS256_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS64_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS64_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS64_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS64_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS128_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS128_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS128_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS128_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS256_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS256_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS256_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/Tuned_Week7_LR0.0005_BS256_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/EfficientNetB0_Week9_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/EfficientNetB0_Week9_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/EfficientNetB0_Week9_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/EfficientNetB0_Week9_predictions.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/EfficientNetB3_Week9_metrics.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/EfficientNetB3_Week9_class_report.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/EfficientNetB3_Week9_confusion_matrix.csv
+   ✅ Saved: /workspace/outputs/week10_evaluation_corrected/EfficientNetB3_Week9_predictions.csv
+
+✅ Saved: /workspace/outputs/week10_evaluation_corrected/evaluation_results_detailed.json
+
+📊 Creating comparison visualizations...
+✅ Saved: /workspace/outputs/week10_evaluation_corrected/model_comparison.png
+📊 Creating confusion matrices...
+✅ Saved: /workspace/outputs/week10_evaluation_corrected/confusion_matrices.png
+
+🏆 Best Model: EfficientNetB3_Week9 (Accuracy: 0.7120)
+
+✅ Week 10 Evaluation Complete!

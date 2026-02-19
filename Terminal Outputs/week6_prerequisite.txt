@@ -1,0 +1,191 @@
+================================================================================
+WEEK 6 PREREQUISITES VERIFICATION (FAST MODE)
+================================================================================
+
+📁 Step 1: Checking workspace and paths...
+✓ RunPod workspace detected: /workspace
+⚠ Network volume not detected (using workspace)
+
+📂 Output directory: /workspace/outputs
+✓ Output directory exists
+
+📋 Step 2: Checking REQUIRED files for Week 6...
+(Skipping optional files to save time)
+
+Checking 8 required files...
+--------------------------------------------------------------------------------
+
+❗ X_train_baseline.npy
+   Description: Training images baseline (Week 5 - REQUIRED)
+   ✓ Exists
+   Size: 35.89 GB (expected: ~38.60 GB)
+   Loading file (checking shape)...
+   ⚠️  File requires pickle support, retrying...
+   ⚠️  Trying direct memmap...
+   ✓ Loaded successfully (raw memmap)
+   Shape: (64000, 224, 224, 3)
+   Dtype: float32
+   ✓ Image shape valid (N=64000, H=224, W=224, C=3)
+   Data range (sampled 10): [-2.12, 2.64]
+   ⚠ Unusual data range! (expected 0-255 or 0-1)
+
+❗ y_train_baseline.npy
+   Description: Training labels baseline (Week 5 - REQUIRED)
+   ✓ Exists
+   Size: 0.00 GB (expected: ~0.00 GB)
+   Loading file (checking shape)...
+   ✓ Loaded successfully (memmap, no pickle)
+   Shape: (64000,)
+   Dtype: int32
+   ✓ Label shape valid (N=64000)
+   Unique labels (sampled 1000): [0, 1, 2, 3, 4, 5, 6, 7]
+   Number of classes: 8
+   ✓ Labels valid
+
+❗ X_val_baseline.npy
+   Description: Validation images baseline (Week 5 - REQUIRED)
+   ✓ Exists
+   Size: 4.49 GB (expected: ~4.80 GB)
+   Loading file (checking shape)...
+   ⚠️  File requires pickle support, retrying...
+   ⚠️  Trying direct memmap...
+   ✓ Loaded successfully (raw memmap)
+   Shape: (8000, 224, 224, 3)
+   Dtype: float32
+   ✓ Image shape valid (N=8000, H=224, W=224, C=3)
+   Data range (sampled 10): [-2.12, 2.64]
+   ⚠ Unusual data range! (expected 0-255 or 0-1)
+
+❗ y_val_baseline.npy
+   Description: Validation labels baseline (Week 5 - REQUIRED)
+   ✓ Exists
+   Size: 0.00 GB (expected: ~0.00 GB)
+   Loading file (checking shape)...
+   ✓ Loaded successfully (memmap, no pickle)
+   Shape: (8000,)
+   Dtype: int32
+   ✓ Label shape valid (N=8000)
+   Unique labels (sampled 1000): [0, 1, 2, 3, 4, 5, 6, 7]
+   Number of classes: 8
+   ✓ Labels valid
+
+❗ X_test_baseline.npy
+   Description: Test images baseline (Week 5 - REQUIRED)
+   ✓ Exists
+   Size: 4.49 GB (expected: ~4.80 GB)
+   Loading file (checking shape)...
+   ⚠️  File requires pickle support, retrying...
+   ⚠️  Trying direct memmap...
+   ✓ Loaded successfully (raw memmap)
+   Shape: (8000, 224, 224, 3)
+   Dtype: float32
+   ✓ Image shape valid (N=8000, H=224, W=224, C=3)
+   Data range (sampled 10): [-2.12, 2.56]
+   ⚠ Unusual data range! (expected 0-255 or 0-1)
+
+❗ y_test_baseline.npy
+   Description: Test labels baseline (Week 5 - REQUIRED)
+   ✓ Exists
+   Size: 0.00 GB (expected: ~0.00 GB)
+   Loading file (checking shape)...
+   ✓ Loaded successfully (memmap, no pickle)
+   Shape: (8000,)
+   Dtype: int32
+   ✓ Label shape valid (N=8000)
+   Unique labels (sampled 1000): [0, 1, 2, 3, 4, 5, 6, 7]
+   Number of classes: 8
+   ✓ Labels valid
+
+❗ models/baseline_cnn_architecture.json
+   Description: Baseline CNN architecture (Week 5 - REQUIRED)
+   ✓ Exists
+   Size: 0.00 GB (expected: ~0.00 GB)
+   ✓ Valid JSON
+
+❗ split_info.json
+   Description: Dataset split information (Week 4 - REQUIRED)
+   ✓ Exists
+   Size: 0.00 GB (expected: ~0.00 GB)
+   ✓ Valid JSON
+   ✓ Has key: num_classes
+   ✓ Has key: class_names
+   ✓ Has key: splits
+   ✓ Has key: image_shape
+   Classes: AK, BCC, BKL, DF, MEL, NV, SCC, VASC
+   Number of classes: 8
+
+================================================================================
+
+📊 Step 3: Verification Summary
+================================================================================
+
+✓ Valid required files: 8
+  ✓ X_train_baseline.npy
+  ✓ y_train_baseline.npy
+  ✓ X_val_baseline.npy
+  ✓ y_val_baseline.npy
+  ✓ X_test_baseline.npy
+  ✓ y_test_baseline.npy
+  ✓ models/baseline_cnn_architecture.json
+  ✓ split_info.json
+
+================================================================================
+
+🎮 Step 4: Checking GPU availability...
+TensorFlow version: 2.15.0
+Clearing GPU memory...
+✓ GPU memory cleared
+✓ GPU detected: 1 device(s)
+  GPU 0: /physical_device:GPU:0
+✓ GPU test successful: [[11.]]
+
+================================================================================
+
+💾 Step 5: Checking container memory...
+Container Memory:
+  Total: 503.5 GB
+  Used: 53.3 GB (11.4%)
+  Available: 446.3 GB
+
+✓ Container memory sufficient
+✓ Available memory sufficient
+
+================================================================================
+
+💿 Step 6: Checking disk space...
+Disk Space (/workspace/outputs):
+  Total: 558684.7 GB
+  Used: 429655.1 GB (76.9%)
+  Free: 129029.6 GB
+
+Week 6 will need ~5.0 GB for outputs
+✓ Sufficient disk space (129029.6 GB available)
+
+================================================================================
+
+🎯 FINAL VERDICT
+================================================================================
+
+--------------------------------------------------------------------------------
+
+✅ ALL CHECKS PASSED!
+
+🚀 You are ready to run Week 6!
+
+Run command:
+  python week6_fixed_memory.py
+
+OR in Jupyter:
+  exec(open('week6_fixed_memory.py').read())
+
+📋 What will happen:
+  1. GPU initialization (< 1 minute)
+  2. Memory-mapped data loading (< 1 minute)
+  3. Model training (~50-80 minutes on A40)
+  4. Evaluation and visualization (~5 minutes)
+
+Total estimated time: ~1-1.5 hours
+
+================================================================================
+
+✅ Verification complete - Ready to proceed!

@@ -1,0 +1,31 @@
+{
+  "date": "2026-02-26T16:56:40.731119",
+  "source_keras": "/workspace/models/final_model.keras",
+  "output_onnx": "/workspace/output/EfficientNetB3_ISIC2019_final.onnx",
+  "opset": 13,
+  "conversion_time_s": 20.540899,
+  "model_sizes_mb": {
+    "keras_f32": 45.37397384643555,
+    "onnx_raw": 22.794854164123535,
+    "onnx_final": 44.53083896636963
+  },
+  "patch_stats": {
+    "cast_f16_fixed": 84,
+    "init_f16_upcast": 189
+  },
+  "validation": {
+    "keras_nan": false,
+    "onnx_nan": false,
+    "max_diff": 0.027299106121063232,
+    "mean_diff": 0.0020729664247483015,
+    "passed": true
+  },
+  "fixes_applied": [
+    "1. mixed_precision.set_global_policy('float32') before TF init",
+    "2. set_weights([w.astype(float32) for w in weights]) \u2014 509 arrays",
+    "3. tf.saved_model.save() \u2192 frozen protobuf (no live tracing)",
+    "4. tf_loader.from_saved_model() + _convert_common() \u2192 ONNX",
+    "5. Flipped 84 Cast\u2192float16 nodes to Cast\u2192float32",
+    "6. Upcast 189 float16 initializers to float32"
+  ]
+}

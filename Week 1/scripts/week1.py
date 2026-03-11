@@ -1,45 +1,100 @@
-# =================================================================================================
-# WEEK 1 — RUNPOD ENVIRONMENT SETUP (NVIDIA A40 • CUDA 12.4)
-# INITIALIZATION SCRIPT — STABLE & GPU-OPTIMIZED
-# =================================================================================================
-#
-# Purpose:
-#   Automated setup of a fully reproducible deep-learning environment for the Skin Cancer
-#   Classification project. Designed specifically for RunPod instances provisioned with an
-#   NVIDIA A40 GPU, leveraging TensorFlow 2.15 and CUDA 12.4.
-#
-# Environment:
-#   • GPU: NVIDIA A40 (48GB VRAM, Ampere architecture)
-#   • CUDA: 12.4
-#   • Template: madiator2011/better-tensorflow:cuda12.4-cudnn8
-#   • Framework: TensorFlow 2.15.0 (pre-installed)
-#
-# Highlights:
-#   • Uses pre-installed TensorFlow for maximum compatibility
-#   • Configures GPU memory growth and safe fallbacks (up to 90% VRAM)
-#   • Mixed precision (fp16) ready; optional XLA and TF32 acceleration
-#   • Validates CUDA/cuDNN, GPU availability, ONNX runtime providers, and system resources
-#   • Creates complete project directory structure (models, checkpoints, logs, results, viz)
-#   • Auto-detects RunPod workspace vs network volume, with safe symlink creation
-#   • Includes medical imaging stack: OpenCV, albumentations, SimpleITK, pydicom, medpy
-#   • Includes data/visualization stack: numpy, pandas, scikit-image, matplotlib, seaborn
-#   • Supports experiment tracking: TensorBoard, Weights & Biases, MLflow
-#   • Provides robust error handling and clear system diagnostics
-#
-# RunPod-Specific Behavior:
-#   • Detects /workspace or /notebooks layout automatically
-#   • Prioritizes network volume for persistent storage
-#   • Verifies disk space, permissions, and folder integrity
-#   • Performs GPU compute sanity tests and environment validation
-#
-# Prerequisites:
-#   • RunPod GPU pod (A40, 48GB)
-#   • CUDA 12.4-compatible base image
-#   • ISIC 2019 dataset (optional for validation)
-#   • Attached network volume (recommended)
-#
-# Version: 2.0 (2025)
-# =================================================================================================
+#!/usr/bin/env python3
+"""
+Week 1: RunPod Environment Setup & Initialization
+
+Module:       week1.py
+Purpose:      Automated setup of reproducible deep-learning environment
+Project:      ISIC 2019 Skin Cancer Classification
+Dataset:      8-class dermoscopy images
+Author:       Amjad
+Date:         February 2026
+Platform:     RunPod (NVIDIA A40 • CUDA 12.4)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+DESCRIPTION
+───────────
+Comprehensive RunPod environment initialization script for GPU-accelerated
+training. Configures TensorFlow, installs ML/medical imaging stacks,
+validates GPU, and creates persistent project structure.
+
+ENVIRONMENT
+───────────
+• GPU:       NVIDIA A40 (48GB VRAM, Ampere architecture)
+• CUDA:      12.4
+• cuDNN:     8.x
+• Template:  madiator2011/better-tensorflow:cuda12.4-cudnn8
+• Framework: TensorFlow 2.15.0 (pre-installed)
+
+FEATURES PROVIDED
+─────────────────
+✓ GPU Memory Configuration
+  ├─ Dynamic memory growth (prevents OOM crashes)
+  ├─ Safe memory limits (up to 90% VRAM)
+  └─ Ampere optimizations (TensorFloat-32, mixed precision ready)
+
+✓ ML/DL Stack Installation
+  ├─ Core: numpy, pandas, scikit-learn, scikit-image
+  ├─ Vision: OpenCV, Pillow, albumentations, imgaug
+  ├─ Medical: SimpleITK, pydicom, medpy
+  ├─ DL: ONNX, tf2onnx, onnxruntime-gpu
+  └─ TensorRT: 8.6.1 + PyCUDA (for week15 acceleration)
+
+✓ Experiment Tracking
+  ├─ TensorBoard (visualization)
+  ├─ Weights & Biases (cloud logging)
+  └─ MLflow (experiment management)
+
+✓ Validation & Diagnostics
+  ├─ CUDA/GPU verification
+  ├─ Package compatibility checks
+  ├─ Resource monitoring (CPU, RAM, disk)
+  ├─ Dataset validation (ISIC 2019)
+  └─ System information logging
+
+✓ Storage Configuration
+  ├─ Network volume detection (persistent)
+  ├─ Workspace organization
+  ├─ Automatic symlink setup
+  └─ Disk space validation
+
+CRITICAL EXECUTION NOTES
+────────────────────────
+⚠️  MUST run from RunPod TERMINAL, NOT notebook cell.
+
+   WRONG: Open notebook → run first cell with week1.py code
+   RIGHT: File → New → Terminal → python /workspace/week1.py
+
+   Why: TensorFlow claims CUDA context on import. If TRT/PyCUDA
+   are imported in same process, pycuda.autoinit fails.
+
+   This script installs TRT & PyCUDA in subprocess, keeping them
+   separate from TensorFlow. week15.py also requires fresh terminal
+   for same reason.
+
+USAGE
+─────
+Run from dedicated terminal:
+
+    python /workspace/week1.py
+
+Expected runtime: 10-20 minutes (depends on package installation speed)
+
+Requirements:
+  • RunPod GPU pod with A40 or RTX A6000 (48GB VRAM)
+  • CUDA 12.4-compatible base image (provided by template)
+  • Network volume attached (recommended for persistence)
+  • ~50GB free disk space (for packages + dataset)
+
+Outputs:
+  • Complete /workspace/outputs/ directory structure
+  • System diagnostics and GPU validation
+  • Quick reference file with configuration details
+  • All ML/DL packages installed and verified
+
+Version: 3.0 (2026)
+═══════════════════════════════════════════════════════════════════════════════
+"""
 
 import sys
 import subprocess
@@ -444,14 +499,178 @@ except Exception as e:
     print(f"⚠ tf2onnx installation issue: {type(e).__name__}")
     failed_packages.append("tf2onnx")
 
+
 # ============================================
-# STEP 8: VERIFY INSTALLATIONS
+# STEP 8: INSTALL TENSORRT 8.6.1
+# ============================================
+# TensorRT MUST come from NVIDIA's PyPI index, not the default one.
+# tensorrt==8.6.1 is compatible with CUDA 12.4 (the template's CUDA version).
+#
+# IMPORTANT: We only *install* TensorRT here — we do NOT import it.
+# TensorRT and PyCUDA must never be imported in the same Python process
+# as TensorFlow. week15.py handles all TRT work in its own fresh process.
 # ============================================
 print("\n" + "=" * 70)
-print("📋 INSTALLATION VERIFICATION")
+print("⚡ STEP 8: TENSORRT 8.6.1 INSTALLATION")
+print("=" * 70)
+print("  Source  : https://pypi.nvidia.com")
+print("  Version : 8.6.1 (compatible with CUDA 12.4)")
+print("  NOTE    : Installing only — NOT importing (TF owns CUDA context here)")
+
+trt_installed = False
+trt_packages = [
+    "tensorrt==8.6.1",
+    "tensorrt-lean==8.6.1",
+    "tensorrt-dispatch==8.6.1",
+]
+
+try:
+    # Check if already installed first
+    check = subprocess.run(
+        [sys.executable, "-m", "pip", "show", "tensorrt"],
+        capture_output=True, text=True, check=False
+    )
+    already_installed_version = None
+    if check.returncode == 0:
+        for line in check.stdout.split('\n'):
+            if line.startswith('Version:'):
+                already_installed_version = line.split(':', 1)[1].strip()
+                break
+
+    if already_installed_version == "8.6.1":
+        print(f"\n  ✓ TensorRT 8.6.1 already installed — skipping")
+        successful_packages.append("tensorrt")
+        trt_installed = True
+    else:
+        if already_installed_version:
+            print(f"\n  ⚠ Found TensorRT {already_installed_version} — upgrading to 8.6.1")
+        else:
+            print(f"\n  Installing TensorRT packages (may take 2-5 minutes)...")
+
+        result = subprocess.run(
+            [
+                sys.executable, "-m", "pip", "install",
+                "--no-cache-dir", "--quiet",
+            ] + trt_packages + [
+                "--extra-index-url", "https://pypi.nvidia.com"
+            ],
+            capture_output=True, text=True, check=False, timeout=600
+        )
+
+        if result.returncode == 0:
+            print("  ✓ TensorRT 8.6.1 installed successfully")
+            successful_packages.append("tensorrt")
+            trt_installed = True
+        else:
+            # pip often exits non-zero but still installs — check stdout
+            if "already satisfied" in result.stdout.lower():
+                print("  ✓ TensorRT already satisfied")
+                successful_packages.append("tensorrt")
+                trt_installed = True
+            else:
+                print(f"  ✗ TensorRT installation failed")
+                err = result.stderr[:400] if result.stderr else result.stdout[:400]
+                print(f"    Error: {err}")
+                failed_packages.append("tensorrt==8.6.1")
+
+except subprocess.TimeoutExpired:
+    print("  ✗ TensorRT installation timed out (>600s)")
+    failed_packages.append("tensorrt==8.6.1")
+except Exception as e:
+    print(f"  ✗ TensorRT installation error: {type(e).__name__}: {e}")
+    failed_packages.append("tensorrt==8.6.1")
+
+print("=" * 70)
+
+
+# ============================================
+# STEP 9: INSTALL PYCUDA (SOURCE BUILD)
+# ============================================
+# pycuda is a C++ extension that wraps the CUDA driver API.
+# It MUST be compiled from source against the system's CUDA 12.4 headers
+# so that pycuda.autoinit can create a valid CUDA context in week15.py.
+#
+# Using --no-binary=pycuda forces pip to compile from source rather than
+# grabbing a pre-built wheel that may target a different CUDA version.
+#
+# Again: only installing here, not importing. TF owns the context right now.
+# ============================================
+print("\n" + "=" * 70)
+print("⚡ STEP 9: PYCUDA INSTALLATION (SOURCE BUILD)")
+print("=" * 70)
+print("  Compiling against system CUDA 12.4 headers")
+print("  Using --no-binary=pycuda to force source compilation")
+print("  NOTE    : Installing only — NOT importing (TF owns CUDA context here)")
+
+pycuda_installed = False
+
+try:
+    # Check if already installed
+    check = subprocess.run(
+        [sys.executable, "-m", "pip", "show", "pycuda"],
+        capture_output=True, text=True, check=False
+    )
+    if check.returncode == 0:
+        installed_ver = ""
+        for line in check.stdout.split('\n'):
+            if line.startswith('Version:'):
+                installed_ver = line.split(':', 1)[1].strip()
+                break
+        print(f"\n  Found existing PyCUDA {installed_ver} — reinstalling from source to ensure CUDA 12.4 compatibility...")
+    else:
+        print(f"\n  Building PyCUDA from source (takes ~2-3 minutes)...")
+
+    # Set CUDA environment so the compiler finds the right headers
+    env = os.environ.copy()
+    env["PATH"] = "/usr/local/cuda/bin:" + env.get("PATH", "")
+    env["CUDA_ROOT"] = "/usr/local/cuda"
+
+    result = subprocess.run(
+        [
+            sys.executable, "-m", "pip", "install",
+            "--no-cache-dir",
+            "--no-binary=pycuda",
+            "pycuda>=2022.1",
+        ],
+        capture_output=True, text=True, check=False,
+        timeout=600, env=env
+    )
+
+    if result.returncode == 0:
+        print("  ✓ PyCUDA built and installed successfully")
+        successful_packages.append("pycuda")
+        pycuda_installed = True
+    else:
+        if "already satisfied" in result.stdout.lower():
+            print("  ✓ PyCUDA already satisfied")
+            successful_packages.append("pycuda")
+            pycuda_installed = True
+        else:
+            print("  ✗ PyCUDA build failed")
+            err = result.stderr[-600:] if result.stderr else result.stdout[-600:]
+            print(f"    Error (last 600 chars):\n{err}")
+            print("\n  Troubleshooting:")
+            print("    1. Check nvcc is available: nvcc --version")
+            print("    2. Check CUDA headers: ls /usr/local/cuda/include/cuda.h")
+            print("    3. Try manually: pip install --no-cache-dir --no-binary=pycuda pycuda")
+            failed_packages.append("pycuda")
+
+except subprocess.TimeoutExpired:
+    print("  ✗ PyCUDA build timed out (>600s)")
+    failed_packages.append("pycuda")
+except Exception as e:
+    print(f"  ✗ PyCUDA installation error: {type(e).__name__}: {e}")
+    failed_packages.append("pycuda")
+
+print("=" * 70)
+print("\n" + "=" * 70)
+print("📋 STEP 10: INSTALLATION VERIFICATION")
 print("=" * 70)
 
 # Critical imports for skin cancer classification
+# NOTE: tensorrt and pycuda are intentionally NOT in this list.
+# They cannot be imported in the same process as TensorFlow.
+# They are verified separately via subprocess below.
 critical_imports = {
     'tensorflow': 'TensorFlow',
     'sklearn': 'scikit-learn',
@@ -486,11 +705,75 @@ for module_name, display_name in critical_imports.items():
 
 print(f"\n  Results: {len(working_imports)}/{len(critical_imports)} imports successful")
 
+# ── TensorRT + PyCUDA subprocess verification ────────────────────────────────
+# These MUST be verified in a subprocess — importing them in this process
+# (where TensorFlow is active) would cause a CUDA context conflict.
+print("\n📦 Verifying TensorRT + PyCUDA (subprocess — isolated from TF)...")
+
+trt_pycuda_verify_code = """
+import sys, os
+results = {}
+
+try:
+    import tensorrt as trt
+    results['tensorrt'] = trt.__version__
+except Exception as e:
+    results['tensorrt'] = f'FAILED: {e}'
+
+try:
+    # Set CUDA path before importing pycuda
+    os.environ['PATH'] = '/usr/local/cuda/bin:' + os.environ.get('PATH', '')
+    import pycuda.driver as cuda
+    import pycuda.autoinit
+    dev = cuda.Device(0)
+    mem_mb = dev.total_memory() // (1024**2)
+    cc = dev.compute_capability()
+    results['pycuda'] = f'OK — {dev.name()} | {mem_mb:,} MB | CC {cc[0]}.{cc[1]}'
+except Exception as e:
+    results['pycuda'] = f'FAILED: {e}'
+
+for k, v in results.items():
+    print(f'  {k}: {v}')
+"""
+
+try:
+    verify_result = subprocess.run(
+        [sys.executable, "-c", trt_pycuda_verify_code],
+        capture_output=True, text=True, check=False, timeout=60
+    )
+    output = verify_result.stdout.strip()
+    if output:
+        for line in output.split('\n'):
+            if 'FAILED' in line:
+                print(f"  ✗ {line.strip()}")
+                if 'tensorrt' in line.lower():
+                    failed_imports.append('tensorrt')
+                else:
+                    failed_imports.append('pycuda')
+            else:
+                print(f"  ✓ {line.strip()}")
+                if 'tensorrt' in line.lower():
+                    working_imports.append('tensorrt')
+                else:
+                    working_imports.append('pycuda')
+    if verify_result.stderr.strip():
+        # Only show stderr if there's a real failure (filter pycuda build noise)
+        stderr_lines = [l for l in verify_result.stderr.split('\n')
+                        if l.strip() and 'warning' not in l.lower()
+                        and 'deprecated' not in l.lower()]
+        if stderr_lines:
+            print(f"  stderr: {chr(10).join(stderr_lines[:5])}")
+except subprocess.TimeoutExpired:
+    print("  ✗ TRT/PyCUDA verification timed out")
+except Exception as e:
+    print(f"  ✗ Subprocess verification failed: {e}")
+
+# ── Step numbering fix for downstream steps ──────────────────────────────────
 # ============================================
-# STEP 9: SYSTEM RESOURCES CHECK
+# STEP 11: SYSTEM RESOURCES CHECK
 # ============================================
 print("\n" + "=" * 70)
-print("🖥️ SYSTEM RESOURCES")
+print("🖥️ STEP 11: SYSTEM RESOURCES")
 print("=" * 70)
 
 try:
@@ -526,10 +809,10 @@ except Exception as e:
 print("=" * 70)
 
 # ============================================
-# STEP 10: GPU CONFIGURATION (A40/A6000 OPTIMIZED)
+# STEP 12: GPU CONFIGURATION (A40/A6000 OPTIMIZED)
 # ============================================
 print("\n" + "=" * 70)
-print("🎮 GPU CONFIGURATION - NVIDIA A40/A6000")
+print("🎮 STEP 12: GPU CONFIGURATION - NVIDIA A40/A6000")
 print("=" * 70)
 
 gpu_configured = False
@@ -676,10 +959,10 @@ else:
 print("=" * 70)
 
 # ============================================
-# STEP 11: DATASET VALIDATION (RUNPOD PATH AWARE)
+# STEP 13: DATASET VALIDATION (RUNPOD PATH AWARE)
 # ============================================
 print("\n" + "=" * 70)
-print("📁 DATASET VALIDATION")
+print("📁 STEP 13: DATASET VALIDATION")
 print("=" * 70)
 
 import glob
@@ -933,6 +1216,7 @@ print("   GPU: NVIDIA A40/A6000 (48GB VRAM)")
 print("   Monitoring: Wandb + TensorBoard")
 print("   Augmentation: Albumentations + imgaug")
 print("   Environment: RunPod Optimized")
+print("   TensorRT: 8.6.1 (installed, ready for week15)")
 
 print("\n💡 Next steps:")
 print("   1. Load and explore the dataset (Week 2)")
@@ -940,6 +1224,11 @@ print("   2. Implement data preprocessing (Week 2)")
 print("   3. Apply data augmentation (Week 3)")
 print("   4. Create train/val/test splits (Week 4)")
 print("   5. Build baseline CNN model (Week 5)")
+print("   ...")
+print("   15. Run ONNX → TensorRT conversion:")
+print("       ⚠  Open a NEW terminal: File → New → Terminal")
+print("       ⚠  Run: python /workspace/week15.py")
+print("       ⚠  Do NOT run week15.py from a notebook cell")
 
 print("\n🔧 Enhanced Features:")
 print("   ✓ Medical imaging packages")
@@ -948,6 +1237,7 @@ print("   ✓ Experiment tracking")
 print("   ✓ GPU memory optimization")
 print("   ✓ System resource monitoring")
 print("   ✓ Persistent storage on network volume")
+print("   ✓ TensorRT 8.6.1 + PyCUDA (for week15 TRT acceleration)")
 
 print("\n🚀 A40/A6000 Optimizations:")
 print("   ✓ 48GB VRAM utilization (dynamic allocation)")
@@ -980,8 +1270,12 @@ else:
     print("   • Network Volume: Not attached (recommended)")
 print(f"   • CUDA Version: {cuda_version if cuda_version else 'Auto-detected'}")
 print(f"   • TensorFlow Version: {tf_version if tf_version else 'Not installed'}")
+print(f"   • TensorRT: {'8.6.1 installed' if trt_installed else 'installation failed — see above'}")
+print(f"   • PyCUDA: {'installed' if pycuda_installed else 'installation failed — see above'}")
 
 print("\n💡 RunPod Best Practices:")
+print("   ✓ Run this script (week1.py) from a terminal, not a notebook cell")
+print("   ✓ Run week15.py from a terminal too (fresh CUDA context required)")
 print("   ✓ Use Spot pricing for cost savings (18% cheaper)")
 print("   ✓ Attach network volume for persistent storage")
 print("   ✓ Save checkpoints frequently to network volume")

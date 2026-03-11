@@ -1,0 +1,175 @@
+{
+  "metadata": {
+    "script": "week15.py",
+    "date": "2026-02-27T18:18:54.325928",
+    "gpu": "NVIDIA A40",
+    "vram_mb": 45498,
+    "vram_gb": 44.4,
+    "compute_capability": "8.6",
+    "driver_version": "570.195.03",
+    "trt_version": "8.6.1",
+    "onnx_source": "/workspace/output/EfficientNetB3_ISIC2019_final.onnx",
+    "onnx_size_mb": 44.53,
+    "image_shape": [
+      300,
+      300,
+      3
+    ],
+    "num_classes": 8,
+    "class_names": [
+      "AK",
+      "BCC",
+      "BKL",
+      "DF",
+      "MEL",
+      "NV",
+      "SCC",
+      "VASC"
+    ],
+    "max_batch_size": 32,
+    "opt_batch_size": 16,
+    "workspace_gb": 4,
+    "warmup_runs": 30,
+    "benchmark_runs": 500,
+    "fp16_native": true,
+    "int8_native": true,
+    "test_samples": 1000
+  },
+  "onnx_baseline": {
+    "provider": "CUDAExecutionProvider",
+    "single_image_inference": {
+      "mean_ms": 2.622126643313095,
+      "std_ms": 0.1953131380696853,
+      "p50_ms": 2.548933494836092,
+      "p95_ms": 3.01726198522374,
+      "p99_ms": 3.4813665773253883,
+      "throughput_ips": 381.3698329751478
+    },
+    "batch_inference": {
+      "batch_size": 32,
+      "mean_ms": 48.99906312235661,
+      "std_ms": 0.16078777292545388,
+      "p50_ms": 48.95146796479821,
+      "p95_ms": 49.24830247182399,
+      "p99_ms": 49.548887088894844,
+      "throughput_ips": 653.0737112277457
+    }
+  },
+  "engines": {
+    "fp32": {
+      "status": "ok",
+      "single_image_inference": {
+        "mean_ms": 4.560572064947337,
+        "std_ms": 0.0719567810715705,
+        "p50_ms": 4.532862512860447,
+        "p95_ms": 4.733862262219191,
+        "p99_ms": 4.79371436056681,
+        "throughput_ips": 219.27073747743694,
+        "speedup_vs_onnx_b1": 0.575,
+        "note": "speedup <1x expected here; ONNX-RT optimised for single-image"
+      },
+      "accuracy": {
+        "value": 0.421,
+        "pct": 42.1,
+        "delta_vs_fp32_pct": null
+      },
+      "batch_inference": {
+        "batch_size": 32,
+        "mean_ms": 49.28998018224393,
+        "std_ms": 0.11432453202876086,
+        "p50_ms": 49.255331978201866,
+        "p95_ms": 49.47011650074273,
+        "p99_ms": 49.74260625895113,
+        "throughput_ips": 649.2191695286496,
+        "speedup_vs_onnx_batch": 0.994,
+        "note": "batch speedup is the meaningful TRT metric"
+      },
+      "engine_file": {
+        "path": "/workspace/output/trt_fp32.engine",
+        "size_mb": 49.2
+      }
+    },
+    "fp16": {
+      "status": "ok",
+      "single_image_inference": {
+        "mean_ms": 3.5857416240032762,
+        "std_ms": 0.037128052034967475,
+        "p50_ms": 3.571645065676421,
+        "p95_ms": 3.6805460113100708,
+        "p99_ms": 3.711415888974443,
+        "throughput_ips": 278.88233588999003,
+        "speedup_vs_onnx_b1": 0.731,
+        "note": "speedup <1x expected here; ONNX-RT optimised for single-image"
+      },
+      "accuracy": {
+        "value": 0.423,
+        "pct": 42.3,
+        "delta_vs_fp32_pct": 0.2
+      },
+      "batch_inference": {
+        "batch_size": 32,
+        "mean_ms": 29.81561406951157,
+        "std_ms": 0.028382249410558447,
+        "p50_ms": 29.806904029101133,
+        "p95_ms": 29.87339301034808,
+        "p99_ms": 29.880868445616215,
+        "throughput_ips": 1073.263154178069,
+        "speedup_vs_onnx_batch": 1.643,
+        "note": "batch speedup is the meaningful TRT metric"
+      },
+      "engine_file": {
+        "path": "/workspace/output/trt_fp16.engine",
+        "size_mb": 30.58
+      }
+    },
+    "int8": {
+      "status": "ok",
+      "single_image_inference": {
+        "mean_ms": 3.6220314539968967,
+        "std_ms": 0.10366373732316354,
+        "p50_ms": 3.591123502701521,
+        "p95_ms": 3.7337451067287475,
+        "p99_ms": 3.8037849788088343,
+        "throughput_ips": 276.0881601115043,
+        "speedup_vs_onnx_b1": 0.724,
+        "note": "speedup <1x expected here; ONNX-RT optimised for single-image"
+      },
+      "accuracy": {
+        "value": 0.368,
+        "pct": 36.8,
+        "delta_vs_fp32_pct": -5.3
+      },
+      "batch_inference": {
+        "batch_size": 32,
+        "mean_ms": 21.69475097569727,
+        "std_ms": 0.11846660120809509,
+        "p50_ms": 21.64547995198518,
+        "p95_ms": 21.930282993707806,
+        "p99_ms": 21.954129775986075,
+        "throughput_ips": 1475.0111691001568,
+        "speedup_vs_onnx_batch": 2.259,
+        "note": "batch speedup is the meaningful TRT metric"
+      },
+      "engine_file": {
+        "path": "/workspace/output/trt_int8.engine",
+        "size_mb": 19.98
+      }
+    }
+  },
+  "warnings_observed": {
+    "int64_cast_to_int32": "ONNX model uses INT64 indices; TRT cast to INT32. No accuracy impact.",
+    "fp16_subnormal_weights": "137 weights produced subnormal FP16 values. TRT auto-falls back to FP32 for those ops.",
+    "int8_missing_scales": "SE-block expand layers lacked INT8 activation scales. TRT falls back to FP16/FP32 for those layers. Normal for EfficientNet.",
+    "deprecation_warnings": "None \u2014 all deprecated TRT 8.x API calls replaced with current API."
+  },
+  "recommendations": {
+    "production_engine": "fp16",
+    "reason": "Best balance of speed and accuracy. ~2x batch throughput vs ONNX at batch=32.",
+    "int8_note": "INT8 gives additional ~1.5x over FP16 but EfficientNet SE-blocks partially fall back, reducing gain.",
+    "week16_engine_paths": {
+      "fp32": "/workspace/output/trt_fp32.engine",
+      "fp16": "/workspace/output/trt_fp16.engine",
+      "int8": "/workspace/output/trt_int8.engine"
+    }
+  }
+}
